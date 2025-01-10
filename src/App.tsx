@@ -44,18 +44,7 @@ function Copyright() {
   );
 }
 
-interface Test {
-  name: string;
-  age: number;
-}
-
 export default function App() {
-  const test: Test = {
-    name: "John",
-  };
-
-  console.log(test);
-
   return (
     <Container maxWidth="sm">
       <ToggleColorMode />
