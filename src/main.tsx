@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '@/theme';
 
-import { Layout } from '@/layout';
+import { Layout } from '@/components/layout';
 import Home from '@/home';
 import About from '@/about';
 import NotFound from '@/not-found';
@@ -12,7 +12,7 @@ import NotFound from '@/not-found';
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={theme} noSsr>
                 <CssBaseline />
                 <Routes>
                     <Route element={<Layout />}>
