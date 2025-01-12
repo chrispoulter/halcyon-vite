@@ -1,0 +1,14 @@
+.git
+.github
+.husky
+.vscode
+dist
+node_modules
+.dockerignore
+.gitignore
+.lintstagedrc
+.prettierignore
+.prettierrc
+Dockerfile
+eslint.config.js
+README.md
