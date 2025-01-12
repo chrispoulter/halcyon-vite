@@ -5,8 +5,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import theme from '@/theme';
 
-import Home from '@/home2';
-import About from '@/about2';
+import Home from '@/home';
+import About from '@/about';
 import NotFound from '@/not-found';
 
 createRoot(document.getElementById('root')!).render(
