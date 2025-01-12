@@ -1,20 +1,24 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import React from 'react';
+import { Link as RouterLink } from 'react-router';
+import {
+    AppBar,
+    Container,
+    Toolbar,
+    Typography,
+    Box,
+    IconButton,
+    Menu,
+    MenuItem,
+    Button,
+    Tooltip,
+    Avatar,
+} from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
+import MenuIcon from '@mui/icons-material/Menu';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home', 'About', 'Users'];
+
+const settings = ['My Account', 'Log out'];
 
 export function Header() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -41,7 +45,7 @@ export function Header() {
 
     return (
         <AppBar position="static">
-            <Container maxWidth="xl">
+            <Container maxWidth="sm">
                 <Toolbar disableGutters>
                     <AdbIcon
                         sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
@@ -49,8 +53,8 @@ export function Header() {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component={RouterLink}
+                        to="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -61,7 +65,7 @@ export function Header() {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        Halcyon
                     </Typography>
 
                     <Box
@@ -114,8 +118,8 @@ export function Header() {
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component={RouterLink}
+                        to="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -127,7 +131,7 @@ export function Header() {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        Halcyon
                     </Typography>
                     <Box
                         sx={{
