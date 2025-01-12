@@ -17,11 +17,11 @@ function ProTip() {
     return (
         <Typography sx={{ mt: 6, mb: 3, color: 'text.secondary' }}>
             <LightBulbIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-            {'Pro tip: See more '}
+            Pro tip: See more{' '}
             <Link href="https://mui.com/material-ui/getting-started/templates/">
                 templates
-            </Link>
-            {' in the Material UI documentation.'}
+            </Link>{' '}
+            in the Material UI documentation.
         </Typography>
     );
 }
@@ -35,7 +35,7 @@ function Copyright() {
                 color: 'text.secondary',
             }}
         >
-            {'Copyright © '}
+            Copyright &copy;{' '}
             <Link color="inherit" href="https://mui.com/">
                 Your Website
             </Link>{' '}
