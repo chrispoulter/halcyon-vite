@@ -1,3 +1,4 @@
+import { Link as RouterLink } from 'react-router';
 import { SvgIconProps, SvgIcon } from '@mui/material';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -44,13 +45,14 @@ function Copyright() {
     );
 }
 
-export default function App() {
+export default function Home() {
     return (
         <Container maxWidth="sm">
             <ToggleColorMode />
             <Box sx={{ my: 4 }}>
                 <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-                    Material UI Vite.js example in TypeScript
+                    Material UI Vite.js example in TypeScript{' '}
+                    <RouterLink to="/about">About</RouterLink>
                 </Typography>
                 <ProTip />
                 <Copyright />
