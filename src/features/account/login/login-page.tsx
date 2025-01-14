@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router';
 import { Link, Container, Box, Typography } from '@mui/material';
 import { LoginForm } from '@/features/account/login/login-form';
 
-export default function LoginPage() {
+export function LoginPage() {
     return (
         <Container maxWidth="sm">
             <Box>

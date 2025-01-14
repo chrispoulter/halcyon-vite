@@ -3,7 +3,7 @@ import { SearchUserForm } from '@/features/user/search-users/search-user-form';
 import { SortUserDropdown } from '@/features/user/search-users/sort-user-dropdown';
 import { UserCard } from '@/features/user/search-users/user-card';
 
-export default function SearchUsersPage() {
+export function SearchUsersPage() {
     return (
         <Container maxWidth="sm">
             <Box>

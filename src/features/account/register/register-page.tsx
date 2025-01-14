@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router';
 import { Link, Container, Box, Typography } from '@mui/material';
 import { RegisterForm } from '@/features/account/register/register-form';
 
-export default function RegisterPage() {
+export function RegisterPage() {
     return (
         <Container maxWidth="sm">
             <Box>

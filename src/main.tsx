@@ -5,8 +5,8 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '@/theme';
 
 import { Layout } from '@/components/layout';
-import Home from '@/home-page';
-import NotFound from '@/not-found-page';
+import { HomePage } from '@/home-page';
+import { NotFoundPage } from '@/not-found-page';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -15,8 +15,8 @@ createRoot(document.getElementById('root')!).render(
                 <CssBaseline />
                 <Routes>
                     <Route element={<Layout />}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="*" element={<NotFound />} />
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="*" element={<NotFoundPage />} />
                     </Route>
                 </Routes>
             </ThemeProvider>

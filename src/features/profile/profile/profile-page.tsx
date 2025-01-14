@@ -1,7 +1,7 @@
 import { Container, Box, Typography } from '@mui/material';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
 
-export default function ProfilePage() {
+export function ProfilePage() {
     return (
         <Container maxWidth="sm">
             <Box>

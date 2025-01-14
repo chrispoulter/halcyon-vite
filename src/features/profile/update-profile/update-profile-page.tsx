@@ -1,7 +1,7 @@
 import { Container, Box, Typography } from '@mui/material';
 import { UpdateProfileForm } from '@/features/profile/update-profile/update-profile-form';
 
-export default function UpdateProfilePage() {
+export function UpdateProfilePage() {
     return (
         <Container maxWidth="sm">
             <Box>

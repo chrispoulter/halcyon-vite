@@ -1,7 +1,7 @@
 import { Container, Box, Typography } from '@mui/material';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
 
-export default function UpdateUserPage() {
+export function UpdateUserPage() {
     return (
         <Container maxWidth="sm">
             <Box>

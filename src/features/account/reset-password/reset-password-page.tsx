@@ -1,7 +1,7 @@
 import { Container, Box, Typography } from '@mui/material';
 import { ResetPasswordForm } from '@/features/account/reset-password/reset-password-form';
 
-export default function ResetPasswordPage() {
+export function ResetPasswordPage() {
     return (
         <Container maxWidth="sm">
             <Box>

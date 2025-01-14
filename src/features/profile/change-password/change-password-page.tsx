@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router';
 import { Link, Container, Box, Typography } from '@mui/material';
 import { ChangePasswordForm } from '@/features/profile/change-password/change-password-page';
 
-export default function UpdateProfilePage() {
+export function UpdateProfilePage() {
     return (
         <Container maxWidth="sm">
             <Box>

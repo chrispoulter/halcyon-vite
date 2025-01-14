@@ -1,7 +1,7 @@
 import { Container, Box, Typography } from '@mui/material';
 import { ForgotPasswordForm } from '@/features/account/forgot-password/forgot-password-form';
 
-export default function ForgotPasswordPage() {
+export function ForgotPasswordPage() {
     return (
         <Container maxWidth="sm">
             <Box>

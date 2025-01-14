@@ -1,7 +1,7 @@
 import { Link as RouterLink } from 'react-router';
 import { Container, Box, Typography, Stack, Button } from '@mui/material';
 
-export default function Error() {
+export function Error() {
     return (
         <Container maxWidth="sm">
             <Box>
