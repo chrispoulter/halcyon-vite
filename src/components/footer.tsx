@@ -5,7 +5,7 @@ import { currentYear } from '@/lib/dates';
 export function Footer() {
     return (
         <Container maxWidth="sm">
-            <Box component="footer">
+            <Box>
                 <Stack
                     direction="row"
                     spacing={2}
