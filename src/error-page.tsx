@@ -1,15 +1,15 @@
 import { Link as RouterLink } from 'react-router';
 import { Container, Box, Typography, Stack, Button } from '@mui/material';
 
-export default function NotFound() {
+export default function Error() {
     return (
         <Container maxWidth="sm">
             <Box>
                 <Typography variant="h1" gutterBottom>
-                    Not Found
+                    Error
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    Sorry, the resource you were looking for could not be found.
+                    Sorry, something went wrong. Please try again later.
                 </Typography>
                 <Stack spacing={2} direction="row">
                     <Button variant="contained" component={RouterLink} to="/">
