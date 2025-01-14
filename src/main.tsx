@@ -1,24 +1,16 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { BrowserRouter } from 'react-router';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from '@/theme';
-
-import { Layout } from '@/components/layout';
-import { HomePage } from '@/home-page';
-import { NotFoundPage } from '@/not-found-page';
+import { MainRoutes } from '@/main-routes';
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <BrowserRouter>
             <ThemeProvider theme={theme} noSsr>
                 <CssBaseline />
-                <Routes>
-                    <Route element={<Layout />}>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="*" element={<NotFoundPage />} />
-                    </Route>
-                </Routes>
+                <MainRoutes />
             </ThemeProvider>
         </BrowserRouter>
     </StrictMode>

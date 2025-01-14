@@ -1,7 +1,12 @@
+import { useParams } from 'react-router';
 import { Container, Box, Typography } from '@mui/material';
 import { ResetPasswordForm } from '@/features/account/reset-password/reset-password-form';
 
 export function ResetPasswordPage() {
+    const { token } = useParams();
+
+    console.log('token', token);
+
     return (
         <Container maxWidth="sm">
             <Box>

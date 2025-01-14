@@ -1,7 +1,12 @@
+import { useParams } from 'react-router';
 import { Container, Box, Typography } from '@mui/material';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
 
 export function UpdateUserPage() {
+    const { id } = useParams();
+
+    console.log('id', id);
+
     return (
         <Container maxWidth="sm">
             <Box>

@@ -1,9 +1,14 @@
+import { useSearchParams } from 'react-router';
 import { Container, Box, Typography } from '@mui/material';
 import { SearchUserForm } from '@/features/user/search-users/search-user-form';
 import { SortUserDropdown } from '@/features/user/search-users/sort-user-dropdown';
 import { UserCard } from '@/features/user/search-users/user-card';
 
 export function SearchUsersPage() {
+    const [searchParams] = useSearchParams();
+
+    console.log('searchParams', searchParams);
+
     return (
         <Container maxWidth="sm">
             <Box>
