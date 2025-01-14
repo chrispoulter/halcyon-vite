@@ -1,6 +1,7 @@
 import { Layout } from '@/components/layout';
 import { HomePage } from '@/home-page';
 import { NotFoundPage } from '@/not-found-page';
+import { ErrorPage } from '@/error-page';
 
 import { accountRoutes } from '@/features/account/account-routes';
 import { profileRoutes } from '@/features/profile/profile-routes';
@@ -12,15 +13,20 @@ export const routes = [
         element: <Layout />,
         children: [
             {
-                index: true,
-                element: <HomePage />,
-            },
-            ...accountRoutes,
-            ...profileRoutes,
-            ...userRoutes,
-            {
-                path: '*',
-                element: <NotFoundPage />,
+                errorElement: <ErrorPage />,
+                children: [
+                    {
+                        index: true,
+                        element: <HomePage />,
+                    },
+                    ...accountRoutes,
+                    ...profileRoutes,
+                    ...userRoutes,
+                    {
+                        path: '*',
+                        element: <NotFoundPage />,
+                    },
+                ],
             },
         ],
     },
