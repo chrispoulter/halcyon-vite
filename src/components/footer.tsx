@@ -1,8 +1,8 @@
 import { Box, Typography, Container, Link, Stack } from '@mui/material';
+import { config } from '@/lib/config';
+import { currentYear } from '@/lib/dates';
 
-const currentYear = new Date().getFullYear();
-
-export const Footer = () => {
+export function Footer() {
     return (
         <Container maxWidth="sm">
             <Box component="footer">
@@ -18,11 +18,9 @@ export const Footer = () => {
                         </Link>{' '}
                         {currentYear}
                     </Typography>
-                    <Typography variant="body2">
-                        v{import.meta.env.VITE_VERSION}
-                    </Typography>
+                    <Typography variant="body2">v{config.VERSION}</Typography>
                 </Stack>
             </Box>
         </Container>
     );
-};
+}

@@ -8,7 +8,7 @@ import {
     useColorScheme,
 } from '@mui/material';
 
-export function ToggleColorMode() {
+export function ModeToggle() {
     const { mode, setMode } = useColorScheme();
 
     if (!mode) {
