@@ -20,20 +20,20 @@ export function Header() {
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-    const onOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    function onOpenNavMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElNav(event.currentTarget);
-    };
-    const onOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    }
+    function onOpenUserMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElUser(event.currentTarget);
-    };
+    }
 
-    const onCloseNavMenu = () => {
+    function onCloseNavMenu() {
         setAnchorElNav(null);
-    };
+    }
 
-    const onCloseUserMenu = () => {
+    function onCloseUserMenu() {
         setAnchorElUser(null);
-    };
+    }
 
     function onLogout() {
         setAnchorElUser(null);
