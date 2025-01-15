@@ -3,6 +3,7 @@ import {
     SearchUsersRequest,
     SearchUsersResponse,
 } from '@/features/user/user-types';
+import { useSession } from '@/hooks/useSession';
 import { fetcher } from '@/lib/fetch';
 import { config } from '@/lib/config';
 
@@ -20,9 +21,9 @@ export const searchUsers = (
     );
 };
 
-const accessToken = '1234';
-
 export const useSearchUsers = (request: SearchUsersRequest) => {
+    const { accessToken } = useSession();
+
     return useQuery({
         queryKey: ['users', request],
         queryFn: () =>

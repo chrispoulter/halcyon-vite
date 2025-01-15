@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LockUserRequest, LockUserResponse } from '@/features/user/user-types';
+import { useSession } from '@/hooks/useSession';
 import { fetcher } from '@/lib/fetch';
 import { config } from '@/lib/config';
 
@@ -10,9 +11,9 @@ const lockUser = (id: string, request: LockUserRequest, init?: RequestInit) =>
         body: JSON.stringify(request),
     });
 
-const accessToken = '1234';
-
 export const useLockUser = (id: string) => {
+    const { accessToken } = useSession();
+
     const queryClient = useQueryClient();
 
     return useMutation({

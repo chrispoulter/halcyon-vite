@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { useSnackbar } from 'notistack';
 import { Box, TextField, Button } from '@mui/material';
 import { useLogin } from '@/features/account/hooks/use-login';
+import { useSession } from '@/hooks/useSession';
 
 const schema = z.object({
     emailAddress: z
@@ -23,6 +24,8 @@ export function LoginForm() {
 
     const { enqueueSnackbar } = useSnackbar();
 
+    const { setAccessToken } = useSession();
+
     const {
         handleSubmit,
         register,
@@ -35,7 +38,9 @@ export function LoginForm() {
 
     const onSubmit = (values: LoginFormValues) =>
         mutate(values, {
-            onSuccess: async () => {
+            onSuccess: async (data) => {
+                setAccessToken(data.accessToken);
+
                 enqueueSnackbar('User successfully logged in.', {
                     variant: 'success',
                 });

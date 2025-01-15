@@ -3,6 +3,7 @@ import {
     UpdateUserRequest,
     UpdateUserResponse,
 } from '@/features/user/user-types';
+import { useSession } from '@/hooks/useSession';
 import { fetcher } from '@/lib/fetch';
 import { config } from '@/lib/config';
 
@@ -17,9 +18,9 @@ const updateUser = (
         body: JSON.stringify(request),
     });
 
-const accessToken = '1234';
-
 export const useUpdateUser = (id: string) => {
+    const { accessToken } = useSession();
+
     const queryClient = useQueryClient();
 
     return useMutation({

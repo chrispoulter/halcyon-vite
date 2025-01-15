@@ -3,6 +3,7 @@ import {
     UpdateProfileRequest,
     UpdateProfileResponse,
 } from '@/features/profile/profile-types';
+import { useSession } from '@/hooks/useSession';
 import { fetcher } from '@/lib/fetch';
 import { config } from '@/lib/config';
 
@@ -13,9 +14,9 @@ const updateProfile = (request: UpdateProfileRequest, init?: RequestInit) =>
         body: JSON.stringify(request),
     });
 
-const accessToken = '1234';
-
 export const useUpdateProfile = () => {
+    const { accessToken } = useSession();
+
     const queryClient = useQueryClient();
 
     return useMutation({

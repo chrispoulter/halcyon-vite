@@ -3,10 +3,9 @@ import {
     DeleteUserRequest,
     DeleteUserResponse,
 } from '@/features/user/user-types';
+import { useSession } from '@/hooks/useSession';
 import { fetcher } from '@/lib/fetch';
 import { config } from '@/lib/config';
-
-const accessToken = '1234';
 
 const deleteUser = (
     id: string,
@@ -20,6 +19,8 @@ const deleteUser = (
     });
 
 export const useDeleteUser = (id: string) => {
+    const { accessToken } = useSession();
+
     const queryClient = useQueryClient();
 
     return useMutation({

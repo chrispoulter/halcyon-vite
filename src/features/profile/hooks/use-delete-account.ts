@@ -3,6 +3,7 @@ import {
     DeleteAccountRequst,
     DeleteAccountResponse,
 } from '@/features/profile/profile-types';
+import { useSession } from '@/hooks/useSession';
 import { fetcher as fetcher } from '@/lib/fetch';
 import { config } from '@/lib/config';
 
@@ -13,9 +14,9 @@ const deleteAccount = (request: DeleteAccountRequst, init?: RequestInit) =>
         body: JSON.stringify(request),
     });
 
-const accessToken = '1234';
-
 export const useDeleteAccount = () => {
+    const { accessToken } = useSession();
+
     const queryClient = useQueryClient();
 
     return useMutation({
