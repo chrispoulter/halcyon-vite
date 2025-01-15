@@ -3,7 +3,7 @@ import { Container, Box, Typography, Button } from '@mui/material';
 
 export function NotFoundPage() {
     return (
-        <Container maxWidth="sm">
+        <Container component="main" maxWidth="sm">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Typography component="h1" variant="h3">
                     Not Found

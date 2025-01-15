@@ -4,7 +4,7 @@ import { RegisterForm } from '@/features/account/register/register-form';
 
 export function RegisterPage() {
     return (
-        <Container maxWidth="sm">
+        <Container component="main" maxWidth="sm">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Typography component="h1" variant="h3">
                     Register

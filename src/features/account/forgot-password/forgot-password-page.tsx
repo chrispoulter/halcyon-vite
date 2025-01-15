@@ -3,7 +3,7 @@ import { ForgotPasswordForm } from '@/features/account/forgot-password/forgot-pa
 
 export function ForgotPasswordPage() {
     return (
-        <Container maxWidth="sm">
+        <Container component="main" maxWidth="sm">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Typography component="h1" variant="h3">
                     Forgot Password

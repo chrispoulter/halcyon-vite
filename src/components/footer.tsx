@@ -4,7 +4,7 @@ import { currentYear } from '@/lib/dates';
 
 export function Footer() {
     return (
-        <Container maxWidth="sm">
+        <Container component="footer" maxWidth="sm">
             <Box
                 sx={{
                     display: 'flex',
