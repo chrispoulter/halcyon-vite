@@ -9,7 +9,7 @@ const login = (request: LoginRequest) =>
         body: JSON.stringify(request),
     });
 
-export const useRegister = () => {
+export const useLogin = () => {
     return useMutation({
         mutationFn: login,
     });

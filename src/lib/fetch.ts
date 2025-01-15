@@ -1,6 +1,7 @@
 export class FetchError extends Error {
     status: number;
-    response?: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response?: any;
 
     constructor(status: number, response?: unknown) {
         super('An error has occurred whilst communicating with the server.');

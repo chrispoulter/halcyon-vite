@@ -4,12 +4,10 @@ import { ForgotPasswordForm } from '@/features/account/forgot-password/forgot-pa
 export function ForgotPasswordPage() {
     return (
         <Container maxWidth="sm">
-            <Box>
-                <Typography variant="h1" gutterBottom>
-                    Forgot Password
-                </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography variant="h1">Forgot Password</Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Request a password reset link by providing your email
                     address.
                 </Typography>

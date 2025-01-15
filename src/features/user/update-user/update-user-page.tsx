@@ -2,8 +2,10 @@ import { useParams } from 'react-router';
 import { Container, Box, Typography } from '@mui/material';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
 
+type UpdateUserPageParams = { id: string };
+
 export function UpdateUserPage() {
-    const { id } = useParams();
+    const { id } = useParams() as UpdateUserPageParams;
 
     console.log('id', id);
 

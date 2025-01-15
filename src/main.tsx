@@ -8,10 +8,11 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { FetchError } from '@/lib/fetch';
 import { theme } from '@/theme';
 import { routes } from '@/routes';
-import { FetchError } from './lib/fetch';
 
 const router = createBrowserRouter(routes);
 
@@ -31,46 +32,53 @@ const queryClient = new QueryClient({
                 //             callbackUrl: '/account/login',
                 //         });
                 //     case 403:
-                //         return router.push('/403', router.asPath);
+                //         return navigate('/403', router.asPath);
                 //     case 404:
-                //         return router.push('/404', router.asPath);
+                //         return navigate('/404', router.asPath);
                 //     default:
-                //         return router.push('/500', router.asPath);
+                //         return navigate('/500', router.asPath);
                 // }
             }
 
-            // return router.push('/500', router.asPath);
+            // return navigate('/500', router.asPath);
         },
     }),
     mutationCache: new MutationCache({
         onError: (error: Error) => {
             if (error instanceof FetchError) {
-                // const message = error?.response?.title;
-                // switch (error.status) {
-                //     case 401:
-                //         return signOut({
-                //             callbackUrl: '/account/login',
-                //         });
-                //     case 403:
-                //         return toast.error(
-                //             'Sorry, you do not have access to this resource.'
-                //         );
-                //     case 404:
-                //         return toast.error(
-                //             'Sorry, the resource you were looking for could not be found.'
-                //         );
-                //     default:
-                //         return toast.error(
-                //             message ||
-                //                 'Sorry, something went wrong. Please try again later.'
-                //         );
-                // }
+                const message = error?.response?.title;
+                switch (error.status) {
+                    // case 401:
+                    // return signOut({
+                    //     callbackUrl: '/account/login',
+                    // });
+
+                    case 403:
+                        return enqueueSnackbar(
+                            'Sorry, you do not have access to this resource.',
+                            { variant: 'error' }
+                        );
+
+                    case 404:
+                        return enqueueSnackbar(
+                            'Sorry, the resource you were looking for could not be found.',
+                            { variant: 'error' }
+                        );
+
+                    default:
+                        return enqueueSnackbar(
+                            message ||
+                                'Sorry, something went wrong. Please try again later.',
+                            { variant: 'error' }
+                        );
+                }
             }
 
-            // return toast.error(
-            //     error.message ||
-            //         'Sorry, something went wrong. Please try again later.'
-            // );
+            return enqueueSnackbar(
+                error.message ||
+                    'Sorry, something went wrong. Please try again later.',
+                { variant: 'error' }
+            );
         },
     }),
 });
@@ -83,6 +91,7 @@ createRoot(document.getElementById('root')!).render(
                 <RouterProvider router={router} />
                 <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
+            <SnackbarProvider />
         </ThemeProvider>
     </StrictMode>
 );

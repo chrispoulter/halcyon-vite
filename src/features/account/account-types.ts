@@ -19,7 +19,7 @@ export type RegisterResponse = {
     id: string;
 };
 
-export type ForgotPasswordRequest = { emailAddress: string; siteUrl: string };
+export type ForgotPasswordRequest = { emailAddress: string };
 
 export type ResetPasswordRequest = {
     token: string;

@@ -2,25 +2,23 @@ import { useParams } from 'react-router';
 import { Container, Box, Typography } from '@mui/material';
 import { ResetPasswordForm } from '@/features/account/reset-password/reset-password-form';
 
-export function ResetPasswordPage() {
-    const { token } = useParams();
+type ResetPasswordPageParams = { token: string };
 
-    console.log('token', token);
+export function ResetPasswordPage() {
+    const { token } = useParams() as ResetPasswordPageParams;
 
     return (
         <Container maxWidth="sm">
-            <Box>
-                <Typography variant="h1" gutterBottom>
-                    Reset Password
-                </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography variant="h1">Reset Password</Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Reset your password below. Choose a strong password and
                     don&apos;t reuse it for other accounts. For security
                     reasons, change your password on a regular basis.
                 </Typography>
 
-                <ResetPasswordForm />
+                <ResetPasswordForm token={token} />
             </Box>
         </Container>
     );
