@@ -3,12 +3,12 @@ import { Container, Box, Typography } from '@mui/material';
 export function HomePage() {
     return (
         <Container maxWidth="sm">
-            <Box>
-                <Typography component="h1" variant="h3" gutterBottom>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography component="h1" variant="h3">
                     Welcome!
                 </Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Etiam semper diam at erat pulvinar, at pulvinar felis
                     blandit. Vestibulum volutpat tellus diam, consequat gravida
@@ -17,11 +17,11 @@ export function HomePage() {
                     quam.
                 </Typography>
 
-                <Typography variant="h2" gutterBottom>
+                <Typography component="h2" variant="h4">
                     Fusce condimentum
                 </Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Fusce vitae commodo metus. Pellentesque a eleifend dolor.
                     Morbi et finibus elit, accumsan sodales turpis. Nulla
                     bibendum pulvinar enim vitae malesuada. Nullam nulla justo,
@@ -33,11 +33,11 @@ export function HomePage() {
                     lacinia. Donec at pharetra neque, in accumsan dolor.
                 </Typography>
 
-                <Typography variant="h2" gutterBottom>
+                <Typography component="h2" variant="h4">
                     Morbi venenatis
                 </Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Morbi venenatis, felis ut cursus volutpat, dolor tortor
                     pulvinar nisl, ac scelerisque quam tortor sit amet ante.
                     Aliquam feugiat nisl arcu, sit amet tincidunt erat tempus

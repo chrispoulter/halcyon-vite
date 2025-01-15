@@ -1,21 +1,30 @@
 import { Link as RouterLink } from 'react-router';
-import { Container, Box, Typography, Stack, Button } from '@mui/material';
+import { Container, Box, Typography, Button } from '@mui/material';
 
 export function NotFoundPage() {
     return (
         <Container maxWidth="sm">
-            <Box>
-                <Typography component="h1" variant="h3" gutterBottom>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography component="h1" variant="h3">
                     Not Found
                 </Typography>
-                <Typography variant="body1" gutterBottom>
+
+                <Typography variant="body1">
                     Sorry, the resource you were looking for could not be found.
                 </Typography>
-                <Stack spacing={2} direction="row">
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        justifyContent: 'flex-end',
+                        gap: 2,
+                    }}
+                >
                     <Button variant="contained" component={RouterLink} to="/">
                         Home
                     </Button>
-                </Stack>
+                </Box>
             </Box>
         </Container>
     );

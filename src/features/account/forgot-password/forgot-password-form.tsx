@@ -65,15 +65,11 @@ export function ForgotPasswordForm() {
                 sx={{
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'row' },
+                    justifyContent: 'flex-end',
                     gap: 2,
                 }}
             >
-                <Button
-                    type="submit"
-                    variant="contained"
-                    disabled={isPending}
-                    fullWidth
-                >
+                <Button type="submit" variant="contained" disabled={isPending}>
                     Submit
                 </Button>
             </Box>
