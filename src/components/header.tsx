@@ -15,8 +15,6 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-const pages = ['Home', 'About', 'Users'];
-
 export function Header() {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
@@ -54,9 +52,6 @@ export function Header() {
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
@@ -80,6 +75,7 @@ export function Header() {
                         >
                             <MenuIcon />
                         </IconButton>
+
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
@@ -96,27 +92,44 @@ export function Header() {
                             onClose={onCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={onCloseNavMenu}>
-                                    <Typography sx={{ textAlign: 'center' }}>
-                                        {page}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem
+                                component={RouterLink}
+                                to="/"
+                                onClick={onCloseNavMenu}
+                            >
+                                <Typography sx={{ textAlign: 'center' }}>
+                                    Home
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem
+                                component={RouterLink}
+                                to="/about"
+                                onClick={onCloseNavMenu}
+                            >
+                                <Typography sx={{ textAlign: 'center' }}>
+                                    About
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem
+                                component={RouterLink}
+                                to="/user"
+                                onClick={onCloseNavMenu}
+                            >
+                                <Typography sx={{ textAlign: 'center' }}>
+                                    Users
+                                </Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
+
                     <Typography
                         variant="h5"
                         noWrap
                         component={RouterLink}
                         to="/"
                         sx={{
-                            mr: 2,
                             display: { xs: 'flex', md: 'none' },
                             flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
@@ -129,15 +142,30 @@ export function Header() {
                             display: { xs: 'none', md: 'flex' },
                         }}
                     >
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={onCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
+                        <Button
+                            component={RouterLink}
+                            to="/"
+                            onClick={onCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Home
+                        </Button>
+                        <Button
+                            component={RouterLink}
+                            to="/about"
+                            onClick={onCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            About
+                        </Button>
+                        <Button
+                            component={RouterLink}
+                            to="/user"
+                            onClick={onCloseNavMenu}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Users
+                        </Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
