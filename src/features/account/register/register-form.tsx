@@ -107,8 +107,8 @@ export function RegisterForm() {
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.emailAddress}
-                    helperText={errors.emailAddress?.message}
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
                     fullWidth
                 />
 
@@ -119,8 +119,8 @@ export function RegisterForm() {
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.emailAddress}
-                    helperText={errors.emailAddress?.message}
+                    error={!!errors.confirmPassword}
+                    helperText={errors.confirmPassword?.message}
                     fullWidth
                 />
             </Box>
@@ -139,8 +139,8 @@ export function RegisterForm() {
                     autoComplete="given-name"
                     required
                     disabled={isPending}
-                    error={!!errors.emailAddress}
-                    helperText={errors.emailAddress?.message}
+                    error={!!errors.firstName}
+                    helperText={errors.firstName?.message}
                     fullWidth
                 />
 
@@ -151,8 +151,8 @@ export function RegisterForm() {
                     autoComplete="family-name"
                     required
                     disabled={isPending}
-                    error={!!errors.emailAddress}
-                    helperText={errors.emailAddress?.message}
+                    error={!!errors.lastName}
+                    helperText={errors.v?.message}
                     fullWidth
                 />
             </Box>
@@ -162,8 +162,8 @@ export function RegisterForm() {
                 label="Date Of Birth"
                 required
                 disabled={isPending}
-                error={!!errors.emailAddress}
-                helperText={errors.emailAddress?.message}
+                error={!!errors.dateOfBirth}
+                helperText={errors.dateOfBirth?.message}
                 fullWidth
             />
 

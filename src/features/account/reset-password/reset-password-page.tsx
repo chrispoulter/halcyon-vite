@@ -10,7 +10,9 @@ export function ResetPasswordPage() {
     return (
         <Container maxWidth="sm">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography variant="h1">Reset Password</Typography>
+                <Typography component="h1" variant="h3">
+                    Reset Password
+                </Typography>
 
                 <Typography variant="body1">
                     Reset your password below. Choose a strong password and

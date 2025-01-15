@@ -5,7 +5,7 @@ export function ProfilePage() {
     return (
         <Container maxWidth="sm">
             <Box>
-                <Typography variant="h1" gutterBottom>
+                <Typography component="h1" variant="h3" gutterBottom>
                     My Account
                 </Typography>
 

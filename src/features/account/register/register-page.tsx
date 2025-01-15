@@ -6,7 +6,9 @@ export function RegisterPage() {
     return (
         <Container maxWidth="sm">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography variant="h1">Register</Typography>
+                <Typography component="h1" variant="h3">
+                    Register
+                </Typography>
 
                 <Typography variant="body1">
                     Register for a new account to access the full range of

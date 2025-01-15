@@ -5,7 +5,7 @@ export function NotFoundPage() {
     return (
         <Container maxWidth="sm">
             <Box>
-                <Typography variant="h1" gutterBottom>
+                <Typography component="h1" variant="h3" gutterBottom>
                     Not Found
                 </Typography>
                 <Typography variant="body1" gutterBottom>

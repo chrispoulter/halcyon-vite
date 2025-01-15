@@ -96,8 +96,8 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.emailAddress}
-                    helperText={errors.emailAddress?.message}
+                    error={!!errors.newPassword}
+                    helperText={errors.newPassword?.message}
                     fullWidth
                 />
 
@@ -108,8 +108,8 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.emailAddress}
-                    helperText={errors.emailAddress?.message}
+                    error={!!errors.confirmNewPassword}
+                    helperText={errors.confirmNewPassword?.message}
                     fullWidth
                 />
             </Box>

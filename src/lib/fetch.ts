@@ -11,7 +11,7 @@ export class FetchError extends Error {
     }
 }
 
-export const fetcher = async <TResponse>(url: string, init?: RequestInit) => {
+export async function fetcher<TResponse>(url: string, init?: RequestInit) {
     const result = await fetch(url, {
         ...init,
         headers: {
@@ -29,4 +29,4 @@ export const fetcher = async <TResponse>(url: string, init?: RequestInit) => {
     }
 
     return response;
-};
+}

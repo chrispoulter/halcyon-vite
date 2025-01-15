@@ -70,8 +70,8 @@ export function LoginForm() {
                 autoComplete="current-password"
                 required
                 disabled={isPending}
-                error={!!errors.emailAddress}
-                helperText={errors.emailAddress?.message}
+                error={!!errors.password}
+                helperText={errors.password?.message}
                 fullWidth
             />
 
