@@ -7,25 +7,23 @@ type UpdateUserPageParams = { id: string };
 export function UpdateUserPage() {
     const { id } = useParams() as UpdateUserPageParams;
 
-    console.log('id', id);
-
     return (
-        <Container maxWidth="sm">
-            <Box>
-                <Typography component="h1" variant="h3" gutterBottom>
+        <Container component="main" maxWidth="sm">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography component="h1" variant="h3">
                     Users
                 </Typography>
 
-                <Typography variant="h2" gutterBottom>
+                <Typography component="h2" variant="h4">
                     Update
                 </Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Update the user&apos;s details below. The email address is
                     used to login to the account.
                 </Typography>
 
-                <UpdateUserForm />
+                <UpdateUserForm id={id} />
             </Box>
         </Container>
     );

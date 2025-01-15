@@ -4,13 +4,13 @@ import { ChangePasswordForm } from '@/features/profile/change-password/change-pa
 
 export function ChangePasswordPage() {
     return (
-        <Container maxWidth="sm">
-            <Box>
-                <Typography component="h1" variant="h3" gutterBottom>
+        <Container component="main" maxWidth="sm">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography component="h1" variant="h3">
                     Change Password
                 </Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Change your password below. Choose a strong password and
                     don&apos;t reuse it for other accounts. For security
                     reasons, change your password on a regular basis.
@@ -18,7 +18,7 @@ export function ChangePasswordPage() {
 
                 <ChangePasswordForm />
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Forgotten your password?{' '}
                     <Link component={RouterLink} to="/account/forgot-password">
                         Request reset

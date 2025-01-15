@@ -1,56 +1,56 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { useState } from 'react';
+import { Link as RouterLink } from 'react-router';
+import {
+    AppBar,
+    Container,
+    Toolbar,
+    Typography,
+    Box,
+    IconButton,
+    Menu,
+    MenuItem,
+    Button,
+    Tooltip,
+    Avatar,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Home', 'About', 'Users'];
-const settings = ['My Account', 'Log out'];
 
 export function Header() {
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-        null
-    );
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-        null
-    );
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+
+    const onOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const onOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
+    const onCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const onCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    function onLogout() {
+        setAnchorElUser(null);
+        console.log('logout');
+    }
 
     return (
         <AppBar position="static">
             <Container maxWidth="sm">
                 <Toolbar disableGutters>
-                    <AdbIcon
-                        sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
-                    />
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component={RouterLink}
+                        to="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -75,7 +75,7 @@ export function Header() {
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
+                            onClick={onOpenNavMenu}
                             color="inherit"
                         >
                             <MenuIcon />
@@ -93,14 +93,11 @@ export function Header() {
                                 horizontal: 'left',
                             }}
                             open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+                            onClose={onCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
                             {pages.map((page) => (
-                                <MenuItem
-                                    key={page}
-                                    onClick={handleCloseNavMenu}
-                                >
+                                <MenuItem key={page} onClick={onCloseNavMenu}>
                                     <Typography sx={{ textAlign: 'center' }}>
                                         {page}
                                     </Typography>
@@ -108,14 +105,11 @@ export function Header() {
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon
-                        sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
-                    />
                     <Typography
                         variant="h5"
                         noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
+                        component={RouterLink}
+                        to="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -138,7 +132,7 @@ export function Header() {
                         {pages.map((page) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={onCloseNavMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}
@@ -147,10 +141,7 @@ export function Header() {
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton
-                                onClick={handleOpenUserMenu}
-                                sx={{ p: 0 }}
-                            >
+                            <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar
                                     alt="Remy Sharp"
                                     src="/static/images/avatar/2.jpg"
@@ -171,18 +162,22 @@ export function Header() {
                                 horizontal: 'right',
                             }}
                             open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
+                            onClose={onCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem
-                                    key={setting}
-                                    onClick={handleCloseUserMenu}
-                                >
-                                    <Typography sx={{ textAlign: 'center' }}>
-                                        {setting}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem
+                                component={RouterLink}
+                                to="/profile"
+                                onClick={onCloseUserMenu}
+                            >
+                                <Typography sx={{ textAlign: 'center' }}>
+                                    My Account
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem onClick={onLogout}>
+                                <Typography sx={{ textAlign: 'center' }}>
+                                    Log out
+                                </Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

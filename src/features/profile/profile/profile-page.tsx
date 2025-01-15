@@ -3,31 +3,31 @@ import { DeleteAccountButton } from '@/features/profile/profile/delete-account-b
 
 export function ProfilePage() {
     return (
-        <Container maxWidth="sm">
-            <Box>
-                <Typography component="h1" variant="h3" gutterBottom>
+        <Container component="main" maxWidth="sm">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography component="h1" variant="h3">
                     My Account
                 </Typography>
 
-                <Typography variant="h2" gutterBottom>
+                <Typography component="h2" variant="h4">
                     Personal Details
                 </Typography>
 
-                <Typography variant="h2" gutterBottom>
+                <Typography component="h2" variant="h4">
                     Login Details
                 </Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Choose a strong password and don&apos;t reuse it for other
                     accounts. For security reasons, change your password on a
                     regular basis.
                 </Typography>
 
-                <Typography variant="h2" gutterBottom>
+                <Typography component="h2" variant="h4">
                     Settings
                 </Typography>
 
-                <Typography variant="body1" gutterBottom>
+                <Typography variant="body1">
                     Once you delete your account all of your data and settings
                     will be removed. Please be certain.
                 </Typography>

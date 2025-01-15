@@ -15,9 +15,9 @@ export function SearchUsersPage() {
     console.log('searchParams', searchParams);
 
     return (
-        <Container maxWidth="sm">
-            <Box>
-                <Typography component="h1" variant="h3" gutterBottom>
+        <Container component="main" maxWidth="sm">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography component="h1" variant="h3">
                     Users
                 </Typography>
 
