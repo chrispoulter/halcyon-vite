@@ -1,3 +1,12 @@
+export type LoginRequest = {
+    emailAddress: string;
+    password: string;
+};
+
+export type LoginResponse = {
+    accessToken: string;
+};
+
 export type RegisterRequest = {
     emailAddress: string;
     password: string;
