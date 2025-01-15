@@ -77,7 +77,6 @@ export function Header() {
                         </IconButton>
 
                         <Menu
-                            id="menu-appbar"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
                                 vertical: 'bottom',
@@ -101,6 +100,7 @@ export function Header() {
                                     Home
                                 </Typography>
                             </MenuItem>
+
                             <MenuItem
                                 component={RouterLink}
                                 to="/about"
@@ -110,6 +110,7 @@ export function Header() {
                                     About
                                 </Typography>
                             </MenuItem>
+
                             <MenuItem
                                 component={RouterLink}
                                 to="/user"
@@ -136,6 +137,7 @@ export function Header() {
                     >
                         Halcyon
                     </Typography>
+
                     <Box
                         sx={{
                             flexGrow: 1,
@@ -150,6 +152,7 @@ export function Header() {
                         >
                             Home
                         </Button>
+
                         <Button
                             component={RouterLink}
                             to="/about"
@@ -158,6 +161,7 @@ export function Header() {
                         >
                             About
                         </Button>
+
                         <Button
                             component={RouterLink}
                             to="/user"
@@ -167,6 +171,7 @@ export function Header() {
                             Users
                         </Button>
                     </Box>
+
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
@@ -176,9 +181,9 @@ export function Header() {
                                 />
                             </IconButton>
                         </Tooltip>
+
                         <Menu
                             sx={{ mt: '45px' }}
-                            id="menu-appbar"
                             anchorEl={anchorElUser}
                             anchorOrigin={{
                                 vertical: 'top',
@@ -201,6 +206,7 @@ export function Header() {
                                     My Account
                                 </Typography>
                             </MenuItem>
+
                             <MenuItem onClick={onLogout}>
                                 <Typography sx={{ textAlign: 'center' }}>
                                     Log out
