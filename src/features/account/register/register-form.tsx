@@ -152,7 +152,7 @@ export function RegisterForm() {
                     required
                     disabled={isPending}
                     error={!!errors.lastName}
-                    helperText={errors.v?.message}
+                    helperText={errors.lastName?.message}
                     fullWidth
                 />
             </Box>
