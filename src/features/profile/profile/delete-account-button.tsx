@@ -1,6 +1,15 @@
+import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
-import { Box, Button } from '@mui/material';
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from '@mui/material';
 import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
 import { GetProfileResponse } from '@/features/profile/profile-types';
 import { useSession } from '@/hooks/useSession';
@@ -10,6 +19,8 @@ type DeleteAccountButtonProps = {
 };
 
 export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
+    const [open, setOpen] = useState(false);
+
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
@@ -18,7 +29,7 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
 
     const { mutate, isPending } = useDeleteAccount();
 
-    const onDelete = () =>
+    function onDelete() {
         mutate(
             {
                 version: profile.version,
@@ -36,23 +47,55 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
             }
         );
 
+        setOpen(false);
+    }
+
+    function onOpen() {
+        setOpen(true);
+    }
+
+    function onClose() {
+        setOpen(false);
+    }
+
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                justifyContent: 'flex-end',
-                gap: 2,
-            }}
-        >
-            <Button
-                variant="contained"
-                color="error"
-                onClick={onDelete}
-                disabled={isPending}
+        <>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    justifyContent: 'flex-end',
+                    gap: 2,
+                }}
             >
-                Delete Account
-            </Button>
-        </Box>
+                <Button
+                    variant="contained"
+                    color="error"
+                    onClick={onOpen}
+                    disabled={isPending}
+                >
+                    Delete Account
+                </Button>
+            </Box>
+
+            <Dialog open={open} onClose={onClose}>
+                <DialogTitle id="alert-dialog-title">
+                    Delete Account
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to delete your account? All of
+                        your data will be permanently removed. This action
+                        cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onClose}>Cancel</Button>
+                    <Button onClick={onDelete} disabled={isPending} autoFocus>
+                        Continue
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
