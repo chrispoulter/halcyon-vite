@@ -4,7 +4,7 @@ import {
     UnlockUserResponse,
 } from '@/features/user/user-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/fetch';
+import { fetcher } from '@/lib/api-client';
 import { config } from '@/lib/config';
 
 const unlockUser = (

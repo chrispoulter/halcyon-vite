@@ -10,7 +10,7 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { FetchError } from '@/lib/fetch';
+import { ApiClientError } from '@/lib/api-client';
 import { theme } from '@/theme';
 import { routes } from '@/routes';
 
@@ -25,7 +25,7 @@ const queryClient = new QueryClient({
     },
     queryCache: new QueryCache({
         onError: (error: Error) => {
-            if (error instanceof FetchError) {
+            if (error instanceof ApiClientError) {
                 // switch (error.status) {
                 //     case 401:
                 //         return signOut({
@@ -45,8 +45,7 @@ const queryClient = new QueryClient({
     }),
     mutationCache: new MutationCache({
         onError: (error: Error) => {
-            if (error instanceof FetchError) {
-                const message = error?.response?.title;
+            if (error instanceof ApiClientError) {
                 switch (error.status) {
                     // case 401:
                     // return signOut({
@@ -67,7 +66,7 @@ const queryClient = new QueryClient({
 
                     default:
                         return enqueueSnackbar(
-                            message ||
+                            error.message ||
                                 'Sorry, something went wrong. Please try again later.',
                             { variant: 'error' }
                         );
@@ -85,7 +84,7 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ThemeProvider theme={theme} noSsr>
+        <ThemeProvider theme={theme}>
             <CssBaseline />
             <QueryClientProvider client={queryClient}>
                 <RouterProvider router={router} />

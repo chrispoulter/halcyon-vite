@@ -4,7 +4,7 @@ import {
     ChangePasswordResponse,
 } from '@/features/profile/profile-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/fetch';
+import { fetcher } from '@/lib/api-client';
 import { config } from '@/lib/config';
 
 const changePassword = (request: ChangePasswordRequest, init?: RequestInit) =>

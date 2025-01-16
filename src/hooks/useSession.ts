@@ -1,4 +1,4 @@
-import { Role } from '@/lib/session';
+import { Role } from '@/lib/session-types';
 import { useState } from 'react';
 
 export function useSession() {

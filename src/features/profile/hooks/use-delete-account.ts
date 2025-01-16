@@ -4,7 +4,7 @@ import {
     DeleteAccountResponse,
 } from '@/features/profile/profile-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher as fetcher } from '@/lib/fetch';
+import { fetcher as fetcher } from '@/lib/api-client';
 import { config } from '@/lib/config';
 
 const deleteAccount = (request: DeleteAccountRequst, init?: RequestInit) =>

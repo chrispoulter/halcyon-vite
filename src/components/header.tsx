@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { UserNav } from '@/components/user-nav';
-import { Role } from '@/lib/session';
+import { Role } from '@/lib/session-types';
 import { useSession } from '@/hooks/useSession';
 
 const routes = [

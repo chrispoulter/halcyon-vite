@@ -3,7 +3,7 @@ import {
     ResetPasswordRequest,
     ResetPasswordResponse,
 } from '@/features/account/account-types';
-import { fetcher } from '@/lib/fetch';
+import { fetcher } from '@/lib/api-client';
 import { config } from '@/lib/config';
 
 const resetPassword = (request: ResetPasswordRequest) =>

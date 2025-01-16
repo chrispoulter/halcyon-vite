@@ -1,4 +1,4 @@
-import { Role } from '@/lib/session';
+import { Role } from '@/lib/session-types';
 
 export enum UserSort {
     EMAIL_ADDRESS_ASC = 'EMAIL_ADDRESS_ASC',

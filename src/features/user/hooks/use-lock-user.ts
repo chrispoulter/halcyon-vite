@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LockUserRequest, LockUserResponse } from '@/features/user/user-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/fetch';
+import { fetcher } from '@/lib/api-client';
 import { config } from '@/lib/config';
 
 const lockUser = (id: string, request: LockUserRequest, init?: RequestInit) =>

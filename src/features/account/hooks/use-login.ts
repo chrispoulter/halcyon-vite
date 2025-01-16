@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { LoginRequest, LoginResponse } from '@/features/account/account-types';
-import { fetcher } from '@/lib/fetch';
+import { fetcher } from '@/lib/api-client';
 import { config } from '@/lib/config';
 
 const login = (request: LoginRequest) =>
