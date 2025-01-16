@@ -1,8 +1,15 @@
 import { Link as RouterLink } from 'react-router';
 import { Link, Container, Box, Typography } from '@mui/material';
 import { ChangePasswordForm } from '@/features/profile/change-password/change-password-form';
+import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 
 export function ChangePasswordPage() {
+    const { data } = useGetProfile();
+
+    if (!data) {
+        return null;
+    }
+
     return (
         <Container component="main" maxWidth="sm">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -16,7 +23,7 @@ export function ChangePasswordPage() {
                     reasons, change your password on a regular basis.
                 </Typography>
 
-                <ChangePasswordForm />
+                <ChangePasswordForm profile={data} />
 
                 <Typography variant="body1">
                     Forgotten your password?{' '}

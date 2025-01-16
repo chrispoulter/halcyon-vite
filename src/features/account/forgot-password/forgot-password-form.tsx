@@ -29,8 +29,8 @@ export function ForgotPasswordForm() {
 
     const { mutate, isPending } = useForgotPassword();
 
-    const onSubmit = (values: ForgotPasswordFormValues) =>
-        mutate(values, {
+    function onSubmit(data: ForgotPasswordFormValues) {
+        mutate(data, {
             onSuccess: async () => {
                 enqueueSnackbar(
                     'Instructions as to how to reset your password have been sent to you via email.',
@@ -40,6 +40,7 @@ export function ForgotPasswordForm() {
                 return navigate('/account/login');
             },
         });
+    }
 
     return (
         <Box

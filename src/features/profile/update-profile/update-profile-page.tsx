@@ -1,7 +1,14 @@
 import { Container, Box, Typography } from '@mui/material';
 import { UpdateProfileForm } from '@/features/profile/update-profile/update-profile-form';
+import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 
 export function UpdateProfilePage() {
+    const { data } = useGetProfile();
+
+    if (!data) {
+        return null;
+    }
+
     return (
         <Container component="main" maxWidth="sm">
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -14,7 +21,7 @@ export function UpdateProfilePage() {
                     used to login to your account.
                 </Typography>
 
-                <UpdateProfileForm />
+                <UpdateProfileForm profile={data} />
             </Box>
         </Container>
     );

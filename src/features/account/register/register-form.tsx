@@ -62,8 +62,8 @@ export function RegisterForm() {
 
     const { mutate, isPending } = useRegister();
 
-    const onSubmit = (values: RegisterFormValues) =>
-        mutate(values, {
+    function onSubmit(data: RegisterFormValues) {
+        mutate(data, {
             onSuccess: async () => {
                 enqueueSnackbar('User successfully registered.', {
                     variant: 'success',
@@ -72,6 +72,7 @@ export function RegisterForm() {
                 return navigate('/account/login');
             },
         });
+    }
 
     return (
         <Box

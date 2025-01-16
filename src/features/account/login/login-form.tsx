@@ -33,14 +33,15 @@ export function LoginForm() {
 
     const { mutate, isPending } = useLogin();
 
-    const onSubmit = (values: LoginFormValues) =>
-        mutate(values, {
+    function onSubmit(data: LoginFormValues) {
+        mutate(data, {
             onSuccess: async (data) => {
                 setSession(data.accessToken);
 
                 return navigate('/');
             },
         });
+    }
 
     return (
         <Box

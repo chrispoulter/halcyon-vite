@@ -47,11 +47,11 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
     const { mutate, isPending } = useResetPassword();
 
-    const onSubmit = (values: ResetPasswordFormValues) =>
+    function onSubmit(data: ResetPasswordFormValues) {
         mutate(
             {
                 token,
-                ...values,
+                ...data,
             },
             {
                 onSuccess: async () => {
@@ -63,6 +63,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                 },
             }
         );
+    }
 
     return (
         <Box
