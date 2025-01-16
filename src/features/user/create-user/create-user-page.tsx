@@ -1,4 +1,5 @@
 import { Container, Box, Typography } from '@mui/material';
+import { CreateUserForm } from './create-user-form';
 
 export function CreateUserPage() {
     return (
@@ -16,6 +17,8 @@ export function CreateUserPage() {
                     Create a new account for a user to access the full range of
                     features available on this site.
                 </Typography>
+
+                <CreateUserForm />
             </Box>
         </Container>
     );
