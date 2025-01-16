@@ -45,7 +45,7 @@ export function UserNav() {
 
     return (
         <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open user menu">
+            <Tooltip title="Open settings">
                 <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                         alt={`${user.given_name} ${user.family_name}`}
