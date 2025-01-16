@@ -56,7 +56,7 @@ export function UnlockUserButton({ user }: UnlockUserButtonProps) {
         <>
             <Button
                 variant="contained"
-                color="error"
+                color="secondary"
                 onClick={onOpen}
                 disabled={isPending}
             >
