@@ -88,9 +88,9 @@ createRoot(document.getElementById('root')!).render(
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <RouterProvider router={router} />
-                <ReactQueryDevtools initialIsOpen={false} />
                 <SnackbarProvider />
             </ThemeProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     </StrictMode>
 );
