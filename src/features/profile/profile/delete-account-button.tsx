@@ -42,7 +42,7 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
 
                     clearSession();
 
-                    navigate('/');
+                    return navigate('/');
                 },
             }
         );
