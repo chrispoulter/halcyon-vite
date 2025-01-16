@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useSnackbar } from 'notistack';
 import { Box, TextField, Button } from '@mui/material';
 import { useLogin } from '@/features/account/hooks/use-login';
 import { useSession } from '@/hooks/useSession';
@@ -22,9 +21,7 @@ type LoginFormValues = z.infer<typeof schema>;
 export function LoginForm() {
     const navigate = useNavigate();
 
-    const { enqueueSnackbar } = useSnackbar();
-
-    const { setAccessToken } = useSession();
+    const { setSession } = useSession();
 
     const {
         handleSubmit,
@@ -39,11 +36,7 @@ export function LoginForm() {
     const onSubmit = (values: LoginFormValues) =>
         mutate(values, {
             onSuccess: async (data) => {
-                setAccessToken(data.accessToken);
-
-                enqueueSnackbar('User successfully logged in.', {
-                    variant: 'success',
-                });
+                setSession(data.accessToken);
 
                 return navigate('/');
             },
