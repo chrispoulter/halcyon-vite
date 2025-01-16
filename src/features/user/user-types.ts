@@ -14,19 +14,17 @@ export type SearchUsersRequest = {
     size: number;
 };
 
-export type SearchUserResponse = {
-    id: string;
-    emailAddress: string;
-    firstName: string;
-    lastName: string;
-    isLockedOut?: boolean;
-    roles?: Role[];
-};
-
 export type SearchUsersResponse = {
-    items?: SearchUserResponse[];
-    hasNextPage?: boolean;
-    hasPreviousPage?: boolean;
+    items: {
+        id: string;
+        emailAddress: string;
+        firstName: string;
+        lastName: string;
+        isLockedOut: boolean;
+        roles?: Role[];
+    }[];
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
 };
 
 export type CreateUserRequest = {

@@ -56,13 +56,7 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
 
     const { handleSubmit, control } = useForm<UpdateUserFormValues>({
         resolver: zodResolver(schema),
-        defaultValues: {
-            emailAddress: '',
-            firstName: '',
-            lastName: '',
-            dateOfBirth: '',
-            roles: [],
-        },
+        values: user,
     });
 
     const { mutate, isPending } = useUpdateUser(user.id);
@@ -157,7 +151,7 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                     gap: 2,
                 }}
             >
-                <Button component={RouterLink} variant="outlined" to="/profile">
+                <Button component={RouterLink} variant="outlined" to="/user">
                     Cancel
                 </Button>
 

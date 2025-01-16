@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router';
 import {
     Button,
     Dialog,
@@ -19,8 +18,6 @@ type LockUserButtonProps = {
 export function LockUserButton({ user }: LockUserButtonProps) {
     const [open, setOpen] = useState(false);
 
-    const navigate = useNavigate();
-
     const { enqueueSnackbar } = useSnackbar();
 
     const { mutate, isPending } = useLockUser(user.id);
@@ -35,8 +32,6 @@ export function LockUserButton({ user }: LockUserButtonProps) {
                     enqueueSnackbar('User successfully locked.', {
                         variant: 'success',
                     });
-
-                    return navigate(0);
                 },
             }
         );
@@ -56,7 +51,7 @@ export function LockUserButton({ user }: LockUserButtonProps) {
         <>
             <Button
                 variant="contained"
-                color="secondary"
+                color="warning"
                 onClick={onOpen}
                 disabled={isPending}
             >
