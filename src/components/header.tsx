@@ -53,6 +53,7 @@ export function Header() {
         )
         .map((route) => (
             <MenuItem
+                key={route.href}
                 component={RouterLink}
                 to={route.href}
                 onClick={onCloseNavMenu}
@@ -71,6 +72,7 @@ export function Header() {
         )
         .map((route) => (
             <Button
+                key={route.href}
                 component={RouterLink}
                 to={route.href}
                 onClick={onCloseNavMenu}
