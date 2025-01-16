@@ -3,7 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useSnackbar } from 'notistack';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { DateFormField } from '@/components/date-form-field';
+import { TextFormField } from '@/components/text-form-field';
 import { useRegister } from '@/features/account/hooks/use-register';
 import { isInPast } from '@/lib/dates';
 
@@ -46,11 +48,7 @@ export function RegisterForm() {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<RegisterFormValues>({
+    const { handleSubmit, control } = useForm<RegisterFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -82,16 +80,15 @@ export function RegisterForm() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextField
-                {...register('emailAddress')}
+            <TextFormField<RegisterFormValues>
+                control={control}
+                name="emailAddress"
                 label="Email Address"
                 type="email"
+                maxLength={254}
                 autoComplete="username"
                 required
                 disabled={isPending}
-                error={!!errors.emailAddress}
-                helperText={errors.emailAddress?.message}
-                fullWidth
             />
 
             <Box
@@ -101,27 +98,26 @@ export function RegisterForm() {
                     gap: 2,
                 }}
             >
-                <TextField
-                    {...register('password')}
+                <TextFormField<RegisterFormValues>
+                    control={control}
+                    name="password"
                     label="Password"
                     type="password"
+                    maxLength={50}
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
                     fullWidth
                 />
-
-                <TextField
-                    {...register('confirmPassword')}
+                <TextFormField<RegisterFormValues>
+                    control={control}
+                    name="confirmPassword"
                     label="Confirm Password"
                     type="password"
+                    maxLength={50}
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.confirmPassword}
-                    helperText={errors.confirmPassword?.message}
                     fullWidth
                 />
             </Box>
@@ -133,39 +129,35 @@ export function RegisterForm() {
                     gap: 2,
                 }}
             >
-                <TextField
-                    {...register('firstName')}
+                <TextFormField<RegisterFormValues>
+                    control={control}
+                    name="firstName"
                     label="First Name"
-                    type="text"
+                    maxLength={50}
                     autoComplete="given-name"
                     required
                     disabled={isPending}
-                    error={!!errors.firstName}
-                    helperText={errors.firstName?.message}
                     fullWidth
                 />
-
-                <TextField
-                    {...register('lastName')}
+                <TextFormField<RegisterFormValues>
+                    control={control}
+                    name="lastName"
                     label="Last Name"
-                    type="text"
+                    maxLength={50}
                     autoComplete="family-name"
                     required
                     disabled={isPending}
-                    error={!!errors.lastName}
-                    helperText={errors.lastName?.message}
                     fullWidth
                 />
             </Box>
 
-            <TextField
-                {...register('dateOfBirth')}
+            <DateFormField<RegisterFormValues>
+                control={control}
+                name="dateOfBirth"
                 label="Date Of Birth"
+                autoComplete={['bday-day', 'bday-month', 'bday-year']}
                 required
                 disabled={isPending}
-                error={!!errors.dateOfBirth}
-                helperText={errors.dateOfBirth?.message}
-                fullWidth
             />
 
             <Box

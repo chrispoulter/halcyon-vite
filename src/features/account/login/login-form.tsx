@@ -2,7 +2,8 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { TextFormField } from '@/components/text-form-field';
 import { useLogin } from '@/features/account/hooks/use-login';
 import { useSession } from '@/hooks/useSession';
 
@@ -22,11 +23,7 @@ export function LoginForm() {
 
     const { setSession } = useSession();
 
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<LoginFormValues>({
+    const { handleSubmit, control } = useForm<LoginFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -52,28 +49,26 @@ export function LoginForm() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextField
-                {...register('emailAddress')}
+            <TextFormField<LoginFormValues>
+                control={control}
+                name="emailAddress"
                 label="Email Address"
                 type="email"
+                maxLength={254}
                 autoComplete="username"
                 required
                 disabled={isPending}
-                error={!!errors.emailAddress}
-                helperText={errors.emailAddress?.message}
-                fullWidth
             />
 
-            <TextField
-                {...register('password')}
+            <TextFormField<LoginFormValues>
+                control={control}
+                name="password"
                 label="Password"
                 type="password"
+                maxLength={50}
                 autoComplete="current-password"
                 required
                 disabled={isPending}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                fullWidth
             />
 
             <Box

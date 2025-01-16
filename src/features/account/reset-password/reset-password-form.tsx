@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useSnackbar } from 'notistack';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { TextFormField } from '@/components/text-form-field';
 import { useResetPassword } from '@/features/account/hooks/user-reset-password';
 
 const schema = z
@@ -35,11 +36,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<ResetPasswordFormValues>({
+    const { handleSubmit, control } = useForm<ResetPasswordFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -74,16 +71,15 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextField
-                {...register('emailAddress')}
+            <TextFormField<ResetPasswordFormValues>
+                control={control}
+                name="emailAddress"
                 label="Email Address"
                 type="email"
+                maxLength={254}
                 autoComplete="username"
                 required
                 disabled={isPending}
-                error={!!errors.emailAddress}
-                helperText={errors.emailAddress?.message}
-                fullWidth
             />
 
             <Box
@@ -93,27 +89,26 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                     gap: 2,
                 }}
             >
-                <TextField
-                    {...register('newPassword')}
+                <TextFormField<ResetPasswordFormValues>
+                    control={control}
+                    name="newPassword"
                     label="New Password"
                     type="password"
+                    maxLength={50}
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.newPassword}
-                    helperText={errors.newPassword?.message}
                     fullWidth
                 />
-
-                <TextField
-                    {...register('confirmNewPassword')}
+                <TextFormField<ResetPasswordFormValues>
+                    control={control}
+                    name="confirmNewPassword"
                     label="Confirm New Password"
                     type="password"
+                    maxLength={50}
                     autoComplete="new-password"
                     required
                     disabled={isPending}
-                    error={!!errors.confirmNewPassword}
-                    helperText={errors.confirmNewPassword?.message}
                     fullWidth
                 />
             </Box>

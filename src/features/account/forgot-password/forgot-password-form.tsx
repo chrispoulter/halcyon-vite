@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useSnackbar } from 'notistack';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { TextFormField } from '@/components/text-form-field';
 import { useForgotPassword } from '@/features/account/hooks/use-forgot-password';
 
 const schema = z.object({
@@ -19,11 +20,7 @@ export function ForgotPasswordForm() {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const {
-        handleSubmit,
-        register,
-        formState: { errors },
-    } = useForm<ForgotPasswordFormValues>({
+    const { handleSubmit, control } = useForm<ForgotPasswordFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -51,16 +48,15 @@ export function ForgotPasswordForm() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextField
-                {...register('emailAddress')}
+            <TextFormField<ForgotPasswordFormValues>
+                control={control}
+                name="emailAddress"
                 label="Email Address"
                 type="email"
+                maxLength={254}
                 autoComplete="username"
                 required
                 disabled={isPending}
-                error={!!errors.emailAddress}
-                helperText={errors.emailAddress?.message}
-                fullWidth
             />
 
             <Box
