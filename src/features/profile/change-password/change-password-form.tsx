@@ -1,12 +1,12 @@
-import { GetProfileResponse } from '../profile-types';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link as RouterLink } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useSnackbar } from 'notistack';
 import { Box, Button } from '@mui/material';
-import { useChangePassword } from '@/features/profile/hooks/use-change-password';
 import { TextFormField } from '@/components/text-form-field';
+import { useChangePassword } from '@/features/profile/hooks/use-change-password';
+import { GetProfileResponse } from '@/features/profile/profile-types';
 
 const schema = z
     .object({
@@ -122,6 +122,10 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                     gap: 2,
                 }}
             >
+                <Button component={RouterLink} variant="outlined" to="/profile">
+                    Cancel
+                </Button>
+
                 <Button type="submit" variant="contained" disabled={isPending}>
                     Submit
                 </Button>

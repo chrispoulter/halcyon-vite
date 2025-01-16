@@ -3,9 +3,9 @@ import { UpdateProfileForm } from '@/features/profile/update-profile/update-prof
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 
 export function UpdateProfilePage() {
-    const { data } = useGetProfile();
+    const { data: profile } = useGetProfile();
 
-    if (!data) {
+    if (!profile) {
         return null;
     }
 
@@ -21,7 +21,7 @@ export function UpdateProfilePage() {
                     used to login to your account.
                 </Typography>
 
-                <UpdateProfileForm profile={data} />
+                <UpdateProfileForm profile={profile} />
             </Box>
         </Container>
     );

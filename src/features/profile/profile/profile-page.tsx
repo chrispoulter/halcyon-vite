@@ -1,12 +1,13 @@
 import { Link as RouterLink } from 'react-router';
 import { Container, Box, Typography, Button } from '@mui/material';
+import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
-import { useGetProfile } from '../hooks/use-get-profile';
+import { toLocaleString } from '@/lib/dates';
 
 export function ProfilePage() {
-    const { data } = useGetProfile();
+    const { data: profile } = useGetProfile();
 
-    if (!data) {
+    if (!profile) {
         return null;
     }
 
@@ -19,6 +20,31 @@ export function ProfilePage() {
 
                 <Typography component="h2" variant="h4">
                     Personal Details
+                </Typography>
+
+                <Typography
+                    component="dl"
+                    variant="body1"
+                    sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+                >
+                    <Typography component="dt" variant="body1">
+                        Email Address
+                    </Typography>
+                    <Typography component="dd" variant="body2">
+                        {profile.emailAddress}
+                    </Typography>
+                    <Typography component="dt" variant="body1">
+                        Name
+                    </Typography>
+                    <Typography component="dd" variant="body2">
+                        {profile.firstName} {profile.lastName}
+                    </Typography>
+                    <Typography component="dt" variant="body1">
+                        Date Of Birth
+                    </Typography>
+                    <Typography component="dd" variant="body2">
+                        {toLocaleString(profile.dateOfBirth)}
+                    </Typography>
                 </Typography>
 
                 <Box
@@ -74,7 +100,7 @@ export function ProfilePage() {
                     will be removed. Please be certain.
                 </Typography>
 
-                <DeleteAccountButton profile={data} />
+                <DeleteAccountButton profile={profile} />
             </Box>
         </Container>
     );
