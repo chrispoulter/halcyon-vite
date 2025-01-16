@@ -37,7 +37,7 @@ export function LockUserButton({ profile }: LockUserButtonProps) {
                         variant: 'success',
                     });
 
-                    return navigate('/user');
+                    return navigate(0);
                 },
             }
         );
