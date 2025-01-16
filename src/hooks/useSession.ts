@@ -1,15 +1,25 @@
 import { Role } from '@/lib/session';
+import { useState } from 'react';
 
 export function useSession() {
-    const accessToken = localStorage.getItem('accessToken');
+    const [accessToken, setAccessToken] = useState<string | null>(
+        localStorage.getItem('accessToken')
+    );
 
-    function setAccessToken(accessToken: string) {
+    function setSession(accessToken: string) {
         localStorage.setItem('accessToken', accessToken);
+        setAccessToken(accessToken);
+    }
+
+    function clearSession() {
+        localStorage.removeItem('accessToken');
+        setAccessToken(null);
     }
 
     return {
         accessToken,
-        setAccessToken,
+        setSession,
+        clearSession,
         profile: {
             sub: '1',
             given_name: 'System',

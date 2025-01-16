@@ -10,40 +10,81 @@ import {
     Menu,
     MenuItem,
     Button,
-    Tooltip,
-    Avatar,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { UserNav } from '@/components/user-nav';
+import { Role } from '@/lib/session';
+import { useSession } from '@/hooks/useSession';
+
+const routes = [
+    {
+        href: '/',
+        label: 'Home',
+    },
+    {
+        href: '/about',
+        label: 'About',
+    },
+    {
+        href: '/user',
+        label: 'Users',
+        roles: [Role.SYSTEM_ADMINISTRATOR, Role.USER_ADMINISTRATOR],
+    },
+];
 
 export function Header() {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const { profile } = useSession();
 
     function onOpenNavMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElNav(event.currentTarget);
-    }
-    function onOpenUserMenu(event: React.MouseEvent<HTMLElement>) {
-        setAnchorElUser(event.currentTarget);
     }
 
     function onCloseNavMenu() {
         setAnchorElNav(null);
     }
 
-    function onCloseUserMenu() {
-        setAnchorElUser(null);
-    }
+    const routeLinks = routes
+        .filter((route) =>
+            route.roles
+                ? route.roles.some((value) => profile?.role?.includes(value))
+                : true
+        )
+        .map((route) => (
+            <MenuItem
+                component={RouterLink}
+                to={route.href}
+                onClick={onCloseNavMenu}
+            >
+                <Typography sx={{ textAlign: 'center' }}>
+                    {route.label}
+                </Typography>
+            </MenuItem>
+        ));
 
-    function onLogout() {
-        setAnchorElUser(null);
-        console.log('logout');
-    }
+    const mobileLinks = routes
+        .filter((route) =>
+            route.roles
+                ? route.roles.some((value) => profile?.role?.includes(value))
+                : true
+        )
+        .map((route) => (
+            <Button
+                component={RouterLink}
+                to={route.href}
+                onClick={onCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+                {route.label}
+            </Button>
+        ));
 
     return (
         <AppBar position="static">
             <Container maxWidth="sm">
                 <Toolbar disableGutters>
+                    {/* main logo */}
                     <Typography
                         variant="h6"
                         noWrap
@@ -59,6 +100,7 @@ export function Header() {
                         Halcyon
                     </Typography>
 
+                    {/* mobile menu */}
                     <Box
                         sx={{
                             flexGrow: 1,
@@ -91,38 +133,11 @@ export function Header() {
                             onClose={onCloseNavMenu}
                             sx={{ display: { xs: 'block', md: 'none' } }}
                         >
-                            <MenuItem
-                                component={RouterLink}
-                                to="/"
-                                onClick={onCloseNavMenu}
-                            >
-                                <Typography sx={{ textAlign: 'center' }}>
-                                    Home
-                                </Typography>
-                            </MenuItem>
-
-                            <MenuItem
-                                component={RouterLink}
-                                to="/about"
-                                onClick={onCloseNavMenu}
-                            >
-                                <Typography sx={{ textAlign: 'center' }}>
-                                    About
-                                </Typography>
-                            </MenuItem>
-
-                            <MenuItem
-                                component={RouterLink}
-                                to="/user"
-                                onClick={onCloseNavMenu}
-                            >
-                                <Typography sx={{ textAlign: 'center' }}>
-                                    Users
-                                </Typography>
-                            </MenuItem>
+                            {routeLinks}
                         </Menu>
                     </Box>
 
+                    {/* desktop logo */}
                     <Typography
                         variant="h5"
                         noWrap
@@ -138,82 +153,17 @@ export function Header() {
                         Halcyon
                     </Typography>
 
+                    {/* desktop menu */}
                     <Box
                         sx={{
                             flexGrow: 1,
                             display: { xs: 'none', md: 'flex' },
                         }}
                     >
-                        <Button
-                            component={RouterLink}
-                            to="/"
-                            onClick={onCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Home
-                        </Button>
-
-                        <Button
-                            component={RouterLink}
-                            to="/about"
-                            onClick={onCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            About
-                        </Button>
-
-                        <Button
-                            component={RouterLink}
-                            to="/user"
-                            onClick={onCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Users
-                        </Button>
+                        {mobileLinks}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    src="/static/images/avatar/2.jpg"
-                                />
-                            </IconButton>
-                        </Tooltip>
-
-                        <Menu
-                            sx={{ mt: '45px' }}
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={onCloseUserMenu}
-                        >
-                            <MenuItem
-                                component={RouterLink}
-                                to="/profile"
-                                onClick={onCloseUserMenu}
-                            >
-                                <Typography sx={{ textAlign: 'center' }}>
-                                    My Account
-                                </Typography>
-                            </MenuItem>
-
-                            <MenuItem onClick={onLogout}>
-                                <Typography sx={{ textAlign: 'center' }}>
-                                    Log out
-                                </Typography>
-                            </MenuItem>
-                        </Menu>
-                    </Box>
+                    <UserNav />
                 </Toolbar>
             </Container>
         </AppBar>
