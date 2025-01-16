@@ -48,7 +48,7 @@ export function ForgotPasswordForm() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextFormField<ForgotPasswordFormValues>
+            <TextFormField
                 control={control}
                 name="emailAddress"
                 label="Email Address"

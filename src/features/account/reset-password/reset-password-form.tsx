@@ -71,7 +71,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextFormField<ResetPasswordFormValues>
+            <TextFormField
                 control={control}
                 name="emailAddress"
                 label="Email Address"
@@ -89,7 +89,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                     gap: 2,
                 }}
             >
-                <TextFormField<ResetPasswordFormValues>
+                <TextFormField
                     control={control}
                     name="newPassword"
                     label="New Password"
@@ -100,7 +100,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                     disabled={isPending}
                     fullWidth
                 />
-                <TextFormField<ResetPasswordFormValues>
+                <TextFormField
                     control={control}
                     name="confirmNewPassword"
                     label="Confirm New Password"

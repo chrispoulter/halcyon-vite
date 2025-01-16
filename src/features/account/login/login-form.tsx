@@ -49,7 +49,7 @@ export function LoginForm() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextFormField<LoginFormValues>
+            <TextFormField
                 control={control}
                 name="emailAddress"
                 label="Email Address"
@@ -60,7 +60,7 @@ export function LoginForm() {
                 disabled={isPending}
             />
 
-            <TextFormField<LoginFormValues>
+            <TextFormField
                 control={control}
                 name="password"
                 label="Password"

@@ -80,7 +80,7 @@ export function RegisterForm() {
             onSubmit={handleSubmit(onSubmit)}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
         >
-            <TextFormField<RegisterFormValues>
+            <TextFormField
                 control={control}
                 name="emailAddress"
                 label="Email Address"
@@ -98,7 +98,7 @@ export function RegisterForm() {
                     gap: 2,
                 }}
             >
-                <TextFormField<RegisterFormValues>
+                <TextFormField
                     control={control}
                     name="password"
                     label="Password"
@@ -109,7 +109,7 @@ export function RegisterForm() {
                     disabled={isPending}
                     fullWidth
                 />
-                <TextFormField<RegisterFormValues>
+                <TextFormField
                     control={control}
                     name="confirmPassword"
                     label="Confirm Password"
@@ -129,7 +129,7 @@ export function RegisterForm() {
                     gap: 2,
                 }}
             >
-                <TextFormField<RegisterFormValues>
+                <TextFormField
                     control={control}
                     name="firstName"
                     label="First Name"
@@ -139,7 +139,7 @@ export function RegisterForm() {
                     disabled={isPending}
                     fullWidth
                 />
-                <TextFormField<RegisterFormValues>
+                <TextFormField
                     control={control}
                     name="lastName"
                     label="Last Name"
@@ -151,7 +151,7 @@ export function RegisterForm() {
                 />
             </Box>
 
-            <DateFormField<RegisterFormValues>
+            <DateFormField
                 control={control}
                 name="dateOfBirth"
                 label="Date Of Birth"
