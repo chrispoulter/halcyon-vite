@@ -4,15 +4,7 @@ import {
     CreateUserResponse,
 } from '@/features/user/user-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const createUser = (request: CreateUserRequest, init?: RequestInit) =>
-    fetcher<CreateUserResponse>(`${config.API_URL}/user`, {
-        ...init,
-        method: 'POST',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useCreateUser = () => {
     const { accessToken } = useSession();
@@ -21,8 +13,8 @@ export const useCreateUser = () => {
 
     return useMutation({
         mutationFn: (request: CreateUserRequest) =>
-            createUser(request, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+            apiClient.post<CreateUserResponse>('/user', request, {
+                Authorization: `Bearer ${accessToken}`,
             }),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
     });

@@ -1,15 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import { ForgotPasswordRequest } from '@/features/account/account-types';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-export const forgotPassword = (request: ForgotPasswordRequest) =>
-    fetcher(`${config.API_URL}/account/forgot-password`, {
-        method: 'PUT',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useForgotPassword = () =>
     useMutation({
-        mutationFn: forgotPassword,
+        mutationFn: (request: ForgotPasswordRequest) =>
+            apiClient.put('/account/forgot-password', request),
     });

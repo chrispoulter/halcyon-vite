@@ -3,20 +3,14 @@ import {
     RegisterRequest,
     RegisterResponse,
 } from '@/features/account/account-types';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const register = (request: RegisterRequest) =>
-    fetcher<RegisterResponse>(`${config.API_URL}/account/register`, {
-        method: 'POST',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useRegister = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: register,
+        mutationFn: (request: RegisterRequest) =>
+            apiClient.post<RegisterResponse>('/account/register', request),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
     });
 };

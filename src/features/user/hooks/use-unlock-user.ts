@@ -4,19 +4,7 @@ import {
     UnlockUserResponse,
 } from '@/features/user/user-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const unlockUser = (
-    id: string,
-    request: UnlockUserRequest,
-    init?: RequestInit
-) =>
-    fetcher<UnlockUserResponse>(`${config.API_URL}/user/${id}/unlock`, {
-        ...init,
-        method: 'PUT',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useUnlockUser = (id: string) => {
     const { accessToken } = useSession();
@@ -25,8 +13,8 @@ export const useUnlockUser = (id: string) => {
 
     return useMutation({
         mutationFn: (request: UnlockUserRequest) =>
-            unlockUser(id, request, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+            apiClient.put<UnlockUserResponse>(`/user/${id}/unlock`, request, {
+                Authorization: `Bearer ${accessToken}`,
             }),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['profile'] });

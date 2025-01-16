@@ -84,13 +84,13 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
                 <RouterProvider router={router} />
                 <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-            <SnackbarProvider />
-        </ThemeProvider>
+                <SnackbarProvider />
+            </ThemeProvider>
+        </QueryClientProvider>
     </StrictMode>
 );

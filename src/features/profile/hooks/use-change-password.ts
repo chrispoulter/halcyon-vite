@@ -4,18 +4,7 @@ import {
     ChangePasswordResponse,
 } from '@/features/profile/profile-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const changePassword = (request: ChangePasswordRequest, init?: RequestInit) =>
-    fetcher<ChangePasswordResponse>(
-        `${config.API_URL}/profile/change-password`,
-        {
-            ...init,
-            method: 'PUT',
-            body: JSON.stringify(request),
-        }
-    );
+import { apiClient } from '@/lib/api-client';
 
 export const useChangePassword = () => {
     const { accessToken } = useSession();
@@ -24,9 +13,13 @@ export const useChangePassword = () => {
 
     return useMutation({
         mutationFn: (request: ChangePasswordRequest) =>
-            changePassword(request, {
-                headers: { Authorization: `Bearer ${accessToken}` },
-            }),
+            apiClient.put<ChangePasswordResponse>(
+                '/profile/change-password',
+                request,
+                {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            ),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['profile'] });
             queryClient.invalidateQueries({ queryKey: ['users'] });

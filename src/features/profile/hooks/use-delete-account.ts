@@ -4,15 +4,7 @@ import {
     DeleteAccountResponse,
 } from '@/features/profile/profile-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher as fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const deleteAccount = (request: DeleteAccountRequst, init?: RequestInit) =>
-    fetcher<DeleteAccountResponse>(`${config.API_URL}/profile`, {
-        ...init,
-        method: 'DELETE',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useDeleteAccount = () => {
     const { accessToken } = useSession();
@@ -21,8 +13,8 @@ export const useDeleteAccount = () => {
 
     return useMutation({
         mutationFn: (request: DeleteAccountRequst) =>
-            deleteAccount(request, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+            apiClient.delete<DeleteAccountResponse>('/profile', request, {
+                Authorization: `Bearer ${accessToken}`,
             }),
         onSuccess: (data) => {
             queryClient.invalidateQueries({

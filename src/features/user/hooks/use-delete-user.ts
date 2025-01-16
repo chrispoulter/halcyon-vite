@@ -4,19 +4,7 @@ import {
     DeleteUserResponse,
 } from '@/features/user/user-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const deleteUser = (
-    id: string,
-    request: DeleteUserRequest,
-    init?: RequestInit
-) =>
-    fetcher<DeleteUserResponse>(`${config.API_URL}/user/${id}`, {
-        ...init,
-        method: 'DELETE',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useDeleteUser = (id: string) => {
     const { accessToken } = useSession();
@@ -25,8 +13,8 @@ export const useDeleteUser = (id: string) => {
 
     return useMutation({
         mutationFn: (request: DeleteUserRequest) =>
-            deleteUser(id, request, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+            apiClient.delete<DeleteUserResponse>(`/user/${id}`, request, {
+                Authorization: `Bearer ${accessToken}`,
             }),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['profile'] });

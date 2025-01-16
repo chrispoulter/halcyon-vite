@@ -1,16 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { LoginRequest, LoginResponse } from '@/features/account/account-types';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const login = (request: LoginRequest) =>
-    fetcher<LoginResponse>(`${config.API_URL}/account/login`, {
-        method: 'POST',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useLogin = () => {
     return useMutation({
-        mutationFn: login,
+        mutationFn: (request: LoginRequest) =>
+            apiClient.post<LoginResponse>('/account/login', request),
     });
 };

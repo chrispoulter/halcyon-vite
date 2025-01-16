@@ -1,15 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LockUserRequest, LockUserResponse } from '@/features/user/user-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const lockUser = (id: string, request: LockUserRequest, init?: RequestInit) =>
-    fetcher<LockUserResponse>(`${config.API_URL}/user/${id}/lock`, {
-        ...init,
-        method: 'PUT',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useLockUser = (id: string) => {
     const { accessToken } = useSession();
@@ -18,8 +10,8 @@ export const useLockUser = (id: string) => {
 
     return useMutation({
         mutationFn: (request: LockUserRequest) =>
-            lockUser(id, request, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+            apiClient.put<LockUserResponse>(`/user/${id}/lock`, request, {
+                Authorization: `Bearer ${accessToken}`,
             }),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['profile'] });

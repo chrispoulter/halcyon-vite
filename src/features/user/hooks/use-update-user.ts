@@ -4,19 +4,7 @@ import {
     UpdateUserResponse,
 } from '@/features/user/user-types';
 import { useSession } from '@/hooks/useSession';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const updateUser = (
-    id: string,
-    request: UpdateUserRequest,
-    init?: RequestInit
-) =>
-    fetcher<UpdateUserResponse>(`${config.API_URL}/user/${id}`, {
-        ...init,
-        method: 'PUT',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useUpdateUser = (id: string) => {
     const { accessToken } = useSession();
@@ -25,8 +13,8 @@ export const useUpdateUser = (id: string) => {
 
     return useMutation({
         mutationFn: (request: UpdateUserRequest) =>
-            updateUser(id, request, {
-                headers: { Authorization: `Bearer ${accessToken}` },
+            apiClient.put<UpdateUserResponse>(`/user/${id}`, request, {
+                Authorization: `Bearer ${accessToken}`,
             }),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['profile'] });

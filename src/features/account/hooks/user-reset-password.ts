@@ -3,20 +3,17 @@ import {
     ResetPasswordRequest,
     ResetPasswordResponse,
 } from '@/features/account/account-types';
-import { fetcher } from '@/lib/api-client';
-import { config } from '@/lib/config';
-
-const resetPassword = (request: ResetPasswordRequest) =>
-    fetcher<ResetPasswordResponse>(`${config.API_URL}/account/reset-password`, {
-        method: 'PUT',
-        body: JSON.stringify(request),
-    });
+import { apiClient } from '@/lib/api-client';
 
 export const useResetPassword = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: resetPassword,
+        mutationFn: (request: ResetPasswordRequest) =>
+            apiClient.put<ResetPasswordResponse>(
+                '/account/reset-password',
+                request
+            ),
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['profile'] });
             queryClient.invalidateQueries({ queryKey: ['users'] });
