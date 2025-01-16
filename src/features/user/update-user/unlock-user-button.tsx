@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
-    Box,
     Button,
     Dialog,
     DialogActions,
@@ -14,22 +13,22 @@ import { useUnlockUser } from '@/features/user/hooks/use-unlock-user';
 import { GetUserResponse } from '@/features/user/user-types';
 
 type UnlockUserButtonProps = {
-    profile: GetUserResponse;
+    user: GetUserResponse;
 };
 
-export function UnlockUserButton({ profile }: UnlockUserButtonProps) {
+export function UnlockUserButton({ user }: UnlockUserButtonProps) {
     const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const { mutate, isPending } = useUnlockUser(profile.id);
+    const { mutate, isPending } = useUnlockUser(user.id);
 
     function onDelete() {
         mutate(
             {
-                version: profile.version,
+                version: user.version,
             },
             {
                 onSuccess: async () => {
@@ -55,23 +54,14 @@ export function UnlockUserButton({ profile }: UnlockUserButtonProps) {
 
     return (
         <>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
+            <Button
+                variant="contained"
+                color="error"
+                onClick={onOpen}
+                disabled={isPending}
             >
-                <Button
-                    variant="contained"
-                    color="error"
-                    onClick={onOpen}
-                    disabled={isPending}
-                >
-                    Unlock
-                </Button>
-            </Box>
+                Unlock
+            </Button>
 
             <Dialog open={open} onClose={onClose}>
                 <DialogTitle id="alert-dialog-title">Unlock User</DialogTitle>

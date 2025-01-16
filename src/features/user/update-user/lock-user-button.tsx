@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
-    Box,
     Button,
     Dialog,
     DialogActions,
@@ -14,22 +13,22 @@ import { useLockUser } from '@/features/user/hooks/use-lock-user';
 import { GetUserResponse } from '@/features/user/user-types';
 
 type LockUserButtonProps = {
-    profile: GetUserResponse;
+    user: GetUserResponse;
 };
 
-export function LockUserButton({ profile }: LockUserButtonProps) {
+export function LockUserButton({ user }: LockUserButtonProps) {
     const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const { mutate, isPending } = useLockUser(profile.id);
+    const { mutate, isPending } = useLockUser(user.id);
 
     function onDelete() {
         mutate(
             {
-                version: profile.version,
+                version: user.version,
             },
             {
                 onSuccess: async () => {
@@ -55,23 +54,14 @@ export function LockUserButton({ profile }: LockUserButtonProps) {
 
     return (
         <>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
+            <Button
+                variant="contained"
+                color="error"
+                onClick={onOpen}
+                disabled={isPending}
             >
-                <Button
-                    variant="contained"
-                    color="error"
-                    onClick={onOpen}
-                    disabled={isPending}
-                >
-                    Lock
-                </Button>
-            </Box>
+                Lock
+            </Button>
 
             <Dialog open={open} onClose={onClose}>
                 <DialogTitle id="alert-dialog-title">Lock User</DialogTitle>

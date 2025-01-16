@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
-    Box,
     Button,
     Dialog,
     DialogActions,
@@ -14,22 +13,22 @@ import { useDeleteUser } from '@/features/user/hooks/use-delete-user';
 import { GetUserResponse } from '@/features/user/user-types';
 
 type DeleteUserButtonProps = {
-    profile: GetUserResponse;
+    user: GetUserResponse;
 };
 
-export function DeleteUserButton({ profile }: DeleteUserButtonProps) {
+export function DeleteUserButton({ user }: DeleteUserButtonProps) {
     const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const { mutate, isPending } = useDeleteUser(profile.id);
+    const { mutate, isPending } = useDeleteUser(user.id);
 
     function onDelete() {
         mutate(
             {
-                version: profile.version,
+                version: user.version,
             },
             {
                 onSuccess: async () => {
@@ -55,23 +54,14 @@ export function DeleteUserButton({ profile }: DeleteUserButtonProps) {
 
     return (
         <>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
+            <Button
+                variant="contained"
+                color="error"
+                onClick={onOpen}
+                disabled={isPending}
             >
-                <Button
-                    variant="contained"
-                    color="error"
-                    onClick={onOpen}
-                    disabled={isPending}
-                >
-                    Delete
-                </Button>
-            </Box>
+                Delete
+            </Button>
 
             <Dialog open={open} onClose={onClose}>
                 <DialogTitle id="alert-dialog-title">Delete User</DialogTitle>

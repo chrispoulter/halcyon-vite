@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
-    Box,
     Button,
     Dialog,
     DialogActions,
@@ -60,23 +59,14 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
 
     return (
         <>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
+            <Button
+                variant="contained"
+                color="error"
+                onClick={onOpen}
+                disabled={isPending}
             >
-                <Button
-                    variant="contained"
-                    color="error"
-                    onClick={onOpen}
-                    disabled={isPending}
-                >
-                    Delete Account
-                </Button>
-            </Box>
+                Delete Account
+            </Button>
 
             <Dialog open={open} onClose={onClose}>
                 <DialogTitle id="alert-dialog-title">

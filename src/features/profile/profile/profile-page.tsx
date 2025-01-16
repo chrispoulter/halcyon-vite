@@ -100,7 +100,16 @@ export function ProfilePage() {
                     will be removed. Please be certain.
                 </Typography>
 
-                <DeleteAccountButton profile={profile} />
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        justifyContent: 'flex-end',
+                        gap: 2,
+                    }}
+                >
+                    <DeleteAccountButton profile={profile} />
+                </Box>
             </Box>
         </Container>
     );

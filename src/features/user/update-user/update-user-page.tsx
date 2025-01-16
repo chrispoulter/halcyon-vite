@@ -1,11 +1,18 @@
 import { useParams } from 'react-router';
 import { Container, Box, Typography } from '@mui/material';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
+import { useGetUser } from '../hooks/use-get-user';
 
 type UpdateUserPageParams = { id: string };
 
 export function UpdateUserPage() {
     const { id } = useParams() as UpdateUserPageParams;
+
+    const { data: user } = useGetUser(id);
+
+    if (!user) {
+        return null;
+    }
 
     return (
         <Container component="main" maxWidth="sm">
@@ -23,7 +30,7 @@ export function UpdateUserPage() {
                     used to login to the account.
                 </Typography>
 
-                <UpdateUserForm id={id} />
+                <UpdateUserForm user={user} />
             </Box>
         </Container>
     );
