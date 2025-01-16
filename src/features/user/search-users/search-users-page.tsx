@@ -1,6 +1,6 @@
-import { useSearchParams } from 'react-router';
+import { useSearchParams, Link as RouterLink } from 'react-router';
 import { z } from 'zod';
-import { Container, Box, Typography } from '@mui/material';
+import { Container, Box, Typography, Button } from '@mui/material';
 import { useSearchUsers } from '@/features/user/hooks/use-search-users';
 import { SearchUserForm } from '@/features/user/search-users/search-user-form';
 import { SortUserDropdown } from '@/features/user/search-users/sort-user-dropdown';
@@ -47,6 +47,23 @@ export function SearchUsersPage() {
 
                 <SearchUserForm />
                 <SortUserDropdown />
+
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        justifyContent: 'flex-end',
+                        gap: 2,
+                    }}
+                >
+                    <Button
+                        component={RouterLink}
+                        variant="contained"
+                        to="/user/create"
+                    >
+                        Create User
+                    </Button>
+                </Box>
 
                 {users.items?.map((user) => (
                     <UserCard key={user.id} user={user} />
