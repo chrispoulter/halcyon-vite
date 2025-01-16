@@ -35,7 +35,7 @@ export function UserNav() {
 
     if (!user) {
         return (
-            <Button component={RouterLink} to="/account/login">
+            <Button color="inherit" component={RouterLink} to="/account/login">
                 Login
             </Button>
         );

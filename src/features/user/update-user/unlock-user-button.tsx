@@ -49,12 +49,7 @@ export function UnlockUserButton({ user }: UnlockUserButtonProps) {
 
     return (
         <>
-            <Button
-                variant="outlined"
-                color="warning"
-                onClick={onOpen}
-                disabled={isPending}
-            >
+            <Button variant="outlined" onClick={onOpen} disabled={isPending}>
                 Unlock
             </Button>
 
