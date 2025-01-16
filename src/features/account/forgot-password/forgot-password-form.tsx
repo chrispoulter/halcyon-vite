@@ -8,8 +8,7 @@ import { useForgotPassword } from '@/features/account/hooks/use-forgot-password'
 
 const schema = z.object({
     emailAddress: z
-        .string({ message: 'Email Address is a required field' })
-        .min(1, 'Email Address is a required field')
+        .string({ message: 'Email Address must be a valid string' })
         .email('Email Address must be a valid email'),
 });
 
@@ -26,6 +25,9 @@ export function ForgotPasswordForm() {
         formState: { errors },
     } = useForm<ForgotPasswordFormValues>({
         resolver: zodResolver(schema),
+        defaultValues: {
+            emailAddress: '',
+        },
     });
 
     const { mutate, isPending } = useForgotPassword();

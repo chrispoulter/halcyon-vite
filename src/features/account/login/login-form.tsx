@@ -8,11 +8,10 @@ import { useSession } from '@/hooks/useSession';
 
 const schema = z.object({
     emailAddress: z
-        .string({ message: 'Email Address is a required field' })
-        .min(1, 'Email Address is a required field')
+        .string({ message: 'Email Address must be a valid string' })
         .email('Email Address must be a valid email'),
     password: z
-        .string({ message: 'Password is a required field' })
+        .string({ message: 'Password must be a valid string' })
         .min(1, 'Password is a required field'),
 });
 
@@ -29,6 +28,10 @@ export function LoginForm() {
         formState: { errors },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(schema),
+        defaultValues: {
+            emailAddress: '',
+            password: '',
+        },
     });
 
     const { mutate, isPending } = useLogin();
