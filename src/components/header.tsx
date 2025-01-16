@@ -35,7 +35,7 @@ const routes = [
 export function Header() {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-    const { profile } = useSession();
+    const { user } = useSession();
 
     function onOpenNavMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElNav(event.currentTarget);
@@ -48,7 +48,7 @@ export function Header() {
     const routeLinks = routes
         .filter((route) =>
             route.roles
-                ? route.roles.some((value) => profile?.role?.includes(value))
+                ? route.roles.some((value) => user?.roles?.includes(value))
                 : true
         )
         .map((route) => (
@@ -67,7 +67,7 @@ export function Header() {
     const mobileLinks = routes
         .filter((route) =>
             route.roles
-                ? route.roles.some((value) => profile?.role?.includes(value))
+                ? route.roles.some((value) => user?.roles?.includes(value))
                 : true
         )
         .map((route) => (

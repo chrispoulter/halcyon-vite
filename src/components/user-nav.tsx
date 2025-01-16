@@ -8,6 +8,7 @@ import {
     Menu,
     MenuItem,
     Typography,
+    Button,
 } from '@mui/material';
 import { useSession } from '@/hooks/useSession';
 
@@ -16,7 +17,7 @@ export function UserNav() {
 
     const navigate = useNavigate();
 
-    const { profile, clearSession } = useSession();
+    const { user, clearSession } = useSession();
 
     function onOpenUserMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElUser(event.currentTarget);
@@ -32,8 +33,12 @@ export function UserNav() {
         return navigate('/');
     }
 
-    if (!profile) {
-        return null;
+    if (!user) {
+        return (
+            <Button component={RouterLink} to="/account/login">
+                Login
+            </Button>
+        );
     }
 
     const hashedEmail = '1234';
@@ -43,7 +48,7 @@ export function UserNav() {
             <Tooltip title="Open user menu">
                 <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
-                        alt={`${profile.given_name} ${profile.family_name}`}
+                        alt={`${user.given_name} ${user.family_name}`}
                         src={`https://www.gravatar.com/avatar/${hashedEmail}?d=404`}
                     />
                 </IconButton>

@@ -1,5 +1,16 @@
-import { Role } from '@/lib/session-types';
 import { useState } from 'react';
+import { decodeJwt } from 'jose';
+import { Role } from '@/lib/session-types';
+
+type SessionPayload = {
+    accessToken: string;
+    sub: string;
+    email: string;
+    given_name: string;
+    family_name: string;
+    roles?: Role[];
+    exp: number;
+};
 
 export function useSession() {
     const [accessToken, setAccessToken] = useState<string | null>(
@@ -16,16 +27,14 @@ export function useSession() {
         setAccessToken(null);
     }
 
+    const user = accessToken
+        ? decodeJwt<SessionPayload>(accessToken)
+        : undefined;
+
     return {
         accessToken,
         setSession,
         clearSession,
-        profile: {
-            sub: '1',
-            given_name: 'System',
-            family_name: 'Administrator',
-            email: 'system.administrator@example.com',
-            role: [Role.SYSTEM_ADMINISTRATOR],
-        },
+        user,
     };
 }
