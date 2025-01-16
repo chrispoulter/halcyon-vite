@@ -9,7 +9,7 @@ import { currentYear, monthNames } from '@/lib/dates';
 type DateFormFieldProps<TFieldValues extends FieldValues> = {
     autoComplete?: [string, string, string];
 } & UseControllerProps<TFieldValues> &
-    TextFieldProps;
+    Omit<TextFieldProps, 'autoComplete'>;
 
 export function DateFormField<TFieldValues extends FieldValues>(
     props: DateFormFieldProps<TFieldValues>
