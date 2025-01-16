@@ -190,7 +190,7 @@ export function CreateUserForm() {
                     gap: 2,
                 }}
             >
-                <Button component={RouterLink} variant="outlined" to="/user">
+                <Button component={RouterLink} variant="text" to="/user">
                     Cancel
                 </Button>
 

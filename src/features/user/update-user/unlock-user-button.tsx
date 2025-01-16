@@ -50,7 +50,7 @@ export function UnlockUserButton({ user }: UnlockUserButtonProps) {
     return (
         <>
             <Button
-                variant="contained"
+                variant="outlined"
                 color="warning"
                 onClick={onOpen}
                 disabled={isPending}

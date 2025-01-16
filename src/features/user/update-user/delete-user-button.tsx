@@ -55,7 +55,7 @@ export function DeleteUserButton({ user }: DeleteUserButtonProps) {
     return (
         <>
             <Button
-                variant="contained"
+                variant="outlined"
                 color="error"
                 onClick={onOpen}
                 disabled={isPending}

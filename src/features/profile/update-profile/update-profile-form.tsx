@@ -129,7 +129,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                     gap: 2,
                 }}
             >
-                <Button component={RouterLink} variant="outlined" to="/profile">
+                <Button component={RouterLink} variant="text" to="/profile">
                     Cancel
                 </Button>
 
