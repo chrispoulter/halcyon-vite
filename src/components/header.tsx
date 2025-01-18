@@ -17,14 +17,8 @@ import { Role } from '@/lib/session-types';
 import { useSession } from '@/hooks/useSession';
 
 const routes = [
-    {
-        href: '/',
-        label: 'Home',
-    },
-    {
-        href: '/about',
-        label: 'About',
-    },
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
     {
         href: '/user',
         label: 'Users',
@@ -65,20 +59,19 @@ export function Header() {
         ));
 
     const mobileLinks = routes
-        .filter((route) =>
-            route.roles
-                ? route.roles.some((value) => user?.roles?.includes(value))
-                : true
+        .filter(
+            ({ roles }) =>
+                !roles || roles.some((role) => user?.roles?.includes(role))
         )
-        .map((route) => (
+        .map(({ href, label }) => (
             <Button
-                key={route.href}
+                key={href}
                 component={RouterLink}
-                to={route.href}
+                to={href}
                 onClick={onCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
             >
-                {route.label}
+                {label}
             </Button>
         ));
 
