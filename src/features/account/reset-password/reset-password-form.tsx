@@ -122,7 +122,7 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                     gap: 2,
                 }}
             >
-                <Button type="submit" variant="contained" disabled={isPending}>
+                <Button type="submit" variant="contained" loading={isPending}>
                     Submit
                 </Button>
             </Box>
