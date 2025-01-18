@@ -9,7 +9,7 @@ export function Footer() {
                 sx={{
                     display: 'flex',
                     flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 1,
+                    // gap: 1,
                     justifyContent: 'space-between',
                     alignItems: 'center',
                 }}

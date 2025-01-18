@@ -52,7 +52,6 @@ export function SearchUsersPage() {
                     sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
-                        justifyContent: 'flex-end',
                         gap: 2,
                     }}
                 >
@@ -61,7 +60,7 @@ export function SearchUsersPage() {
                         variant="contained"
                         to="/user/create"
                     >
-                        Create User
+                        Create New
                     </Button>
                 </Box>
 

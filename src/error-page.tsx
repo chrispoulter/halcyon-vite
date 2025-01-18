@@ -17,7 +17,6 @@ export function ErrorPage() {
                     sx={{
                         display: 'flex',
                         flexDirection: { xs: 'column', sm: 'row' },
-                        justifyContent: 'flex-end',
                         gap: 2,
                     }}
                 >
