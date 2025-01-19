@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
     return {
         plugins: [react()],
         define: {
-            __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+            __APP_VERSION__: JSON.stringify(env.npm_package_version),
         },
         resolve: {
             alias: {
