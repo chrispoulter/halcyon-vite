@@ -1,4 +1,5 @@
 import { Box, Typography, Container, Link } from '@mui/material';
+import { config } from '@/lib/config';
 import { currentYear } from '@/lib/dates';
 
 export function Footer() {
@@ -19,7 +20,7 @@ export function Footer() {
                     </Link>{' '}
                     {currentYear}
                 </Typography>
-                <Typography variant="body2">v{__APP_VERSION__}</Typography>
+                <Typography variant="body2">v{config.VERSION}</Typography>
             </Box>
         </Container>
     );
