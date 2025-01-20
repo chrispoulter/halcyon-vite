@@ -89,7 +89,12 @@ createRoot(document.getElementById('root')!).render(
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <SnackbarProvider>
+                    <SnackbarProvider
+                        anchorOrigin={{
+                            horizontal: 'right',
+                            vertical: 'bottom',
+                        }}
+                    >
                         <RouterProvider router={router} />
                     </SnackbarProvider>
                 </ThemeProvider>
