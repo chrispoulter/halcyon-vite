@@ -23,7 +23,7 @@ export function ChangePasswordPage() {
                     reasons, change your password on a regular basis.
                 </Typography>
 
-                <ChangePasswordForm profile={data} />
+                <ChangePasswordForm profile={profile} />
 
                 <Typography variant="body1">
                     Forgotten your password?{' '}
