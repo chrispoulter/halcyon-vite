@@ -13,6 +13,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ApiClientError } from '@/lib/api-client';
 import { theme } from '@/theme';
 import { routes } from '@/routes';
+import { AuthProvider } from '@/features/auth/auth-provider';
 
 const router = createBrowserRouter(routes);
 
@@ -84,13 +85,15 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <RouterProvider router={router} />
-                <SnackbarProvider />
-            </ThemeProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        <AuthProvider>
+            <QueryClientProvider client={queryClient}>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                    <RouterProvider router={router} />
+                    <SnackbarProvider />
+                </ThemeProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
+        </AuthProvider>
     </StrictMode>
 );

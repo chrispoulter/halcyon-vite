@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { Box, Button } from '@mui/material';
 import { TextFormField } from '@/components/text-form-field';
 import { useLogin } from '@/features/account/hooks/use-login';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 const schema = z.object({
     emailAddress: z
@@ -21,7 +21,7 @@ type LoginFormValues = z.infer<typeof schema>;
 export function LoginForm() {
     const navigate = useNavigate();
 
-    const { setSession } = useSession();
+    const { setAuth } = useAuth();
 
     const { handleSubmit, control } = useForm<LoginFormValues>({
         resolver: zodResolver(schema),
@@ -36,7 +36,7 @@ export function LoginForm() {
     function onSubmit(data: LoginFormValues) {
         mutate(data, {
             onSuccess: async (data) => {
-                setSession(data.accessToken);
+                setAuth(data.accessToken);
 
                 return navigate('/');
             },

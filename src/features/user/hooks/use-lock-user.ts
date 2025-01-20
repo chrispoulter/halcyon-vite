@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { LockUserRequest, LockUserResponse } from '@/features/user/user-types';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { apiClient } from '@/lib/api-client';
 
 export const useLockUser = (id: string) => {
-    const { accessToken } = useSession();
+    const { accessToken } = useAuth();
 
     const queryClient = useQueryClient();
 

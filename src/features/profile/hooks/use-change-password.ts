@@ -3,11 +3,11 @@ import {
     ChangePasswordRequest,
     ChangePasswordResponse,
 } from '@/features/profile/profile-types';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { apiClient } from '@/lib/api-client';
 
 export const useChangePassword = () => {
-    const { accessToken } = useSession();
+    const { accessToken } = useAuth();
 
     const queryClient = useQueryClient();
 

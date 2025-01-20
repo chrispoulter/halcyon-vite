@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
 import { GetProfileResponse } from '@/features/profile/profile-types';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 type DeleteAccountButtonProps = {
     profile: GetProfileResponse;
@@ -24,7 +24,7 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const { clearSession } = useSession();
+    const { clearAuth } = useAuth();
 
     const { mutate, isPending } = useDeleteAccount();
 
@@ -39,7 +39,7 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
                         variant: 'success',
                     });
 
-                    clearSession();
+                    clearAuth();
 
                     return navigate('/');
                 },

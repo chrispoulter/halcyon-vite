@@ -13,8 +13,8 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { UserNav } from '@/components/user-nav';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/lib/session-types';
-import { useSession } from '@/hooks/useSession';
 
 const routes = [
     { href: '/', label: 'Home' },
@@ -29,7 +29,7 @@ const routes = [
 export function Header() {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-    const { user } = useSession();
+    const { user } = useAuth();
 
     function onOpenNavMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElNav(event.currentTarget);

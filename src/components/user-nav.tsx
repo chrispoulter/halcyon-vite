@@ -10,14 +10,14 @@ import {
     Typography,
     Button,
 } from '@mui/material';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 
 export function UserNav() {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
     const navigate = useNavigate();
 
-    const { user, clearSession } = useSession();
+    const { user, clearAuth } = useAuth();
 
     function onOpenUserMenu(event: React.MouseEvent<HTMLElement>) {
         setAnchorElUser(event.currentTarget);
@@ -29,7 +29,7 @@ export function UserNav() {
 
     function onLogout() {
         setAnchorElUser(null);
-        clearSession();
+        clearAuth();
         return navigate('/');
     }
 

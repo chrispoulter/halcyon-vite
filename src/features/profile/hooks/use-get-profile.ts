@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { GetProfileResponse } from '@/features/profile/profile-types';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { apiClient } from '@/lib/api-client';
 import { config } from '@/lib/config';
 
 export const useGetProfile = () => {
-    const { accessToken } = useSession();
+    const { accessToken } = useAuth();
 
     return useQuery({
         queryKey: ['profile'],

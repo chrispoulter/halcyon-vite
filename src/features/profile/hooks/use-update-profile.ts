@@ -3,11 +3,11 @@ import {
     UpdateProfileRequest,
     UpdateProfileResponse,
 } from '@/features/profile/profile-types';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { apiClient } from '@/lib/api-client';
 
 export const useUpdateProfile = () => {
-    const { accessToken } = useSession();
+    const { accessToken } = useAuth();
 
     const queryClient = useQueryClient();
 

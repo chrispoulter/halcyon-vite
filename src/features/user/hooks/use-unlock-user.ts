@@ -3,11 +3,11 @@ import {
     UnlockUserRequest,
     UnlockUserResponse,
 } from '@/features/user/user-types';
-import { useSession } from '@/hooks/useSession';
+import { useAuth } from '@/features/auth/hooks/use-auth';
 import { apiClient } from '@/lib/api-client';
 
 export const useUnlockUser = (id: string) => {
-    const { accessToken } = useSession();
+    const { accessToken } = useAuth();
 
     const queryClient = useQueryClient();
 
