@@ -4,12 +4,12 @@ import {
     Box,
     Tooltip,
     IconButton,
-    Avatar,
     Menu,
     MenuItem,
     Typography,
     Button,
 } from '@mui/material';
+import { UserAvatar } from '@/components/user-avatar';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 
 export function UserNav() {
@@ -41,16 +41,11 @@ export function UserNav() {
         );
     }
 
-    const hashedEmail = '1234';
-
     return (
         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
                 <IconButton onClick={onOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                        alt={`${user.given_name} ${user.family_name}`}
-                        src={`https://www.gravatar.com/avatar/${hashedEmail}?d=404`}
-                    />
+                    <UserAvatar user={user} />
                 </IconButton>
             </Tooltip>
 
