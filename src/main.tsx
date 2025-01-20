@@ -89,8 +89,9 @@ createRoot(document.getElementById('root')!).render(
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                    <RouterProvider router={router} />
-                    <SnackbarProvider />
+                    <SnackbarProvider>
+                        <RouterProvider router={router} />
+                    </SnackbarProvider>
                 </ThemeProvider>
                 <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>

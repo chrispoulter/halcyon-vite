@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
     Button,
@@ -20,6 +20,8 @@ export function DeleteUserButton({ user }: DeleteUserButtonProps) {
     const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const { mutate, isPending } = useDeleteUser(user.id);
 

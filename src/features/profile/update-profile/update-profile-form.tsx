@@ -2,7 +2,7 @@ import { useNavigate, Link as RouterLink } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { Box, Button } from '@mui/material';
 import { DateFormField } from '@/components/date-form-field';
 import { TextFormField } from '@/components/text-form-field';
@@ -38,6 +38,8 @@ type UpdateProfileFormProps = {
 export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
     const navigate = useNavigate();
 
+    const { enqueueSnackbar } = useSnackbar();
+
     const { handleSubmit, control } = useForm<UpdateProfileFormValues>({
         resolver: zodResolver(schema),
         values: profile,
@@ -53,7 +55,6 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
             },
             {
                 onSuccess: async () => {
-                    console.log('Profile updated');
                     enqueueSnackbar('Your profile has been updated.', {
                         variant: 'success',
                     });

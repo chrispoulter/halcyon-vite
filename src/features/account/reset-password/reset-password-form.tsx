@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { Box, Button } from '@mui/material';
 import { TextFormField } from '@/components/text-form-field';
 import { useResetPassword } from '@/features/account/hooks/user-reset-password';
@@ -33,6 +33,8 @@ type ResetPasswordFormProps = {
 
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     const navigate = useNavigate();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const { handleSubmit, control } = useForm<ResetPasswordFormValues>({
         resolver: zodResolver(schema),

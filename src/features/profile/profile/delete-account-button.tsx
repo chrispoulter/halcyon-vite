@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
+import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
     Button,
@@ -21,6 +21,8 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
     const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const { clearAuth } = useAuth();
 
