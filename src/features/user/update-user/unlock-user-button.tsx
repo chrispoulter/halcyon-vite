@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSnackbar } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
 import {
     Button,
     Dialog,
@@ -17,8 +17,6 @@ type UnlockUserButtonProps = {
 
 export function UnlockUserButton({ user }: UnlockUserButtonProps) {
     const [open, setOpen] = useState(false);
-
-    const { enqueueSnackbar } = useSnackbar();
 
     const { mutate, isPending } = useUnlockUser(user.id);
 

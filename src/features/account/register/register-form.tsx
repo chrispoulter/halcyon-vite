@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useSnackbar } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
 import { Box, Button } from '@mui/material';
 import { DateFormField } from '@/components/date-form-field';
 import { TextFormField } from '@/components/text-form-field';
@@ -45,8 +45,6 @@ type RegisterFormValues = z.infer<typeof schema>;
 
 export function RegisterForm() {
     const navigate = useNavigate();
-
-    const { enqueueSnackbar } = useSnackbar();
 
     const { handleSubmit, control } = useForm<RegisterFormValues>({
         resolver: zodResolver(schema),
