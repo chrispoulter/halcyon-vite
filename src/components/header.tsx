@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { UserNav } from '@/components/user-nav';
+import { ModeToggle } from '@/components/mode-toggle';
 import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/lib/session-types';
 
@@ -158,6 +159,7 @@ export function Header() {
                         {mobileLinks}
                     </Box>
 
+                    <ModeToggle />
                     <UserNav />
                 </Toolbar>
             </Container>

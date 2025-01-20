@@ -1,64 +1,21 @@
-import {
-    Box,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    Radio,
-    RadioGroup,
-    useColorScheme,
-} from '@mui/material';
+import { IconButton, useColorScheme } from '@mui/material';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 export function ModeToggle() {
-    const { mode, setMode } = useColorScheme();
+    const { colorScheme, setColorScheme } = useColorScheme();
 
-    if (!mode) {
-        return null;
+    function onToggleMode() {
+        setColorScheme(colorScheme === 'dark' ? 'light' : 'dark');
     }
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                width: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                bgcolor: 'background.default',
-                color: 'text.primary',
-                borderRadius: 1,
-                p: 3,
-                minHeight: '56px',
-            }}
+        <IconButton
+            color="inherit"
+            aria-label="Toggle theme"
+            onClick={onToggleMode}
         >
-            <FormControl>
-                <FormLabel id="demo-theme-toggle">Theme</FormLabel>
-                <RadioGroup
-                    aria-labelledby="demo-theme-toggle"
-                    name="theme-toggle"
-                    row
-                    value={mode}
-                    onChange={(event) =>
-                        setMode(
-                            event.target.value as 'system' | 'light' | 'dark'
-                        )
-                    }
-                >
-                    <FormControlLabel
-                        value="system"
-                        control={<Radio />}
-                        label="System"
-                    />
-                    <FormControlLabel
-                        value="light"
-                        control={<Radio />}
-                        label="Light"
-                    />
-                    <FormControlLabel
-                        value="dark"
-                        control={<Radio />}
-                        label="Dark"
-                    />
-                </RadioGroup>
-            </FormControl>
-        </Box>
+            {colorScheme == 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+        </IconButton>
     );
 }
