@@ -10,7 +10,7 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { AuthProvider } from '@/features/auth/auth-provider';
+import { AuthProvider } from '@/features/auth/context/auth-provider';
 import { ApiClientError } from '@/lib/api-client';
 import { theme } from '@/theme';
 import { routes } from '@/routes';
