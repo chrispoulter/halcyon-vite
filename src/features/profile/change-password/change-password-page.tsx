@@ -4,10 +4,10 @@ import { ChangePasswordForm } from '@/features/profile/change-password/change-pa
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 
 export function ChangePasswordPage() {
-    const { data } = useGetProfile();
+    const { data: profile } = useGetProfile();
 
-    if (!data) {
-        return null;
+    if (!profile) {
+        return <div>Loading...</div>;
     }
 
     return (

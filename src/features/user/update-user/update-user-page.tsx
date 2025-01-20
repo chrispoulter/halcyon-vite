@@ -11,7 +11,7 @@ export function UpdateUserPage() {
     const { data: user } = useGetUser(id);
 
     if (!user) {
-        return null;
+        return <div>Loading...</div>;
     }
 
     return (

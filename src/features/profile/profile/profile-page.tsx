@@ -8,7 +8,7 @@ export function ProfilePage() {
     const { data: profile } = useGetProfile();
 
     if (!profile) {
-        return null;
+        return <div>Loading...</div>;
     }
 
     return (
