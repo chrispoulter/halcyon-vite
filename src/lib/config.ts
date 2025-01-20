@@ -1,4 +1,4 @@
 export const config = {
     VERSION: __APP_VERSION__,
-    API_URL: import.meta.env.VITE_API_URL,
+    API_URL: import.meta.env.VITE_API_URL || '/api',
 };
