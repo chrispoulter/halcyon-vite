@@ -1,6 +1,4 @@
-import packageJson from '@/../package.json';
-
 export const config = {
-    VERSION: packageJson.version,
+    VERSION: __APP_VERSION__,
     API_URL: import.meta.env.VITE_API_URL,
 };
