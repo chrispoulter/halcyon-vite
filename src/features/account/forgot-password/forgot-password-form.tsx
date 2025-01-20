@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useSnackbar } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
 import { Box, Button } from '@mui/material';
 import { TextFormField } from '@/components/text-form-field';
 import { useForgotPassword } from '@/features/account/hooks/use-forgot-password';
@@ -17,8 +17,6 @@ type ForgotPasswordFormValues = z.infer<typeof schema>;
 
 export function ForgotPasswordForm() {
     const navigate = useNavigate();
-
-    const { enqueueSnackbar } = useSnackbar();
 
     const { handleSubmit, control } = useForm<ForgotPasswordFormValues>({
         resolver: zodResolver(schema),
