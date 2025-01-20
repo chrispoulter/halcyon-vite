@@ -24,7 +24,7 @@ class ApiClient {
         body?: Record<string, unknown>,
         headers: Record<string, string> = {}
     ): Promise<Data> {
-        const url = new URL(path, this.baseUrl);
+        const url = new URL(`${this.baseUrl}${path}`);
 
         if (params) {
             for (const [key, value] of Object.entries(params)) {
