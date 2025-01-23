@@ -1,4 +1,5 @@
 import { Avatar } from '@mui/material';
+import md5 from 'md5';
 import { SessionPayload } from '@/features/auth/auth-types';
 
 type UserAvatarProps = {
@@ -6,7 +7,7 @@ type UserAvatarProps = {
 };
 
 export function UserAvatar({ user }: UserAvatarProps) {
-    const hashedEmail = '1234';
+    const hashedEmail = md5(user.email.trim().toLowerCase());
 
     return (
         <Avatar
