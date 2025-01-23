@@ -25,11 +25,8 @@ FROM nginx:alpine AS runner
 
 COPY --from=builder /app/default.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY --from=builder /app/entrypoint.sh /usr/share/nginx/html/entrypoint.sh
-
-RUN ["chmod", "755", "/usr/share/nginx/html/entrypoint.sh"]
+COPY --from=builder /app/entrypoint.sh /docker-entrypoint.d/entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["/usr/share/nginx/html/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
