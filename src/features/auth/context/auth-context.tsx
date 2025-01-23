@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { SessionPayload } from '@/lib/session-types';
+import { SessionPayload } from '@/features/auth/auth-types';
 
 type AuthContextType = {
     accessToken: string | null;

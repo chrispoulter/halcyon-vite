@@ -7,8 +7,8 @@ import {
     Chip,
     Typography,
 } from '@mui/material';
+import { roles } from '@/features/auth/auth-types';
 import { SearchUsersResponse } from '@/features/user/user-types';
-import { roles } from '@/lib/session-types';
 
 type UserCardProps = {
     user: SearchUsersResponse['items'][number];

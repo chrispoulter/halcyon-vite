@@ -7,13 +7,13 @@ import { Box, Button } from '@mui/material';
 import { DateFormField } from '@/components/date-form-field';
 import { TextFormField } from '@/components/text-form-field';
 import { SwitchFormField } from '@/components/switch-form-field';
+import { Role, roles } from '@/features/auth/auth-types';
 import { useUpdateUser } from '@/features/user/hooks/use-update-user';
 import { DeleteUserButton } from '@/features/user/update-user/delete-user-button';
 import { LockUserButton } from '@/features/user/update-user/lock-user-button';
 import { UnlockUserButton } from '@/features/user/update-user/unlock-user-button';
 import { GetUserResponse } from '@/features/user/user-types';
 import { isInPast } from '@/lib/dates';
-import { Role, roles } from '@/lib/session-types';
 
 const schema = z.object({
     emailAddress: z

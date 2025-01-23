@@ -1,5 +1,5 @@
 import { Avatar } from '@mui/material';
-import { SessionPayload } from '@/lib/session-types';
+import { SessionPayload } from '@/features/auth/auth-types';
 
 type UserAvatarProps = {
     user: SessionPayload;

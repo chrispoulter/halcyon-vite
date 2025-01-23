@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { decodeJwt } from 'jose';
 import { AuthContext } from '@/features/auth/context/auth-context';
-import { SessionPayload } from '@/lib/session-types';
+import { SessionPayload } from '@/features/auth/auth-types';
 
 type AuthProviderProps = {
     children: React.ReactNode;

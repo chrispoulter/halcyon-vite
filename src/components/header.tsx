@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { UserNav } from '@/components/user-nav';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useAuth } from '@/features/auth/hooks/use-auth';
-import { Role } from '@/lib/session-types';
+import { Role } from '@/features/auth/auth-types';
 
 const routes = [
     { href: '/', label: 'Home' },
