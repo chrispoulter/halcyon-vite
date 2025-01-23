@@ -1,5 +1,4 @@
 import { Container, Box, Typography } from '@mui/material';
-import { config } from '@/lib/config';
 
 export function HomePage() {
     return (
@@ -10,7 +9,6 @@ export function HomePage() {
                 </Typography>
 
                 <Typography variant="body1">
-                    {JSON.stringify(config, undefined, 2)}
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Etiam semper diam at erat pulvinar, at pulvinar felis
                     blandit. Vestibulum volutpat tellus diam, consequat gravida
