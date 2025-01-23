@@ -24,7 +24,7 @@ class ApiClient {
         body?: Record<string, unknown>,
         headers: Record<string, string> = {}
     ): Promise<Data> {
-        const url = new URL(`${this.baseUrl}${path}`);
+        const url = new URL(path, this.baseUrl);
 
         if (params) {
             for (const [key, value] of Object.entries(params)) {
@@ -95,4 +95,4 @@ class ApiClient {
     }
 }
 
-export const apiClient = new ApiClient(config.API_URL);
+export const apiClient = new ApiClient(config.VITE_API_URL);

@@ -8,7 +8,9 @@ export default defineConfig(({ mode }) => {
     return {
         plugins: [react()],
         define: {
-            __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+            'import.meta.env.npm_package_version': JSON.stringify(
+                env.npm_package_version
+            ),
         },
         resolve: {
             alias: {
@@ -18,14 +20,6 @@ export default defineConfig(({ mode }) => {
         server: {
             watch: {
                 usePolling: env.USE_POLLING === 'true',
-            },
-            proxy: {
-                '/api': {
-                    target: env.API_URL,
-                    changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/api/, ''),
-                    secure: false,
-                },
             },
         },
     };
