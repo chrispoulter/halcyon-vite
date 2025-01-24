@@ -1,7 +1,7 @@
 import {
-    FieldValues,
+    type FieldValues,
+    type UseControllerProps,
     useController,
-    UseControllerProps,
 } from 'react-hook-form';
 import {
     FormControl,
@@ -10,55 +10,49 @@ import {
     FormHelperText,
     FormLabel,
     Switch,
-    SwitchProps,
 } from '@mui/material';
 
 type SwitchFormFieldProps<TFieldValues extends FieldValues> = {
     label: string;
     options: Record<string, { title: string; description: string }>;
-} & UseControllerProps<TFieldValues> &
-    SwitchProps;
+} & UseControllerProps<TFieldValues>;
 
-export function SwitchFormField<TFieldValues extends FieldValues>(
-    props: SwitchFormFieldProps<TFieldValues>
-) {
-    const { field, fieldState } = useController(props);
-
-    const currentValue = field.value || [];
+export function SwitchFormField<TFieldValues extends FieldValues>({
+    control,
+    name,
+    label,
+    options,
+    disabled,
+}: SwitchFormFieldProps<TFieldValues>) {
+    const {
+        field: { value = [] as string[], onChange },
+        fieldState: { error },
+    } = useController({ control, name });
 
     return (
-        <FormControl
-            component="fieldset"
-            variant="standard"
-            error={!!fieldState.error}
-        >
-            <FormLabel component="legend">{props.label}</FormLabel>
+        <FormControl component="fieldset" variant="standard" error={!!error}>
+            <FormLabel component="legend">{label}</FormLabel>
             <FormGroup>
-                {Object.entries(props.options).map(([key, { title }]) => {
-                    const checked = field.value?.includes(key);
+                {Object.entries(options).map(([key, { title }]) => {
+                    const checked = value.includes(key);
 
                     function onCheckChanged(
                         event: React.ChangeEvent<HTMLInputElement>
                     ) {
                         if (event.target.checked) {
-                            return field.onChange([...currentValue, key]);
+                            return onChange([...value, key]);
                         }
 
-                        return field.onChange(
-                            currentValue.filter(
-                                (currentRole: string) => currentRole !== key
-                            )
-                        );
+                        return onChange(value.filter((item) => item !== key));
                     }
                     return (
                         <FormControlLabel
                             key={key}
+                            disabled={disabled}
                             control={
                                 <Switch
-                                    {...props}
                                     checked={checked}
                                     onChange={onCheckChanged}
-                                    name={key}
                                 />
                             }
                             label={title}
@@ -66,7 +60,7 @@ export function SwitchFormField<TFieldValues extends FieldValues>(
                     );
                 })}
             </FormGroup>
-            <FormHelperText>{fieldState.error?.message}</FormHelperText>
+            <FormHelperText>{error?.message}</FormHelperText>
         </FormControl>
     );
 }

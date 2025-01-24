@@ -3,24 +3,30 @@ import {
     useController,
     UseControllerProps,
 } from 'react-hook-form';
-import { TextField, TextFieldProps } from '@mui/material';
+import { TextField } from '@mui/material';
 
 type TextFormFieldProps<TFieldValues extends FieldValues> = {
+    label: string;
+    type?: string;
     maxLength?: number;
-} & UseControllerProps<TFieldValues> &
-    TextFieldProps;
+    autoComplete?: string;
+    required?: boolean;
+} & UseControllerProps<TFieldValues>;
 
 export function TextFormField<TFieldValues extends FieldValues>(
     props: TextFormFieldProps<TFieldValues>
 ) {
-    const { field, fieldState } = useController(props);
+    const {
+        field,
+        fieldState: { error },
+    } = useController(props);
 
     return (
         <TextField
             {...field}
             {...props}
-            error={!!fieldState.error}
-            helperText={fieldState.error?.message}
+            error={!!error}
+            helperText={error?.message}
         />
     );
 }
