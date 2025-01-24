@@ -11,6 +11,7 @@ type TextFormFieldProps<TFieldValues extends FieldValues> = {
     maxLength?: number;
     autoComplete?: string;
     required?: boolean;
+    fullWidth?: boolean;
 } & UseControllerProps<TFieldValues>;
 
 export function TextFormField<TFieldValues extends FieldValues>(
