@@ -1,5 +1,5 @@
 import { RouteObject } from 'react-router';
-import { RequireAuth } from '@/features/auth/require-auth';
+import { ProtectedRoute } from '@/features/auth/protected-route';
 import { ProfilePage } from '@/features/profile/profile/profile-page';
 import { UpdateProfilePage } from '@/features/profile/update-profile/update-profile-page';
 import { ChangePasswordPage } from '@/features/profile/change-password/change-password-page';
@@ -7,7 +7,7 @@ import { ChangePasswordPage } from '@/features/profile/change-password/change-pa
 export const profileRoutes: RouteObject[] = [
     {
         path: 'profile',
-        element: <RequireAuth />,
+        element: <ProtectedRoute />,
         children: [
             { index: true, element: <ProfilePage /> },
             { path: 'update-profile', element: <UpdateProfilePage /> },

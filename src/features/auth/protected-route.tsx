@@ -3,11 +3,11 @@ import { useAuth } from '@/features/auth/hooks/use-auth';
 import { Role } from '@/features/auth/auth-types';
 import { ForbiddenPage } from '@/forbidden-page';
 
-type RequireAuthProps = {
+type ProtectedRouteProps = {
     roles?: Role[];
 };
 
-export function RequireAuth({ roles }: RequireAuthProps) {
+export function ProtectedRoute({ roles }: ProtectedRouteProps) {
     const { user } = useAuth();
 
     if (!user) {
