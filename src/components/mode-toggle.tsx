@@ -1,14 +1,12 @@
-'use client';
-
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/components/theme-provider';
 
 export function ModeToggle() {
-    const { setTheme, theme } = useTheme();
+    const { setTheme, resolvedTheme } = useTheme();
 
     function onToggleMode() {
-        setTheme(theme === 'dark' ? 'light' : 'dark');
+        setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
     }
 
     return (
