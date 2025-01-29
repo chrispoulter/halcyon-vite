@@ -1,4 +1,4 @@
-import { usePathname, useSearchParams, Link } from 'react-router';
+import { useSearchParams, Link } from 'react-router';
 import { ArrowDownWideNarrow } from 'lucide-react';
 import { UserSort } from '@/features/user/user-types';
 import { Button } from '@/components/ui/button';
@@ -33,11 +33,13 @@ type SortUserDropdownProps = {
 };
 
 export function SortUserDropdown({ sort }: SortUserDropdownProps) {
-    const pathname = usePathname();
+    const [searchParams] = useSearchParams();
 
-    const searchParams = useSearchParams();
-
-    const query = Object.fromEntries(searchParams.entries());
+    function getSortSearchParams(sort: UserSort) {
+        const params = new URLSearchParams(searchParams);
+        params.set('sort', sort);
+        return params.toString();
+    }
 
     return (
         <DropdownMenu>
@@ -54,15 +56,7 @@ export function SortUserDropdown({ sort }: SortUserDropdownProps) {
                         asChild
                         disabled={sort === value}
                     >
-                        <Link
-                            to={{
-                                pathname,
-                                query: {
-                                    ...query,
-                                    sort: value,
-                                },
-                            }}
-                        >
+                        <Link to={{ search: getSortSearchParams(value) }}>
                             {label}
                         </Link>
                     </DropdownMenuItem>

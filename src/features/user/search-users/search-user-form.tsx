@@ -1,4 +1,4 @@
-import { usePathname, useRouter, useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -28,11 +28,9 @@ type SearchUserFormProps = {
 };
 
 export function SearchUserForm({ search }: SearchUserFormProps) {
-    const router = useRouter();
+    const navigate = useNavigate();
 
-    const pathname = usePathname();
-
-    const searchParams = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const form = useForm<SearchUserFormValues>({
         resolver: zodResolver(schema),
@@ -42,8 +40,7 @@ export function SearchUserForm({ search }: SearchUserFormProps) {
     });
 
     function onSubmit(data: SearchUserFormValues) {
-        const params = new URLSearchParams(searchParams.toString());
-
+        const params = new URLSearchParams(searchParams);
         params.delete('page');
         params.delete('search');
 
@@ -51,7 +48,9 @@ export function SearchUserForm({ search }: SearchUserFormProps) {
             params.set('search', data.search);
         }
 
-        return router.push(`${pathname}?${params.toString()}`);
+        return navigate({
+            search: params.toString(),
+        });
     }
 
     return (

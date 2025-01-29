@@ -1,4 +1,4 @@
-import { usePathname, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import {
     Pagination,
     PaginationContent,
@@ -14,14 +14,16 @@ type PagerProps = {
 };
 
 export function Pager({ hasPreviousPage, hasNextPage, page = 1 }: PagerProps) {
-    const pathname = usePathname();
-
-    const searchParams = useSearchParams();
-
-    const query = Object.fromEntries(searchParams.entries());
+    const [searchParams] = useSearchParams();
 
     if (!hasPreviousPage && !hasNextPage) {
         return null;
+    }
+
+    function getPageSearchParams(page: number) {
+        const updatedSearchParams = new URLSearchParams(searchParams);
+        updatedSearchParams.set('page', page.toString());
+        return updatedSearchParams.toString();
     }
 
     return (
@@ -30,12 +32,8 @@ export function Pager({ hasPreviousPage, hasNextPage, page = 1 }: PagerProps) {
                 {hasPreviousPage && (
                     <PaginationItem>
                         <PaginationPrevious
-                            href={{
-                                pathname,
-                                query: {
-                                    ...query,
-                                    page: page - 1,
-                                },
+                            to={{
+                                search: getPageSearchParams(page - 1),
                             }}
                         />
                     </PaginationItem>
@@ -43,12 +41,8 @@ export function Pager({ hasPreviousPage, hasNextPage, page = 1 }: PagerProps) {
                 {hasNextPage && (
                     <PaginationItem>
                         <PaginationNext
-                            href={{
-                                pathname,
-                                query: {
-                                    ...query,
-                                    page: page + 1,
-                                },
+                            to={{
+                                search: getPageSearchParams(page + 1),
                             }}
                         />
                     </PaginationItem>

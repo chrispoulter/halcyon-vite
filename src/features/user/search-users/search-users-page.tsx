@@ -28,17 +28,13 @@ const searchParamsSchema = z.object({
 const PAGE_SIZE = 10;
 
 export function SearchUsersPage() {
-    const [searchParams] = useSearchParams({
-        page: '1',
-        sort: UserSort.NAME_ASC,
-        search: '',
-    });
+    const [searchParams] = useSearchParams();
 
-    const request = searchParamsSchema.parse(searchParams);
+    const request = searchParamsSchema.parse(Object.fromEntries(searchParams));
 
-    const { data } = useSearchUsers({ ...request, size: PAGE_SIZE });
+    const { data, isLoading } = useSearchUsers({ ...request, size: PAGE_SIZE });
 
-    if (!data) {
+    if (isLoading) {
         return <SearchUsersLoading />;
     }
 
@@ -57,7 +53,7 @@ export function SearchUsersPage() {
                 <Link to="/user/create">Create New</Link>
             </Button>
 
-            {data.items.length ? (
+            {data?.items.length ? (
                 <div className="space-y-2">
                     {data.items.map((user) => (
                         <UserCard key={user.id} user={user} />
