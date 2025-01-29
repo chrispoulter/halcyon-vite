@@ -5,7 +5,7 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { enqueueSnackbar } from 'notistack';
+import { toast } from '@/hooks/use-toast';
 import { ApiClientError } from '@/lib/api-client';
 
 const queryClient = new QueryClient({
@@ -45,31 +45,37 @@ const queryClient = new QueryClient({
                     // });
 
                     case 403:
-                        return enqueueSnackbar(
-                            'Sorry, you do not have access to this resource.',
-                            { variant: 'error' }
-                        );
+                        return toast({
+                            variant: 'destructive',
+                            title: 'Error',
+                            description:
+                                'Sorry, you do not have access to this resource.',
+                        });
 
                     case 404:
-                        return enqueueSnackbar(
-                            'Sorry, the resource you were looking for could not be found.',
-                            { variant: 'error' }
-                        );
+                        return toast({
+                            variant: 'destructive',
+                            title: 'Error',
+                            description:
+                                'Sorry, the resource you were looking for could not be found.',
+                        });
 
                     default:
-                        return enqueueSnackbar(
-                            error.message ||
+                        return toast({
+                            variant: 'destructive',
+                            title: 'Error',
+                            description:
                                 'Sorry, something went wrong. Please try again later.',
-                            { variant: 'error' }
-                        );
+                        });
                 }
             }
 
-            return enqueueSnackbar(
-                error.message ||
+            return toast({
+                variant: 'destructive',
+                title: 'Error',
+                description:
                     'Sorry, something went wrong. Please try again later.',
-                { variant: 'error' }
-            );
+            });
         },
     }),
 });

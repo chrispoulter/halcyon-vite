@@ -1,35 +1,39 @@
-import { Link as RouterLink } from 'react-router';
-import { Link, Container, Box, Typography } from '@mui/material';
+import { Link } from 'react-router';
 import { LoginForm } from '@/features/account/login/login-form';
 
 export function LoginPage() {
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    Login
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                Login
+            </h1>
 
-                <Typography variant="body1">
-                    Enter your email address below to login to your account.
-                </Typography>
+            <p className="leading-7">
+                Enter your email address below to login to your account.
+            </p>
 
-                <LoginForm />
+            <LoginForm />
 
-                <Typography variant="body1">
+            <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">
                     Not already a member?{' '}
-                    <Link component={RouterLink} to="/account/register">
+                    <Link
+                        to="/account/register"
+                        className="underline underline-offset-4"
+                    >
                         Register now
                     </Link>
-                </Typography>
-
-                <Typography variant="body1">
+                </p>
+                <p className="text-sm text-muted-foreground">
                     Forgotten your password?{' '}
-                    <Link component={RouterLink} to="/account/forgot-password">
+                    <Link
+                        to="/account/forgot-password"
+                        className="underline underline-offset-4"
+                    >
                         Request reset
                     </Link>
-                </Typography>
-            </Box>
-        </Container>
+                </p>
+            </div>
+        </main>
     );
 }

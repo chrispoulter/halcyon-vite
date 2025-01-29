@@ -1,21 +1,17 @@
-import { Container, Box, Typography } from '@mui/material';
 import { ForgotPasswordForm } from '@/features/account/forgot-password/forgot-password-form';
 
 export function ForgotPasswordPage() {
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    Forgot Password
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                Forgot Password
+            </h1>
 
-                <Typography variant="body1">
-                    Request a password reset link by providing your email
-                    address.
-                </Typography>
+            <p className="leading-7">
+                Request a password reset link by providing your email address.
+            </p>
 
-                <ForgotPasswordForm />
-            </Box>
-        </Container>
+            <ForgotPasswordForm />
+        </main>
     );
 }

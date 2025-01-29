@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
-import { Box, Button } from '@mui/material';
+import { Form } from '@/components/ui/form';
 import { TextFormField } from '@/components/text-form-field';
+import { LoadingButton } from '@/components/loading-button';
 import { useResetPassword } from '@/features/account/hooks/user-reset-password';
+import { toast } from '@/hooks/use-toast';
 
 const schema = z
     .object({
@@ -34,7 +35,7 @@ type ResetPasswordFormProps = {
 export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     const navigate = useNavigate();
 
-    const { handleSubmit, control } = useForm<ResetPasswordFormValues>({
+    const form = useForm<ResetPasswordFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -53,8 +54,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             },
             {
                 onSuccess: async () => {
-                    enqueueSnackbar('Your password has been reset.', {
-                        variant: 'success',
+                    toast({
+                        title: 'Success',
+                        description: 'Your password has been reset.',
                     });
 
                     return navigate('/account/login');
@@ -64,66 +66,54 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     }
 
     return (
-        <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-            <TextFormField
-                control={control}
-                name="emailAddress"
-                label="Email Address"
-                type="email"
-                maxLength={254}
-                autoComplete="username"
-                required
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                }}
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
             >
                 <TextFormField
-                    control={control}
-                    name="newPassword"
-                    label="New Password"
-                    type="password"
-                    maxLength={50}
-                    autoComplete="new-password"
+                    control={form.control}
+                    name="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-                <TextFormField
-                    control={control}
-                    name="confirmNewPassword"
-                    label="Confirm New Password"
-                    type="password"
-                    maxLength={50}
-                    autoComplete="new-password"
-                    required
-                    disabled={isPending}
-                    fullWidth
-                />
-            </Box>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
-            >
-                <Button type="submit" variant="contained" loading={isPending}>
-                    Submit
-                </Button>
-            </Box>
-        </Box>
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <TextFormField
+                        control={form.control}
+                        name="newPassword"
+                        label="New Password"
+                        type="password"
+                        maxLength={50}
+                        autoComplete="new-password"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                    <TextFormField
+                        control={form.control}
+                        name="confirmNewPassword"
+                        label="Confirm New Password"
+                        type="password"
+                        maxLength={50}
+                        autoComplete="new-password"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                </div>
+
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
+                </div>
+            </form>
+        </Form>
     );
 }

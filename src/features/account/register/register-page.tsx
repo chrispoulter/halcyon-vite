@@ -1,29 +1,29 @@
-import { Link as RouterLink } from 'react-router';
-import { Link, Container, Box, Typography } from '@mui/material';
+import { Link } from 'react-router';
 import { RegisterForm } from '@/features/account/register/register-form';
 
 export function RegisterPage() {
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    Register
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                Register
+            </h1>
 
-                <Typography variant="body1">
-                    Register for a new account to access the full range of
-                    features available on this site.
-                </Typography>
+            <p className="leading-7">
+                Register for a new account to access the full range of features
+                available on this site.
+            </p>
 
-                <RegisterForm />
+            <RegisterForm />
 
-                <Typography variant="body1">
-                    Already have an account?{' '}
-                    <Link component={RouterLink} to="/account/login">
-                        Log in now
-                    </Link>
-                </Typography>
-            </Box>
-        </Container>
+            <p className="text-sm text-muted-foreground">
+                Already have an account?{' '}
+                <Link
+                    to="/account/login"
+                    className="underline underline-offset-4"
+                >
+                    Log in now
+                </Link>
+            </p>
+        </main>
     );
 }

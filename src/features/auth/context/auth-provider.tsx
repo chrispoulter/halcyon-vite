@@ -32,7 +32,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 accessToken,
                 setAuth,
                 clearAuth,
-                user,
+                user: user
+                    ? {
+                          ...user,
+                          roles:
+                              typeof user.roles === 'string'
+                                  ? [user.roles]
+                                  : user.roles || [],
+                      }
+                    : undefined,
             }}
         >
             {children}
