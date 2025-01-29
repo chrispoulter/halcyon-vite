@@ -8,6 +8,8 @@ import { AuthProvider } from '@/features/auth/context/auth-provider';
 import { theme } from '@/theme';
 import { routes } from '@/routes';
 
+import '@/index.css';
+
 const router = createBrowserRouter(routes);
 
 createRoot(document.getElementById('root')!).render(
