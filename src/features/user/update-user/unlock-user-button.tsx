@@ -1,71 +1,69 @@
-import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from '@mui/material';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { LoadingButton } from '@/components/loading-button';
 import { useUnlockUser } from '@/features/user/hooks/use-unlock-user';
 import { GetUserResponse } from '@/features/user/user-types';
+import { toast } from '@/hooks/use-toast';
 
 type UnlockUserButtonProps = {
     user: GetUserResponse;
+    className?: string;
 };
 
-export function UnlockUserButton({ user }: UnlockUserButtonProps) {
-    const [open, setOpen] = useState(false);
-
+export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
     const { mutate, isPending } = useUnlockUser(user.id);
 
-    function onDelete() {
+    function onUnlock() {
         mutate(
             {
                 version: user.version,
             },
             {
                 onSuccess: async () => {
-                    enqueueSnackbar('User successfully unlocked.', {
-                        variant: 'success',
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully unlocked.',
                     });
                 },
             }
         );
-
-        setOpen(false);
-    }
-
-    function onOpen() {
-        setOpen(true);
-    }
-
-    function onClose() {
-        setOpen(false);
     }
 
     return (
-        <>
-            <Button variant="outlined" onClick={onOpen} disabled={isPending}>
-                Unlock
-            </Button>
-
-            <Dialog open={open} onClose={onClose}>
-                <DialogTitle id="alert-dialog-title">Unlock User</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <LoadingButton
+                    variant="secondary"
+                    loading={isPending}
+                    className={className}
+                >
+                    Unlock
+                </LoadingButton>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Unlock User</AlertDialogTitle>
+                    <AlertDialogDescription>
                         Are you sure you want to unlock this user account? The
                         user will now be able to access the system.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onDelete} disabled={isPending} autoFocus>
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction disabled={isPending} onClick={onUnlock}>
                         Continue
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 }

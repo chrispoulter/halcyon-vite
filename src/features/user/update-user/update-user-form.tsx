@@ -1,10 +1,11 @@
-import { useNavigate, Link as RouterLink } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
-import { Box, Button } from '@mui/material';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
+import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { SwitchFormField } from '@/components/switch-form-field';
 import { Role, roles } from '@/features/auth/auth-types';
@@ -13,6 +14,7 @@ import { DeleteUserButton } from '@/features/user/update-user/delete-user-button
 import { LockUserButton } from '@/features/user/update-user/lock-user-button';
 import { UnlockUserButton } from '@/features/user/update-user/unlock-user-button';
 import { GetUserResponse } from '@/features/user/user-types';
+import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
 
 const schema = z.object({
@@ -52,7 +54,7 @@ type UpdateUserFormProps = {
 export function UpdateUserForm({ user }: UpdateUserFormProps) {
     const navigate = useNavigate();
 
-    const { handleSubmit, control } = useForm<UpdateUserFormValues>({
+    const form = useForm<UpdateUserFormValues>({
         resolver: zodResolver(schema),
         values: user,
     });
@@ -67,8 +69,9 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
             },
             {
                 onSuccess: async () => {
-                    enqueueSnackbar('User successfully updated.', {
-                        variant: 'success',
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully updated.',
                     });
 
                     return navigate('/user');
@@ -78,93 +81,80 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
     }
 
     return (
-        <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-            <TextFormField
-                control={control}
-                name="emailAddress"
-                label="Email Address"
-                type="email"
-                maxLength={254}
-                autoComplete="username"
-                required
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                }}
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
             >
                 <TextFormField
-                    control={control}
-                    name="firstName"
-                    label="First Name"
-                    maxLength={50}
-                    autoComplete="given-name"
+                    control={form.control}
+                    name="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-                <TextFormField
-                    control={control}
-                    name="lastName"
-                    label="Last Name"
-                    maxLength={50}
-                    autoComplete="family-name"
+
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <TextFormField
+                        control={form.control}
+                        name="firstName"
+                        label="First Name"
+                        maxLength={50}
+                        autoComplete="given-name"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                    <TextFormField
+                        control={form.control}
+                        name="lastName"
+                        label="Last Name"
+                        maxLength={50}
+                        autoComplete="family-name"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                </div>
+
+                <DateFormField
+                    control={form.control}
+                    name="dateOfBirth"
+                    label="Date Of Birth"
+                    autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-            </Box>
 
-            <DateFormField
-                control={control}
-                name="dateOfBirth"
-                label="Date Of Birth"
-                autoComplete={['bday-day', 'bday-month', 'bday-year']}
-                required
-                disabled={isPending}
-            />
+                <SwitchFormField
+                    control={form.control}
+                    name="roles"
+                    options={roles}
+                    disabled={isPending}
+                />
 
-            <SwitchFormField
-                control={control}
-                name="roles"
-                label="Roles"
-                options={roles}
-                disabled={isPending}
-            />
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <Button asChild variant="outline">
+                        <Link to="/user">Cancel</Link>
+                    </Button>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
-            >
-                <Button component={RouterLink} variant="text" to="/user">
-                    Cancel
-                </Button>
+                    {user.isLockedOut ? (
+                        <UnlockUserButton user={user} />
+                    ) : (
+                        <LockUserButton user={user} />
+                    )}
 
-                {user.isLockedOut ? (
-                    <UnlockUserButton user={user} />
-                ) : (
-                    <LockUserButton user={user} />
-                )}
+                    <DeleteUserButton user={user} />
 
-                <DeleteUserButton user={user} />
-
-                <Button type="submit" variant="contained" loading={isPending}>
-                    Submit
-                </Button>
-            </Box>
-        </Box>
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
+                </div>
+            </form>
+        </Form>
     );
 }

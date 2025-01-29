@@ -1,14 +1,16 @@
-import { useNavigate, Link as RouterLink } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
-import { Box, Button } from '@mui/material';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
+import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { SwitchFormField } from '@/components/switch-form-field';
 import { Role, roles } from '@/features/auth/auth-types';
 import { useCreateUser } from '@/features/user/hooks/use-create-user';
+import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
 
 const schema = z
@@ -58,7 +60,7 @@ type CreateUserFormValues = z.infer<typeof schema>;
 export function CreateUserForm() {
     const navigate = useNavigate();
 
-    const { handleSubmit, control } = useForm<CreateUserFormValues>({
+    const form = useForm<CreateUserFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -76,8 +78,9 @@ export function CreateUserForm() {
     function onSubmit(data: CreateUserFormValues) {
         mutate(data, {
             onSuccess: async () => {
-                enqueueSnackbar('User successfully created.', {
-                    variant: 'success',
+                toast({
+                    title: 'Success',
+                    description: 'User successfully created.',
                 });
 
                 return navigate('/user');
@@ -86,116 +89,97 @@ export function CreateUserForm() {
     }
 
     return (
-        <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-            <TextFormField
-                control={control}
-                name="emailAddress"
-                label="Email Address"
-                type="email"
-                maxLength={254}
-                autoComplete="username"
-                required
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                }}
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
             >
                 <TextFormField
-                    control={control}
-                    name="password"
-                    label="Password"
-                    type="password"
-                    maxLength={50}
-                    autoComplete="new-password"
+                    control={form.control}
+                    name="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-                <TextFormField
-                    control={control}
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    type="password"
-                    maxLength={50}
-                    autoComplete="new-password"
+
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <TextFormField
+                        control={form.control}
+                        name="password"
+                        label="Password"
+                        type="password"
+                        maxLength={50}
+                        autoComplete="new-password"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                    <TextFormField
+                        control={form.control}
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        type="password"
+                        maxLength={50}
+                        autoComplete="new-password"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                </div>
+
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <TextFormField
+                        control={form.control}
+                        name="firstName"
+                        label="First Name"
+                        maxLength={50}
+                        autoComplete="given-name"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                    <TextFormField
+                        control={form.control}
+                        name="lastName"
+                        label="Last Name"
+                        maxLength={50}
+                        autoComplete="family-name"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                </div>
+
+                <DateFormField
+                    control={form.control}
+                    name="dateOfBirth"
+                    label="Date Of Birth"
+                    autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-            </Box>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                }}
-            >
-                <TextFormField
-                    control={control}
-                    name="firstName"
-                    label="First Name"
-                    maxLength={50}
-                    autoComplete="given-name"
-                    required
+                <SwitchFormField
+                    control={form.control}
+                    name="roles"
+                    options={roles}
                     disabled={isPending}
-                    fullWidth
                 />
-                <TextFormField
-                    control={control}
-                    name="lastName"
-                    label="Last Name"
-                    maxLength={50}
-                    autoComplete="family-name"
-                    required
-                    disabled={isPending}
-                    fullWidth
-                />
-            </Box>
 
-            <DateFormField
-                control={control}
-                name="dateOfBirth"
-                label="Date Of Birth"
-                autoComplete={['bday-day', 'bday-month', 'bday-year']}
-                required
-                disabled={isPending}
-            />
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <Button asChild variant="outline">
+                        <Link to="/user">Cancel</Link>
+                    </Button>
 
-            <SwitchFormField
-                control={control}
-                name="roles"
-                label="Roles"
-                options={roles}
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
-            >
-                <Button component={RouterLink} variant="text" to="/user">
-                    Cancel
-                </Button>
-
-                <Button type="submit" variant="contained" loading={isPending}>
-                    Submit
-                </Button>
-            </Box>
-        </Box>
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
+                </div>
+            </form>
+        </Form>
     );
 }
