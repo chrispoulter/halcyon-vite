@@ -13,7 +13,7 @@ import {
 import { LoadingButton } from '@/components/loading-button';
 import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
 import { GetProfileResponse } from '@/features/profile/profile-types';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useAuth } from '@/features/auth/auth-provider';
 import { toast } from '@/hooks/use-toast';
 
 type DeleteAccountButtonProps = {

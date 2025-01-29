@@ -3,7 +3,7 @@ import {
     CreateUserRequest,
     CreateUserResponse,
 } from '@/features/user/user-types';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useAuth } from '@/features/auth/auth-provider';
 import { apiClient } from '@/lib/api-client';
 
 export const useCreateUser = () => {

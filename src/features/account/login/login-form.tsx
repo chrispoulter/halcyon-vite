@@ -6,7 +6,7 @@ import { Form } from '@/components/ui/form';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { useLogin } from '@/features/account/hooks/use-login';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useAuth } from '@/features/auth/auth-provider';
 
 const schema = z.object({
     emailAddress: z
