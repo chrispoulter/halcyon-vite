@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -28,9 +28,7 @@ type SearchUserFormProps = {
 };
 
 export function SearchUserForm({ search }: SearchUserFormProps) {
-    const navigate = useNavigate();
-
-    const [searchParams] = useSearchParams();
+    const [, setSearchParams] = useSearchParams();
 
     const form = useForm<SearchUserFormValues>({
         resolver: zodResolver(schema),
@@ -40,16 +38,15 @@ export function SearchUserForm({ search }: SearchUserFormProps) {
     });
 
     function onSubmit(data: SearchUserFormValues) {
-        const params = new URLSearchParams(searchParams);
-        params.delete('page');
-        params.delete('search');
+        setSearchParams((prev) => {
+            prev.delete('page');
+            prev.delete('search');
 
-        if (data.search) {
-            params.set('search', data.search);
-        }
+            if (data.search) {
+                prev.set('search', data.search);
+            }
 
-        return navigate({
-            search: params.toString(),
+            return prev;
         });
     }
 
