@@ -1,30 +1,20 @@
-import { Link as RouterLink } from 'react-router';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { Link } from 'react-router';
+import { Button } from '@/components/ui/button';
 
 export function ForbiddenPage() {
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    Forbidden
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                Forbidden
+            </h1>
 
-                <Typography variant="body1">
-                    Sorry, you do not have access to this resource.
-                </Typography>
+            <p className="leading-7">
+                Sorry, you do not have access to this resource.
+            </p>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: { xs: 'column', sm: 'row' },
-                        gap: 2,
-                    }}
-                >
-                    <Button variant="contained" component={RouterLink} to="/">
-                        Home
-                    </Button>
-                </Box>
-            </Box>
-        </Container>
+            <Button asChild className="w-full sm:w-auto">
+                <Link to="/">Home</Link>
+            </Button>
+        </main>
     );
 }

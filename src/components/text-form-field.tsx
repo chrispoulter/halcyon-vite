@@ -1,9 +1,12 @@
+import type { FieldValues, UseControllerProps } from 'react-hook-form';
 import {
-    FieldValues,
-    useController,
-    UseControllerProps,
-} from 'react-hook-form';
-import { TextField } from '@mui/material';
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 type TextFormFieldProps<TFieldValues extends FieldValues> = {
     label: string;
@@ -11,23 +14,29 @@ type TextFormFieldProps<TFieldValues extends FieldValues> = {
     maxLength?: number;
     autoComplete?: string;
     required?: boolean;
-    fullWidth?: boolean;
+    className?: string;
 } & UseControllerProps<TFieldValues>;
 
-export function TextFormField<TFieldValues extends FieldValues>(
-    props: TextFormFieldProps<TFieldValues>
-) {
-    const {
-        field,
-        fieldState: { error },
-    } = useController(props);
-
+export function TextFormField<TFieldValues extends FieldValues>({
+    control,
+    name,
+    label,
+    className,
+    ...props
+}: TextFormFieldProps<TFieldValues>) {
     return (
-        <TextField
-            {...field}
-            {...props}
-            error={!!error}
-            helperText={error?.message}
+        <FormField
+            control={control}
+            name={name}
+            render={({ field }) => (
+                <FormItem className={className}>
+                    <FormLabel>{label}</FormLabel>
+                    <FormControl>
+                        <Input {...field} {...props} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            )}
         />
     );
 }

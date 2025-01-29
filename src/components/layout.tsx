@@ -1,14 +1,16 @@
 import { Outlet } from 'react-router';
-import { Box } from '@mui/material';
+import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export function Layout() {
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
             <Header />
             <Outlet />
             <Footer />
-        </Box>
+            <Toaster />
+        </ThemeProvider>
     );
 }

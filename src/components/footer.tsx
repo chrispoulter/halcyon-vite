@@ -1,27 +1,24 @@
-import { Box, Typography, Container, Link } from '@mui/material';
 import { config } from '@/lib/config';
 import { currentYear } from '@/lib/dates';
 
 export function Footer() {
     return (
-        <Container component="footer" maxWidth="sm">
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
-            >
-                <Typography variant="body2">
+        <footer className="mt-6 border-t">
+            <div className="mx-auto flex max-w-screen-sm flex-col justify-between gap-2 p-6 text-center sm:flex-row sm:text-left">
+                <div className="text-sm font-medium leading-none">
                     &copy;{' '}
-                    <Link href="https://www.chrispoulter.com">
+                    <a
+                        href="http://www.chrispoulter.com"
+                        className="font-medium text-primary underline underline-offset-4"
+                    >
                         Chris Poulter
-                    </Link>{' '}
+                    </a>{' '}
                     {currentYear}
-                </Typography>
-                <Typography variant="body2">v{config.VERSION}</Typography>
-            </Box>
-        </Container>
+                </div>
+                <div className="text-sm font-medium leading-none">
+                    v{config.VERSION}
+                </div>
+            </div>
+        </footer>
     );
 }
