@@ -1,6 +1,4 @@
-'use client';
-
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'react-router';
 import {
     Pagination,
     PaginationContent,

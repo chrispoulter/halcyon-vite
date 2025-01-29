@@ -1,12 +1,5 @@
-import { Link as RouterLink } from 'react-router';
-import {
-    Box,
-    Card,
-    CardActionArea,
-    CardContent,
-    Chip,
-    Typography,
-} from '@mui/material';
+import { Link } from 'react-router';
+import { Badge } from '@/components/ui/badge';
 import { roles } from '@/features/auth/auth-types';
 import { SearchUsersResponse } from '@/features/user/user-types';
 
@@ -16,43 +9,34 @@ type UserCardProps = {
 
 export function UserCard({ user }: UserCardProps) {
     return (
-        <Card component={RouterLink} to={`/user/${user.id}`}>
-            <CardActionArea>
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 1,
-                    }}
-                >
-                    <Typography variant="h6">
-                        {user.firstName} {user.lastName}
-                    </Typography>
-                    <Typography variant="body2">{user.emailAddress}</Typography>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: { xs: 'column', sm: 'row' },
-                            gap: 1,
-                        }}
+        <Link
+            to={`/user/${user.id}`}
+            className="block space-y-2 rounded-lg border p-4 focus-within:bg-accent hover:bg-accent"
+        >
+            <div className="space-y-0.5">
+                <div className="truncate text-base font-medium">
+                    {user.firstName} {user.lastName}
+                </div>
+                <div className="truncate text-sm text-muted-foreground">
+                    {user.emailAddress}
+                </div>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row">
+                {user.isLockedOut && (
+                    <Badge variant="destructive" className="justify-center">
+                        Locked
+                    </Badge>
+                )}
+                {user.roles?.map((role) => (
+                    <Badge
+                        key={role}
+                        variant="secondary"
+                        className="justify-center"
                     >
-                        {user.isLockedOut && (
-                            <Chip
-                                variant="outlined"
-                                color="error"
-                                label="Locked"
-                            />
-                        )}
-                        {user.roles?.map((role) => (
-                            <Chip
-                                key={role}
-                                variant="outlined"
-                                label={roles[role].title}
-                            />
-                        ))}
-                    </Box>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+                        {roles[role].title}
+                    </Badge>
+                ))}
+            </div>
+        </Link>
     );
 }

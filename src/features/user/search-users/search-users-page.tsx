@@ -1,7 +1,11 @@
-import { useSearchParams, Link as RouterLink } from 'react-router';
+import { useSearchParams, Link } from 'react-router';
 import { z } from 'zod';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Pager } from '@/components/pager';
 import { useSearchUsers } from '@/features/user/hooks/use-search-users';
+import { SearchUsersLoading } from '@/features/user/search-users/search-users-loading';
 import { SearchUserForm } from '@/features/user/search-users/search-user-form';
 import { SortUserDropdown } from '@/features/user/search-users/sort-user-dropdown';
 import { UserCard } from '@/features/user/search-users/user-card';
@@ -32,42 +36,48 @@ export function SearchUsersPage() {
 
     const request = searchParamsSchema.parse(searchParams);
 
-    const { data: users } = useSearchUsers({ ...request, size: PAGE_SIZE });
+    const { data } = useSearchUsers({ ...request, size: PAGE_SIZE });
 
-    if (!users) {
-        return null;
+    if (!data) {
+        return <SearchUsersLoading />;
     }
 
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    Users
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                Users
+            </h1>
 
-                <SearchUserForm />
-                <SortUserDropdown />
+            <div className="flex gap-2">
+                <SearchUserForm search={request.search} />
+                <SortUserDropdown sort={request.sort} />
+            </div>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: { xs: 'column', sm: 'row' },
-                        gap: 2,
-                    }}
-                >
-                    <Button
-                        component={RouterLink}
-                        variant="contained"
-                        to="/user/create"
-                    >
-                        Create New
-                    </Button>
-                </Box>
+            <Button asChild className="w-full sm:w-auto">
+                <Link to="/user/create">Create New</Link>
+            </Button>
 
-                {users.items?.map((user) => (
-                    <UserCard key={user.id} user={user} />
-                ))}
-            </Box>
-        </Container>
+            {data.items.length ? (
+                <div className="space-y-2">
+                    {data.items.map((user) => (
+                        <UserCard key={user.id} user={user} />
+                    ))}
+                </div>
+            ) : (
+                <Alert>
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>No Results</AlertTitle>
+                    <AlertDescription>
+                        No users could be found.
+                    </AlertDescription>
+                </Alert>
+            )}
+
+            <Pager
+                hasPreviousPage={data.hasPreviousPage}
+                hasNextPage={data.hasNextPage}
+                page={request.page}
+            />
+        </main>
     );
 }
