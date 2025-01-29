@@ -1,12 +1,14 @@
-import { useNavigate, Link as RouterLink } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
-import { Box, Button } from '@mui/material';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { useChangePassword } from '@/features/profile/hooks/use-change-password';
 import { GetProfileResponse } from '@/features/profile/profile-types';
+import { toast } from '@/hooks/use-toast';
 
 const schema = z
     .object({
@@ -34,7 +36,7 @@ type ChangePasswordFormProps = {
 export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
     const navigate = useNavigate();
 
-    const { handleSubmit, control } = useForm<ChangePasswordFormValues>({
+    const form = useForm<ChangePasswordFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             currentPassword: '',
@@ -53,8 +55,9 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
             },
             {
                 onSuccess: async () => {
-                    enqueueSnackbar('Your password has been changed.', {
-                        variant: 'success',
+                    toast({
+                        title: 'Success',
+                        description: 'Your password has been changed.',
                     });
 
                     return navigate('/profile');
@@ -64,70 +67,58 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
     }
 
     return (
-        <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-            <TextFormField
-                control={control}
-                name="currentPassword"
-                label="Current Password"
-                type="password"
-                maxLength={50}
-                autoComplete="current-password"
-                required
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                }}
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
             >
                 <TextFormField
-                    control={control}
-                    name="newPassword"
-                    label="New Password"
+                    control={form.control}
+                    name="currentPassword"
+                    label="Current Password"
                     type="password"
                     maxLength={50}
-                    autoComplete="new-password"
+                    autoComplete="current-password"
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-                <TextFormField
-                    control={control}
-                    name="confirmNewPassword"
-                    label="Confirm New Password"
-                    type="password"
-                    maxLength={50}
-                    autoComplete="new-password"
-                    required
-                    disabled={isPending}
-                    fullWidth
-                />
-            </Box>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
-            >
-                <Button component={RouterLink} variant="text" to="/profile">
-                    Cancel
-                </Button>
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <TextFormField
+                        control={form.control}
+                        name="newPassword"
+                        label="New Password"
+                        type="password"
+                        maxLength={50}
+                        autoComplete="new-password"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                    <TextFormField
+                        control={form.control}
+                        name="confirmNewPassword"
+                        label="Confirm New Password"
+                        type="password"
+                        maxLength={50}
+                        autoComplete="new-password"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                </div>
 
-                <Button type="submit" variant="contained" loading={isPending}>
-                    Submit
-                </Button>
-            </Box>
-        </Box>
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <Button asChild variant="outline">
+                        <Link to="/profile">Cancel</Link>
+                    </Button>
+
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
+                </div>
+            </form>
+        </Form>
     );
 }
