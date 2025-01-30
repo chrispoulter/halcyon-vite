@@ -35,7 +35,7 @@ export function SearchUsersPage() {
 
     const { data } = useSearchUsers({ ...request, size: PAGE_SIZE });
 
-    if (data) {
+    if (!data) {
         return <SearchUsersLoading />;
     }
 
