@@ -1,9 +1,14 @@
 import { Link } from 'react-router';
+import { Helmet } from 'react-helmet-async';
 import { LoginForm } from '@/features/account/login/login-form';
 
 export function LoginPage() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <Helmet>
+                <title>Login</title>
+            </Helmet>
+
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Login
             </h1>

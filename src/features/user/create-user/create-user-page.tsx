@@ -1,8 +1,13 @@
+import { Helmet } from 'react-helmet-async';
 import { CreateUserForm } from '@/features/user/create-user/create-user-form';
 
 export function CreateUserPage() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <Helmet>
+                <title>Create User</title>
+            </Helmet>
+
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Users
             </h1>

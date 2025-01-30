@@ -1,9 +1,14 @@
 import { Link } from 'react-router';
+import { Helmet } from 'react-helmet-async';
 import { RegisterForm } from '@/features/account/register/register-form';
 
 export function RegisterPage() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <Helmet>
+                <title>Register</title>
+            </Helmet>
+
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Register
             </h1>

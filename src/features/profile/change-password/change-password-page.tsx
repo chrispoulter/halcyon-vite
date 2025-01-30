@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { Helmet } from 'react-helmet-async';
 import { ChangePasswordForm } from '@/features/profile/change-password/change-password-form';
 import { ChangePasswordLoading } from '@/features/profile/change-password/change-password-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
@@ -12,6 +13,10 @@ export function ChangePasswordPage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <Helmet>
+                <title>Change Password</title>
+            </Helmet>
+
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Change Password
             </h1>

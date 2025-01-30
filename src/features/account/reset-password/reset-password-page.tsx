@@ -1,4 +1,5 @@
 import { useParams } from 'react-router';
+import { Helmet } from 'react-helmet-async';
 import { ResetPasswordForm } from '@/features/account/reset-password/reset-password-form';
 
 type ResetPasswordPageParams = { token: string };
@@ -8,6 +9,10 @@ export function ResetPasswordPage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <Helmet>
+                <title>Reset Password</title>
+            </Helmet>
+
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Reset Password
             </h1>

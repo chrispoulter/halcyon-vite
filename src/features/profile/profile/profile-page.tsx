@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
@@ -14,6 +15,10 @@ export function ProfilePage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <Helmet>
+                <title>My Account</title>
+            </Helmet>
+
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 My Account
             </h1>
