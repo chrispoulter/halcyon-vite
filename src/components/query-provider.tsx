@@ -8,6 +8,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { toast } from '@/hooks/use-toast';
 import { ApiClientError } from '@/lib/api-client';
 
+type QueryProviderProps = {
+    children: React.ReactNode;
+};
+
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
@@ -59,30 +63,21 @@ const queryClient = new QueryClient({
                             description:
                                 'Sorry, the resource you were looking for could not be found.',
                         });
-
-                    default:
-                        return toast({
-                            variant: 'destructive',
-                            title: 'Error',
-                            description:
-                                'Sorry, something went wrong. Please try again later.',
-                        });
                 }
             }
+
+            console.log('error', error);
 
             return toast({
                 variant: 'destructive',
                 title: 'Error',
                 description:
+                    error.message ||
                     'Sorry, something went wrong. Please try again later.',
             });
         },
     }),
 });
-
-type QueryProviderProps = {
-    children: React.ReactNode;
-};
 
 export function QueryProvider({ children }: QueryProviderProps) {
     return (
