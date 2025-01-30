@@ -1,12 +1,9 @@
-import { Helmet } from 'react-helmet-async';
 import { ForgotPasswordForm } from '@/features/account/forgot-password/forgot-password-form';
 
 export function ForgotPasswordPage() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <Helmet>
-                <title>Forgot Password</title>
-            </Helmet>
+            <title>Forgot Password // Halcyon</title>
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Forgot Password

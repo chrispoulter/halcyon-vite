@@ -1,5 +1,4 @@
 import { useParams } from 'react-router';
-import { Helmet } from 'react-helmet-async';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
 import { UpdateUserLoading } from '@/features/user/update-user/update-user-loading';
 import { useGetUser } from '@/features/user/hooks/use-get-user';
@@ -17,11 +16,7 @@ export function UpdateUserPage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <Helmet>
-                <title>
-                    {user.firstName} {user.lastName}
-                </title>
-            </Helmet>
+            <title>{`${user.firstName} ${user.lastName} // Halcyon`}</title>
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 User

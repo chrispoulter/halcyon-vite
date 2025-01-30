@@ -1,13 +1,10 @@
 import { Link } from 'react-router';
-import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 
 export function ForbiddenPage() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <Helmet>
-                <title>Forbidden</title>
-            </Helmet>
+            <title>Forbidden // Halcyon</title>
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Forbidden
