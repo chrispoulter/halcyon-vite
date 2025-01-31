@@ -12,9 +12,9 @@ type UpdateUserPageParams = { id: string };
 export function UpdateUserPage() {
     const { id } = useParams() as UpdateUserPageParams;
 
-    const { data: user, isFetching, isSuccess, error } = useGetUser(id);
+    const { data: user, isLoading, isSuccess, error } = useGetUser(id);
 
-    if (isFetching) {
+    if (isLoading) {
         return <UpdateUserLoading />;
     }
 

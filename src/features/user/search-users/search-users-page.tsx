@@ -34,12 +34,12 @@ export function SearchUsersPage() {
 
     const request = searchParamsSchema.parse(Object.fromEntries(searchParams));
 
-    const { data, isFetching, isSuccess } = useSearchUsers({
+    const { data, isLoading, isSuccess } = useSearchUsers({
         ...request,
         size: PAGE_SIZE,
     });
 
-    if (isFetching) {
+    if (isLoading) {
         return <SearchUsersLoading />;
     }
 

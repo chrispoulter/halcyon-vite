@@ -10,9 +10,9 @@ import { ErrorPage } from '@/error-page';
 import { NotFoundPage } from '@/not-found-page';
 
 export function ProfilePage() {
-    const { data: profile, isFetching, isSuccess, error } = useGetProfile();
+    const { data: profile, isLoading, isSuccess, error } = useGetProfile();
 
-    if (isFetching) {
+    if (isLoading) {
         return <ProfileLoading />;
     }
 
