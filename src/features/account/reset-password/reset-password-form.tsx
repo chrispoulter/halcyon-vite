@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { Form } from '@/components/ui/form';
 import { TextFormField } from '@/components/text-form-field';
 import { LoadingButton } from '@/components/loading-button';
-import { useResetPassword } from '@/features/account/hooks/user-reset-password';
+import { useResetPassword } from '@/features/account/hooks/use-reset-password';
 import { toast } from '@/hooks/use-toast';
 
 const schema = z
@@ -53,13 +53,20 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
                 ...data,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'Your password has been reset.',
                     });
 
                     return navigate('/account/login');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
                 },
             }
         );

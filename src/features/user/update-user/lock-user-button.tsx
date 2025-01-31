@@ -28,10 +28,17 @@ export function LockUserButton({ user, className }: LockUserButtonProps) {
                 version: user.version,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'User successfully locked.',
+                    });
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
                     });
                 },
             }

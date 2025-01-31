@@ -31,13 +31,20 @@ export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
                 version: user.version,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'User successfully deleted.',
                     });
 
                     return navigate('/user');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
                 },
             }
         );

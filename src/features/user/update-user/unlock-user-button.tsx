@@ -28,10 +28,17 @@ export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
                 version: user.version,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'User successfully unlocked.',
+                    });
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
                     });
                 },
             }

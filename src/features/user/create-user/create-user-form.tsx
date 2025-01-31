@@ -77,13 +77,20 @@ export function CreateUserForm() {
 
     function onSubmit(data: CreateUserFormValues) {
         mutate(data, {
-            onSuccess: async () => {
+            onSuccess: () => {
                 toast({
                     title: 'Success',
                     description: 'User successfully created.',
                 });
 
                 return navigate('/user');
+            },
+            onError: (error) => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: error.message,
+                });
             },
         });
     }

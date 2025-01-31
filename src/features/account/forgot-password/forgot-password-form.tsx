@@ -30,7 +30,7 @@ export function ForgotPasswordForm() {
 
     function onSubmit(data: ForgotPasswordFormValues) {
         mutate(data, {
-            onSuccess: async () => {
+            onSuccess: () => {
                 toast({
                     title: 'Success',
                     description:
@@ -38,6 +38,13 @@ export function ForgotPasswordForm() {
                 });
 
                 return navigate('/account/login');
+            },
+            onError: (error) => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: error.message,
+                });
             },
         });
     }

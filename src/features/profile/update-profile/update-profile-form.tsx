@@ -54,13 +54,20 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                 version: profile.version,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'Your profile has been updated.',
                     });
 
                     return navigate('/profile');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
                 },
             }
         );

@@ -54,13 +54,20 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                 version: profile.version,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'Your password has been changed.',
                     });
 
                     return navigate('/profile');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
                 },
             }
         );

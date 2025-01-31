@@ -68,13 +68,20 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                 version: user.version,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'User successfully updated.',
                     });
 
                     return navigate('/user');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
                 },
             }
         );

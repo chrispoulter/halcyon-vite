@@ -7,6 +7,7 @@ import { useAuth } from '@/components/auth-provider';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { useLogin } from '@/features/account/hooks/use-login';
+import { toast } from '@/hooks/use-toast';
 
 const schema = z.object({
     emailAddress: z
@@ -36,10 +37,16 @@ export function LoginForm() {
 
     function onSubmit(data: LoginFormValues) {
         mutate(data, {
-            onSuccess: async (data) => {
+            onSuccess: (data) => {
                 setAuth(data.accessToken);
-
                 return navigate('/');
+            },
+            onError: (error) => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: error.message,
+                });
             },
         });
     }

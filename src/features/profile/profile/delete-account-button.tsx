@@ -37,7 +37,7 @@ export function DeleteAccountButton({
                 version: profile.version,
             },
             {
-                onSuccess: async () => {
+                onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'Your account has been deleted.',
@@ -46,6 +46,13 @@ export function DeleteAccountButton({
                     clearAuth();
 
                     return navigate('/');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
                 },
             }
         );

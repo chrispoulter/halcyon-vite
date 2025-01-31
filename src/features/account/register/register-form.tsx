@@ -63,13 +63,20 @@ export function RegisterForm() {
 
     function onSubmit(data: RegisterFormValues) {
         mutate(data, {
-            onSuccess: async () => {
+            onSuccess: () => {
                 toast({
                     title: 'Success',
                     description: 'User successfully registered.',
                 });
 
                 return navigate('/account/login');
+            },
+            onError: (error) => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: error.message,
+                });
             },
         });
     }
