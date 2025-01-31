@@ -64,7 +64,7 @@ export function SearchUsersPage() {
                 <Link to="/user/create">Create New</Link>
             </Button>
 
-            {data?.items.length ? (
+            {data.items.length ? (
                 <div className="space-y-2">
                     {data.items.map((user) => (
                         <UserCard key={user.id} user={user} />
