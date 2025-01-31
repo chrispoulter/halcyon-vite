@@ -3,16 +3,30 @@ import { Metadata } from '@/components/metadata';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
 import { UpdateUserLoading } from '@/features/user/update-user/update-user-loading';
 import { useGetUser } from '@/features/user/hooks/use-get-user';
+import { ApiClientError } from '@/lib/api-client';
+import { ErrorPage } from '@/error-page';
+import { NotFoundPage } from '@/not-found-page';
 
 type UpdateUserPageParams = { id: string };
 
 export function UpdateUserPage() {
     const { id } = useParams() as UpdateUserPageParams;
 
-    const { data: user } = useGetUser(id);
+    const { data: user, isFetching, isSuccess, error } = useGetUser(id);
 
-    if (!user) {
+    if (isFetching) {
         return <UpdateUserLoading />;
+    }
+
+    if (!isSuccess) {
+        if (error instanceof ApiClientError) {
+            switch (error.status) {
+                case 404:
+                    return <NotFoundPage />;
+            }
+        }
+
+        return <ErrorPage />;
     }
 
     return (

@@ -4,13 +4,27 @@ import { Metadata } from '@/components/metadata';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
 import { ProfileLoading } from '@/features/profile/profile/profile-loading';
+import { ApiClientError } from '@/lib/api-client';
 import { toLocaleString } from '@/lib/dates';
+import { ErrorPage } from '@/error-page';
+import { NotFoundPage } from '@/not-found-page';
 
 export function ProfilePage() {
-    const { data: profile } = useGetProfile();
+    const { data: profile, isFetching, isSuccess, error } = useGetProfile();
 
-    if (!profile) {
+    if (isFetching) {
         return <ProfileLoading />;
+    }
+
+    if (!isSuccess) {
+        if (error instanceof ApiClientError) {
+            switch (error.status) {
+                case 404:
+                    return <NotFoundPage />;
+            }
+        }
+
+        return <ErrorPage />;
     }
 
     return (

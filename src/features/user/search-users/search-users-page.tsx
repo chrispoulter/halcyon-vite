@@ -11,6 +11,7 @@ import { SearchUserForm } from '@/features/user/search-users/search-user-form';
 import { SortUserDropdown } from '@/features/user/search-users/sort-user-dropdown';
 import { UserCard } from '@/features/user/search-users/user-card';
 import { UserSort } from '@/features/user/user-types';
+import { ErrorPage } from '@/error-page';
 
 const searchParamsSchema = z.object({
     search: z.string({ message: 'Search must be a valid string' }).catch(''),
@@ -33,10 +34,17 @@ export function SearchUsersPage() {
 
     const request = searchParamsSchema.parse(Object.fromEntries(searchParams));
 
-    const { data } = useSearchUsers({ ...request, size: PAGE_SIZE });
+    const { data, isFetching, isSuccess } = useSearchUsers({
+        ...request,
+        size: PAGE_SIZE,
+    });
 
-    if (!data) {
+    if (isFetching) {
         return <SearchUsersLoading />;
+    }
+
+    if (!isSuccess) {
+        return <ErrorPage />;
     }
 
     return (

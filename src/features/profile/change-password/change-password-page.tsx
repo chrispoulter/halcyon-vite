@@ -3,12 +3,26 @@ import { Metadata } from '@/components/metadata';
 import { ChangePasswordForm } from '@/features/profile/change-password/change-password-form';
 import { ChangePasswordLoading } from '@/features/profile/change-password/change-password-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
+import { ApiClientError } from '@/lib/api-client';
+import { ErrorPage } from '@/error-page';
+import { NotFoundPage } from '@/not-found-page';
 
 export function ChangePasswordPage() {
-    const { data: profile } = useGetProfile();
+    const { data: profile, isFetching, isSuccess, error } = useGetProfile();
 
-    if (!profile) {
+    if (isFetching) {
         return <ChangePasswordLoading />;
+    }
+
+    if (!isSuccess) {
+        if (error instanceof ApiClientError) {
+            switch (error.status) {
+                case 404:
+                    return <NotFoundPage />;
+            }
+        }
+
+        return <ErrorPage />;
     }
 
     return (
