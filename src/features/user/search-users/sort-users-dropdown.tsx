@@ -28,11 +28,11 @@ const sortOptions = [
     },
 ];
 
-type SortUserDropdownProps = {
+type SortUsersDropdownProps = {
     sort?: UserSort;
 };
 
-export function SortUserDropdown({ sort }: SortUserDropdownProps) {
+export function SortUsersDropdown({ sort }: SortUsersDropdownProps) {
     const [, setSearchParams] = useSearchParams();
 
     return (

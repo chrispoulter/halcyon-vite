@@ -7,8 +7,8 @@ import { Metadata } from '@/components/metadata';
 import { Pager } from '@/components/pager';
 import { useSearchUsers } from '@/features/user/hooks/use-search-users';
 import { SearchUsersLoading } from '@/features/user/search-users/search-users-loading';
-import { SearchUserForm } from '@/features/user/search-users/search-user-form';
-import { SortUserDropdown } from '@/features/user/search-users/sort-user-dropdown';
+import { SearchUsersForm } from '@/features/user/search-users/search-users-form';
+import { SortUsersDropdown } from '@/features/user/search-users/sort-users-dropdown';
 import { UserCard } from '@/features/user/search-users/user-card';
 import { UserSort } from '@/features/user/user-types';
 import { ErrorPage } from '@/error-page';
@@ -56,8 +56,8 @@ export function SearchUsersPage() {
             </h1>
 
             <div className="flex gap-2">
-                <SearchUserForm search={request.search} />
-                <SortUserDropdown sort={request.sort} />
+                <SearchUsersForm search={request.search} />
+                <SortUsersDropdown sort={request.sort} />
             </div>
 
             <Button asChild className="w-full sm:w-auto">
