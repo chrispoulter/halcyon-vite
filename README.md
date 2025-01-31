@@ -4,20 +4,22 @@ A react web project template ðŸ‘· Built with a sense of peace and tranquillity ð
 
 ## Features
 
+- Vite
+  [https://vite.dev/](https://vite.dev/)
 - React
   [https://react.dev/](https://react.dev/)
 - React Router
   [https://reactrouter.com/](https://reactrouter.com/)
 - TanStack Query
   [https://tanstack.com/query](https://tanstack.com/query)
+- Shadcn UI
+  [https://ui.shadcn.com/](https://ui.shadcn.com/)
 - React Hook Form
   [https://react-hook-form.com/](https://react-hook-form.com/)
 - Zod
   [https://zod.dev/](https://zod.dev/)
-- Material UI
-  [https://mui.com/material-ui/](https://mui.com/material-ui/)
-- Vite
-  [https://vite.dev/](https://vite.dev/)
+- Tailwind CSS
+  [https://tailwindcss.com/](https://tailwindcss.com/)
 - Docker
   [https://www.docker.com/](https://www.docker.com/)
 - GitHub Actions
