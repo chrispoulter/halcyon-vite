@@ -1,4 +1,4 @@
-# Halcyon
+# Halcyon Vite
 
 A react web project template 👷 Built with a sense of peace and tranquillity 🙏
 
