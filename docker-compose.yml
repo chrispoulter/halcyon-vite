@@ -1,8 +1,8 @@
 name: halcyon
 
 services:
-    vite-test:
-        image: vite-test:dev
+    halcyon-vite:
+        image: halcyon-vite:dev
         build:
             context: .
             target: dev
@@ -11,7 +11,7 @@ services:
         command: npm run dev -- --host=0.0.0.0 --port=5173
         environment:
             USE_POLLING: true
-            API_URL: http://host.docker.internal:5257
+            API_URL: http://localhost:5257
         ports:
             - 5173:5173
         volumes:
@@ -50,7 +50,7 @@ services:
             - postgres:/var/lib/postgresql/data
         restart: always
         healthcheck:
-            test: ['CMD', 'pg_isready']
+            test: [ 'CMD', 'pg_isready' ]
             interval: 10s
             timeout: 5s
             retries: 3
@@ -65,7 +65,7 @@ services:
             - rabbitmq:/var/lib/rabbitmq
         restart: always
         healthcheck:
-            test: ['CMD', 'rabbitmqctl', 'status']
+            test: [ 'CMD', 'rabbitmqctl', 'status' ]
             interval: 10s
             timeout: 5s
             retries: 3
@@ -78,7 +78,7 @@ services:
             - redis:/data
         restart: always
         healthcheck:
-            test: ['CMD', 'redis-cli', 'ping']
+            test: [ 'CMD', 'redis-cli', 'ping' ]
             interval: 10s
             timeout: 5s
             retries: 3
