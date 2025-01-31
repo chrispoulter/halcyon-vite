@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Box, Button } from '@mui/material';
+import { Form } from '@/components/ui/form';
+import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { useLogin } from '@/features/account/hooks/use-login';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useAuth } from '@/features/auth/auth-provider';
 
 const schema = z.object({
     emailAddress: z
@@ -23,7 +24,7 @@ export function LoginForm() {
 
     const { setAuth } = useAuth();
 
-    const { handleSubmit, control } = useForm<LoginFormValues>({
+    const form = useForm<LoginFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -44,46 +45,40 @@ export function LoginForm() {
     }
 
     return (
-        <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-            <TextFormField
-                control={control}
-                name="emailAddress"
-                label="Email Address"
-                type="email"
-                maxLength={254}
-                autoComplete="username"
-                required
-                disabled={isPending}
-            />
-
-            <TextFormField
-                control={control}
-                name="password"
-                label="Password"
-                type="password"
-                maxLength={50}
-                autoComplete="current-password"
-                required
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
             >
-                <Button type="submit" variant="contained" loading={isPending}>
-                    Submit
-                </Button>
-            </Box>
-        </Box>
+                <TextFormField
+                    control={form.control}
+                    name="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
+                    required
+                    disabled={isPending}
+                />
+
+                <TextFormField
+                    control={form.control}
+                    name="password"
+                    label="Password"
+                    type="password"
+                    maxLength={50}
+                    autoComplete="current-password"
+                    required
+                    disabled={isPending}
+                />
+
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
+                </div>
+            </form>
+        </Form>
     );
 }

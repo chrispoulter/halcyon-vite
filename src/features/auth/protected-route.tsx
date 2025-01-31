@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useAuth } from '@/features/auth/auth-provider';
 import { Role } from '@/features/auth/auth-types';
 import { ForbiddenPage } from '@/forbidden-page';
 

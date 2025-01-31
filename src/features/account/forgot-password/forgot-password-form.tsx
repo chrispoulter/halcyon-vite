@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
-import { Box, Button } from '@mui/material';
+import { Form } from '@/components/ui/form';
+import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { useForgotPassword } from '@/features/account/hooks/use-forgot-password';
+import { toast } from '@/hooks/use-toast';
 
 const schema = z.object({
     emailAddress: z
@@ -18,7 +19,7 @@ type ForgotPasswordFormValues = z.infer<typeof schema>;
 export function ForgotPasswordForm() {
     const navigate = useNavigate();
 
-    const { handleSubmit, control } = useForm<ForgotPasswordFormValues>({
+    const form = useForm<ForgotPasswordFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
@@ -30,10 +31,11 @@ export function ForgotPasswordForm() {
     function onSubmit(data: ForgotPasswordFormValues) {
         mutate(data, {
             onSuccess: async () => {
-                enqueueSnackbar(
-                    'Instructions as to how to reset your password have been sent to you via email.',
-                    { variant: 'success' }
-                );
+                toast({
+                    title: 'Success',
+                    description:
+                        'Instructions as to how to reset your password have been sent to you via email.',
+                });
 
                 return navigate('/account/login');
             },
@@ -41,35 +43,29 @@ export function ForgotPasswordForm() {
     }
 
     return (
-        <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-            <TextFormField
-                control={control}
-                name="emailAddress"
-                label="Email Address"
-                type="email"
-                maxLength={254}
-                autoComplete="username"
-                required
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
             >
-                <Button type="submit" variant="contained" loading={isPending}>
-                    Submit
-                </Button>
-            </Box>
-        </Box>
+                <TextFormField
+                    control={form.control}
+                    name="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
+                    required
+                    disabled={isPending}
+                />
+
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
+                </div>
+            </form>
+        </Form>
     );
 }

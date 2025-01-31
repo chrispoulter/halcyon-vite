@@ -1,66 +1,73 @@
-import {
-    type FieldValues,
-    type UseControllerProps,
-    useController,
-} from 'react-hook-form';
+import type { FieldValues, UseControllerProps } from 'react-hook-form';
 import {
     FormControl,
-    FormControlLabel,
-    FormGroup,
-    FormHelperText,
+    FormDescription,
+    FormField,
+    FormItem,
     FormLabel,
-    Switch,
-} from '@mui/material';
+    FormMessage,
+} from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
 
 type SwitchFormFieldProps<TFieldValues extends FieldValues> = {
-    label: string;
     options: Record<string, { title: string; description: string }>;
 } & UseControllerProps<TFieldValues>;
 
 export function SwitchFormField<TFieldValues extends FieldValues>({
     control,
     name,
-    label,
     options,
     disabled,
 }: SwitchFormFieldProps<TFieldValues>) {
-    const {
-        field: { value = [] as string[], onChange },
-        fieldState: { error },
-    } = useController({ control, name });
-
     return (
-        <FormControl component="fieldset" variant="standard" error={!!error}>
-            <FormLabel component="legend">{label}</FormLabel>
-            <FormGroup>
-                {Object.entries(options).map(([key, { title }]) => {
-                    const checked = value.includes(key);
+        <FormField
+            control={control}
+            name={name}
+            render={({ field: { value = [] as string[], onChange } }) => {
+                return (
+                    <>
+                        {Object.entries(options).map(
+                            ([key, { title, description }]) => {
+                                const checked = value.includes(key);
 
-                    function onCheckChanged(
-                        event: React.ChangeEvent<HTMLInputElement>
-                    ) {
-                        if (event.target.checked) {
-                            return onChange([...value, key]);
-                        }
+                                function onCheckChanged(checked: boolean) {
+                                    if (checked) {
+                                        return onChange([...value, key]);
+                                    }
 
-                        return onChange(value.filter((item) => item !== key));
-                    }
-                    return (
-                        <FormControlLabel
-                            key={key}
-                            disabled={disabled}
-                            control={
-                                <Switch
-                                    checked={checked}
-                                    onChange={onCheckChanged}
-                                />
+                                    return onChange(
+                                        value.filter((item) => item !== key)
+                                    );
+                                }
+
+                                return (
+                                    <FormItem
+                                        key={key}
+                                        className="flex flex-row items-center justify-between rounded-lg border p-4"
+                                    >
+                                        <div className="space-y-0.5">
+                                            <FormLabel className="text-base">
+                                                {title}
+                                            </FormLabel>
+                                            <FormDescription>
+                                                {description}
+                                            </FormDescription>
+                                        </div>
+                                        <FormControl>
+                                            <Switch
+                                                checked={checked}
+                                                onCheckedChange={onCheckChanged}
+                                                disabled={disabled}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                );
                             }
-                            label={title}
-                        />
-                    );
-                })}
-            </FormGroup>
-            <FormHelperText>{error?.message}</FormHelperText>
-        </FormControl>
+                        )}
+                    </>
+                );
+            }}
+        />
     );
 }

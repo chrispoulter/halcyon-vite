@@ -1,28 +1,28 @@
-import { Container, Box, Typography } from '@mui/material';
 import { UpdateProfileForm } from '@/features/profile/update-profile/update-profile-form';
+import { UpdateProfileLoading } from '@/features/profile/update-profile/update-profile-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 
 export function UpdateProfilePage() {
     const { data: profile } = useGetProfile();
 
     if (!profile) {
-        return <div>Loading...</div>;
+        return <UpdateProfileLoading />;
     }
 
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    Update Profile
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <title>Update Profile // Halcyon</title>
 
-                <Typography variant="body1">
-                    Update your personal details below. Your email address is
-                    used to login to your account.
-                </Typography>
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                Update Profile
+            </h1>
 
-                <UpdateProfileForm profile={profile} />
-            </Box>
-        </Container>
+            <p className="leading-7">
+                Update your personal details below. Your email address is used
+                to login to your account.
+            </p>
+
+            <UpdateProfileForm profile={profile} />
+        </main>
     );
 }

@@ -1,113 +1,79 @@
-import { Link as RouterLink } from 'react-router';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { Link } from 'react-router';
+import { Button } from '@/components/ui/button';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
+import { ProfileLoading } from '@/features/profile/profile/profile-loading';
 import { toLocaleString } from '@/lib/dates';
 
 export function ProfilePage() {
     const { data: profile } = useGetProfile();
 
     if (!profile) {
-        return <div>Loading...</div>;
+        return <ProfileLoading />;
     }
 
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    My Account
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <title>My Account // Halcyon</title>
 
-                <Typography component="h2" variant="h4">
-                    Personal Details
-                </Typography>
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                My Account
+            </h1>
 
-                <Typography
-                    component="dl"
-                    variant="body1"
-                    sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
-                >
-                    <Typography component="dt" variant="body1">
-                        Email Address
-                    </Typography>
-                    <Typography component="dd" variant="body2">
-                        {profile.emailAddress}
-                    </Typography>
-                    <Typography component="dt" variant="body1">
-                        Name
-                    </Typography>
-                    <Typography component="dd" variant="body2">
-                        {profile.firstName} {profile.lastName}
-                    </Typography>
-                    <Typography component="dt" variant="body1">
-                        Date Of Birth
-                    </Typography>
-                    <Typography component="dd" variant="body2">
-                        {toLocaleString(profile.dateOfBirth)}
-                    </Typography>
-                </Typography>
+            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
+                Personal Details
+            </h2>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: { xs: 'column', sm: 'row' },
-                        gap: 2,
-                    }}
-                >
-                    <Button
-                        component={RouterLink}
-                        variant="contained"
-                        to="/profile/update-profile"
-                    >
-                        Update Profile
-                    </Button>
-                </Box>
+            <dl className="space-y-2">
+                <dt className="text-sm font-medium leading-none">
+                    Email Address
+                </dt>
+                <dd className="truncate text-sm text-muted-foreground">
+                    {profile.emailAddress}
+                </dd>
+                <dt className="text-sm font-medium leading-none">Name</dt>
+                <dd className="truncate text-sm text-muted-foreground">
+                    {profile.firstName} {profile.lastName}
+                </dd>
+                <dt className="text-sm font-medium leading-none">
+                    Date Of Birth
+                </dt>
+                <dd className="truncate text-sm text-muted-foreground">
+                    {toLocaleString(profile.dateOfBirth)}
+                </dd>
+            </dl>
 
-                <Typography component="h2" variant="h4">
-                    Login Details
-                </Typography>
+            <Button asChild className="w-full sm:w-auto">
+                <Link to="/profile/update-profile">Update Profile</Link>
+            </Button>
 
-                <Typography variant="body1">
-                    Choose a strong password and don&apos;t reuse it for other
-                    accounts. For security reasons, change your password on a
-                    regular basis.
-                </Typography>
+            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
+                Login Details
+            </h2>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: { xs: 'column', sm: 'row' },
-                        gap: 2,
-                    }}
-                >
-                    <Button
-                        component={RouterLink}
-                        variant="contained"
-                        to="/profile/change-password"
-                    >
-                        Change Password
-                    </Button>
-                </Box>
+            <p className="leading-7">
+                Choose a strong password and don&apos;t reuse it for other
+                accounts. For security reasons, change your password on a
+                regular basis.
+            </p>
 
-                <Typography component="h2" variant="h4">
-                    Settings
-                </Typography>
+            <Button asChild className="w-full sm:w-auto">
+                <Link to="/profile/change-password">Change Password</Link>
+            </Button>
 
-                <Typography variant="body1">
-                    Once you delete your account all of your data and settings
-                    will be removed. Please be certain.
-                </Typography>
+            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
+                Settings
+            </h2>
 
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: { xs: 'column', sm: 'row' },
-                        gap: 2,
-                    }}
-                >
-                    <DeleteAccountButton profile={profile} />
-                </Box>
-            </Box>
-        </Container>
+            <p className="leading-7">
+                Once you delete your account all of your data and settings will
+                be removed. Please be certain.
+            </p>
+
+            <DeleteAccountButton
+                profile={profile}
+                className="w-full sm:w-auto"
+            />
+        </main>
     );
 }

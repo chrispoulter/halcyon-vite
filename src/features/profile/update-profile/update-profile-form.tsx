@@ -1,13 +1,15 @@
-import { useNavigate, Link as RouterLink } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { enqueueSnackbar } from 'notistack';
-import { Box, Button } from '@mui/material';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
+import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile';
 import { GetProfileResponse } from '@/features/profile/profile-types';
+import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
 
 const schema = z.object({
@@ -38,7 +40,7 @@ type UpdateProfileFormProps = {
 export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
     const navigate = useNavigate();
 
-    const { handleSubmit, control } = useForm<UpdateProfileFormValues>({
+    const form = useForm<UpdateProfileFormValues>({
         resolver: zodResolver(schema),
         values: profile,
     });
@@ -53,8 +55,9 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
             },
             {
                 onSuccess: async () => {
-                    enqueueSnackbar('Your profile has been updated.', {
-                        variant: 'success',
+                    toast({
+                        title: 'Success',
+                        description: 'Your profile has been updated.',
                     });
 
                     return navigate('/profile');
@@ -64,77 +67,65 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
     }
 
     return (
-        <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-            <TextFormField
-                control={control}
-                name="emailAddress"
-                label="Email Address"
-                type="email"
-                maxLength={254}
-                autoComplete="username"
-                required
-                disabled={isPending}
-            />
-
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    gap: 2,
-                }}
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
             >
                 <TextFormField
-                    control={control}
-                    name="firstName"
-                    label="First Name"
-                    maxLength={50}
-                    autoComplete="given-name"
+                    control={form.control}
+                    name="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-                <TextFormField
-                    control={control}
-                    name="lastName"
-                    label="Last Name"
-                    maxLength={50}
-                    autoComplete="family-name"
+
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <TextFormField
+                        control={form.control}
+                        name="firstName"
+                        label="First Name"
+                        maxLength={50}
+                        autoComplete="given-name"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                    <TextFormField
+                        control={form.control}
+                        name="lastName"
+                        label="Last Name"
+                        maxLength={50}
+                        autoComplete="family-name"
+                        required
+                        disabled={isPending}
+                        className="flex-1"
+                    />
+                </div>
+
+                <DateFormField
+                    control={form.control}
+                    name="dateOfBirth"
+                    label="Date Of Birth"
+                    autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
                     disabled={isPending}
-                    fullWidth
                 />
-            </Box>
 
-            <DateFormField
-                control={control}
-                name="dateOfBirth"
-                label="Date Of Birth"
-                autoComplete={['bday-day', 'bday-month', 'bday-year']}
-                required
-                disabled={isPending}
-            />
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <Button asChild variant="outline">
+                        <Link to="/profile">Cancel</Link>
+                    </Button>
 
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: { xs: 'column', sm: 'row' },
-                    justifyContent: 'flex-end',
-                    gap: 2,
-                }}
-            >
-                <Button component={RouterLink} variant="text" to="/profile">
-                    Cancel
-                </Button>
-
-                <Button type="submit" variant="contained" loading={isPending}>
-                    Submit
-                </Button>
-            </Box>
-        </Box>
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
+                </div>
+            </form>
+        </Form>
     );
 }

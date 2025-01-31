@@ -1,24 +1,26 @@
-import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from '@mui/material';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { LoadingButton } from '@/components/loading-button';
 import { useDeleteUser } from '@/features/user/hooks/use-delete-user';
 import { GetUserResponse } from '@/features/user/user-types';
+import { toast } from '@/hooks/use-toast';
 
 type DeleteUserButtonProps = {
     user: GetUserResponse;
+    className?: string;
 };
 
-export function DeleteUserButton({ user }: DeleteUserButtonProps) {
-    const [open, setOpen] = useState(false);
-
+export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
     const navigate = useNavigate();
 
     const { mutate, isPending } = useDeleteUser(user.id);
@@ -30,53 +32,44 @@ export function DeleteUserButton({ user }: DeleteUserButtonProps) {
             },
             {
                 onSuccess: async () => {
-                    enqueueSnackbar('User successfully deleted.', {
-                        variant: 'success',
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully deleted.',
                     });
 
                     return navigate('/user');
                 },
             }
         );
-
-        setOpen(false);
-    }
-
-    function onOpen() {
-        setOpen(true);
-    }
-
-    function onClose() {
-        setOpen(false);
     }
 
     return (
-        <>
-            <Button
-                variant="outlined"
-                color="error"
-                onClick={onOpen}
-                disabled={isPending}
-            >
-                Delete
-            </Button>
-
-            <Dialog open={open} onClose={onClose}>
-                <DialogTitle id="alert-dialog-title">Delete User</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <LoadingButton
+                    variant="destructive"
+                    loading={isPending}
+                    className={className}
+                >
+                    Delete
+                </LoadingButton>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Delete User</AlertDialogTitle>
+                    <AlertDialogDescription>
                         Are you sure you want to delete this user account? All
                         of the data will be permanently removed. This action
                         cannot be undone.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onDelete} disabled={isPending} autoFocus>
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction disabled={isPending} onClick={onDelete}>
                         Continue
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 }

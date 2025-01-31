@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
-import { Container, Box, Typography } from '@mui/material';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
-import { useGetUser } from '../hooks/use-get-user';
+import { UpdateUserLoading } from '@/features/user/update-user/update-user-loading';
+import { useGetUser } from '@/features/user/hooks/use-get-user';
 
 type UpdateUserPageParams = { id: string };
 
@@ -11,27 +11,26 @@ export function UpdateUserPage() {
     const { data: user } = useGetUser(id);
 
     if (!user) {
-        return <div>Loading...</div>;
+        return <UpdateUserLoading />;
     }
 
     return (
-        <Container component="main" maxWidth="sm">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography component="h1" variant="h3">
-                    Users
-                </Typography>
+        <main className="mx-auto max-w-screen-sm space-y-6 p-6">
+            <title>{`${user.firstName} ${user.lastName} // Halcyon`}</title>
 
-                <Typography component="h2" variant="h4">
-                    Update
-                </Typography>
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                User
+            </h1>
+            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
+                Update
+            </h2>
 
-                <Typography variant="body1">
-                    Update the user&apos;s details below. The email address is
-                    used to login to the account.
-                </Typography>
+            <p className="leading-7">
+                Update the user&apos;s details below. The email address is used
+                to login to the account.
+            </p>
 
-                <UpdateUserForm user={user} />
-            </Box>
-        </Container>
+            <UpdateUserForm user={user} />
+        </main>
     );
 }

@@ -1,25 +1,30 @@
-import { useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import { useNavigate } from 'react-router';
 import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from '@mui/material';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { LoadingButton } from '@/components/loading-button';
 import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
 import { GetProfileResponse } from '@/features/profile/profile-types';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useAuth } from '@/features/auth/auth-provider';
+import { toast } from '@/hooks/use-toast';
 
 type DeleteAccountButtonProps = {
     profile: GetProfileResponse;
+    className?: string;
 };
 
-export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
-    const [open, setOpen] = useState(false);
-
+export function DeleteAccountButton({
+    profile,
+    className,
+}: DeleteAccountButtonProps) {
     const navigate = useNavigate();
 
     const { clearAuth } = useAuth();
@@ -33,8 +38,9 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
             },
             {
                 onSuccess: async () => {
-                    enqueueSnackbar('Your account has been deleted.', {
-                        variant: 'success',
+                    toast({
+                        title: 'Success',
+                        description: 'Your account has been deleted.',
                     });
 
                     clearAuth();
@@ -43,47 +49,35 @@ export function DeleteAccountButton({ profile }: DeleteAccountButtonProps) {
                 },
             }
         );
-
-        setOpen(false);
-    }
-
-    function onOpen() {
-        setOpen(true);
-    }
-
-    function onClose() {
-        setOpen(false);
     }
 
     return (
-        <>
-            <Button
-                variant="contained"
-                color="error"
-                onClick={onOpen}
-                disabled={isPending}
-            >
-                Delete Account
-            </Button>
-
-            <Dialog open={open} onClose={onClose}>
-                <DialogTitle id="alert-dialog-title">
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <LoadingButton
+                    variant="destructive"
+                    loading={isPending}
+                    className={className}
+                >
                     Delete Account
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                </LoadingButton>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Account</AlertDialogTitle>
+                    <AlertDialogDescription>
                         Are you sure you want to delete your account? All of
                         your data will be permanently removed. This action
                         cannot be undone.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button onClick={onDelete} disabled={isPending} autoFocus>
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction disabled={isPending} onClick={onDelete}>
                         Continue
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 }

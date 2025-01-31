@@ -3,7 +3,7 @@ import {
     UpdateProfileRequest,
     UpdateProfileResponse,
 } from '@/features/profile/profile-types';
-import { useAuth } from '@/features/auth/hooks/use-auth';
+import { useAuth } from '@/features/auth/auth-provider';
 import { apiClient } from '@/lib/api-client';
 
 export const useUpdateProfile = () => {

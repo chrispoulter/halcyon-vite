@@ -1,110 +1,155 @@
+import type { FieldValues, UseControllerProps } from 'react-hook-form';
 import {
-    FieldValues,
-    useController,
-    UseControllerProps,
-} from 'react-hook-form';
-import { Box, MenuItem, TextField, TextFieldProps } from '@mui/material';
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { currentYear, monthNames } from '@/lib/dates';
 
 type DateFormFieldProps<TFieldValues extends FieldValues> = {
+    label: string;
+    required?: boolean;
     autoComplete?: [string, string, string];
-} & UseControllerProps<TFieldValues> &
-    Omit<TextFieldProps, 'autoComplete'>;
+    className?: string;
+} & UseControllerProps<TFieldValues>;
 
-export function DateFormField<TFieldValues extends FieldValues>(
-    props: DateFormFieldProps<TFieldValues>
-) {
-    const { field, fieldState } = useController(props);
-
-    const { autoComplete } = props;
-
-    const day = field.value?.split('-')[2] ?? '';
-    const month = field.value?.split('-')[1] ?? '';
-    const year = field.value?.split('-')[0] ?? '';
-
-    function onDayChange(event: React.ChangeEvent<HTMLInputElement>) {
-        field.onChange(`${year}-${month}-${event.target.value}`);
-    }
-
-    function onMonthChange(event: React.ChangeEvent<HTMLInputElement>) {
-        field.onChange(`${year}-${event.target.value}-${day}`);
-    }
-
-    function onYearChange(event: React.ChangeEvent<HTMLInputElement>) {
-        field.onChange(`${event.target.value}-${month}-${day}`);
-    }
+export function DateFormField<TFieldValues extends FieldValues>({
+    control,
+    name,
+    label,
+    required,
+    disabled,
+    autoComplete,
+    className,
+}: DateFormFieldProps<TFieldValues>) {
+    const [dayAuto, monthAuto, yearAuto] = autoComplete || [];
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: 1,
+        <FormField
+            control={control}
+            name={name}
+            render={({ field: { name, value = '--', onChange } }) => {
+                const [year, month, day] = value.split('-');
+
+                function onDayChange(value: string) {
+                    onChange(`${year}-${month}-${value}`);
+                }
+
+                function onMonthChange(value: string) {
+                    onChange(`${year}-${value}-${day}`);
+                }
+
+                function onYearChange(value: string) {
+                    onChange(`${value}-${month}-${day}`);
+                }
+
+                return (
+                    <FormItem className={className}>
+                        <FormLabel>{label}</FormLabel>
+                        <div className="flex gap-2">
+                            <div className="flex-1">
+                                <Select
+                                    onValueChange={onDayChange}
+                                    defaultValue={day}
+                                    required={required}
+                                    disabled={disabled}
+                                    autoComplete={dayAuto}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Day..." />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {Array.from({ length: 31 }).map(
+                                            (_, index) => (
+                                                <SelectItem
+                                                    key={index}
+                                                    value={(index + 1)
+                                                        .toString()
+                                                        .padStart(2, '0')}
+                                                >
+                                                    {(index + 1)
+                                                        .toString()
+                                                        .padStart(2, '0')}
+                                                </SelectItem>
+                                            )
+                                        )}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="flex-1">
+                                <Select
+                                    onValueChange={onMonthChange}
+                                    defaultValue={month}
+                                    required={required}
+                                    disabled={disabled}
+                                    autoComplete={monthAuto}
+                                >
+                                    <FormControl id={`${name}-month`}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Month..." />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {Array.from({ length: 12 }).map(
+                                            (_, index) => (
+                                                <SelectItem
+                                                    key={index}
+                                                    value={(index + 1)
+                                                        .toString()
+                                                        .padStart(2, '0')}
+                                                >
+                                                    {monthNames[index]}
+                                                </SelectItem>
+                                            )
+                                        )}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="flex-1">
+                                <Select
+                                    onValueChange={onYearChange}
+                                    defaultValue={year}
+                                    required={required}
+                                    disabled={disabled}
+                                    autoComplete={yearAuto}
+                                >
+                                    <FormControl id={`${name}-year`}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Year..." />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {Array.from({ length: 120 }).map(
+                                            (_, index) => (
+                                                <SelectItem
+                                                    key={index}
+                                                    value={(
+                                                        currentYear - index
+                                                    ).toString()}
+                                                >
+                                                    {currentYear - index}
+                                                </SelectItem>
+                                            )
+                                        )}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+                        <FormMessage />
+                    </FormItem>
+                );
             }}
-        >
-            <TextField
-                {...field}
-                {...props}
-                select
-                label="Day..."
-                value={day}
-                autoComplete={autoComplete && autoComplete[0]}
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-                fullWidth
-                onChange={onDayChange}
-            >
-                {Array.from({ length: 31 }).map((_, index) => (
-                    <MenuItem
-                        key={index}
-                        value={(index + 1).toString().padStart(2, '0')}
-                    >
-                        {(index + 1).toString().padStart(2, '0')}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <TextField
-                {...field}
-                {...props}
-                select
-                label="Month..."
-                value={month}
-                autoComplete={autoComplete && autoComplete[1]}
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-                fullWidth
-                onChange={onMonthChange}
-            >
-                {Array.from({ length: 12 }).map((_, index) => (
-                    <MenuItem
-                        key={index}
-                        value={(index + 1).toString().padStart(2, '0')}
-                    >
-                        {monthNames[index]}
-                    </MenuItem>
-                ))}
-            </TextField>
-            <TextField
-                {...field}
-                {...props}
-                select
-                label="Year..."
-                value={year}
-                autoComplete={autoComplete && autoComplete[2]}
-                error={!!fieldState.error}
-                helperText={fieldState.error?.message}
-                fullWidth
-                onChange={onYearChange}
-            >
-                {Array.from({ length: 120 }).map((_, index) => (
-                    <MenuItem
-                        key={index}
-                        value={(currentYear - index).toString()}
-                    >
-                        {currentYear - index}
-                    </MenuItem>
-                ))}
-            </TextField>
-        </Box>
+        />
     );
 }
