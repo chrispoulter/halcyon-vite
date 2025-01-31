@@ -10,8 +10,8 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { useAuth } from '@/features/auth/auth-provider';
-import { Role } from '@/features/auth/auth-types';
+import { useAuth } from '@/components/auth-provider';
+import { Role } from '@/lib/session-types';
 
 const routes = [
     { href: '/', label: 'Home' },

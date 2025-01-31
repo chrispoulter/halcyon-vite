@@ -10,8 +10,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuth } from '@/features/auth/auth-provider';
-import { roles } from '@/features/auth/auth-types';
+import { useAuth } from '@/components/auth-provider';
+import { roles } from '@/lib/session-types';
 
 export function UserNav() {
     const navigate = useNavigate();

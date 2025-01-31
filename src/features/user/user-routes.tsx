@@ -1,9 +1,9 @@
 import { RouteObject } from 'react-router';
-import { Role } from '@/features/auth/auth-types';
-import { ProtectedRoute } from '@/features/auth/protected-route';
+import { ProtectedRoute } from '@/components/protected-route';
 import { CreateUserPage } from '@/features/user/create-user/create-user-page';
 import { SearchUsersPage } from '@/features/user/search-users/search-users-page';
 import { UpdateUserPage } from '@/features/user/update-user/update-user-page';
+import { Role } from '@/lib/session-types';
 
 export const userRoutes: RouteObject[] = [
     {

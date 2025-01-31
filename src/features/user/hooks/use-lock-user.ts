@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/components/auth-provider';
 import { LockUserRequest, LockUserResponse } from '@/features/user/user-types';
-import { useAuth } from '@/features/auth/auth-provider';
 import { apiClient } from '@/lib/api-client';
 
 export const useLockUser = (id: string) => {

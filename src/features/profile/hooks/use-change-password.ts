@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/components/auth-provider';
 import {
     ChangePasswordRequest,
     ChangePasswordResponse,
 } from '@/features/profile/profile-types';
-import { useAuth } from '@/features/auth/auth-provider';
 import { apiClient } from '@/lib/api-client';
 
 export const useChangePassword = () => {

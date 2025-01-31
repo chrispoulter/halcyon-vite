@@ -1,9 +1,9 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useAuth } from '@/components/auth-provider';
 import {
     SearchUsersRequest,
     SearchUsersResponse,
 } from '@/features/user/user-types';
-import { useAuth } from '@/features/auth/auth-provider';
 import { apiClient } from '@/lib/api-client';
 
 export const useSearchUsers = (request: SearchUsersRequest) => {

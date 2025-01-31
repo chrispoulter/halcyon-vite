@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
+import { useAuth } from '@/components/auth-provider';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { useLogin } from '@/features/account/hooks/use-login';
-import { useAuth } from '@/features/auth/auth-provider';
 
 const schema = z.object({
     emailAddress: z

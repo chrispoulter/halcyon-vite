@@ -10,10 +10,10 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { useAuth } from '@/components/auth-provider';
 import { LoadingButton } from '@/components/loading-button';
 import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
 import { GetProfileResponse } from '@/features/profile/profile-types';
-import { useAuth } from '@/features/auth/auth-provider';
 import { toast } from '@/hooks/use-toast';
 
 type DeleteAccountButtonProps = {

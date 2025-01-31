@@ -8,10 +8,10 @@ import { DateFormField } from '@/components/date-form-field';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { SwitchFormField } from '@/components/switch-form-field';
-import { Role, roles } from '@/features/auth/auth-types';
 import { useCreateUser } from '@/features/user/hooks/use-create-user';
 import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
+import { Role, roles } from '@/lib/session-types';
 
 const schema = z
     .object({
