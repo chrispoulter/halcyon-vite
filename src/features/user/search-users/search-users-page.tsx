@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Meta } from '@/components/meta';
+import { Metadata } from '@/components/metadata';
 import { Pager } from '@/components/pager';
 import { useSearchUsers } from '@/features/user/hooks/use-search-users';
 import { SearchUsersLoading } from '@/features/user/search-users/search-users-loading';
@@ -41,7 +41,7 @@ export function SearchUsersPage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <Meta title="Users" />
+            <Metadata title="Users" />
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Users

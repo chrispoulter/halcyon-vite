@@ -1,11 +1,11 @@
 import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
-import { Meta } from '@/components/meta';
+import { Metadata } from '@/components/metadata';
 
 export function ForbiddenPage() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <Meta title="Forbidden" />
+            <Metadata title="Forbidden" />
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Forbidden

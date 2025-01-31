@@ -1,5 +1,5 @@
 import { useParams } from 'react-router';
-import { Meta } from '@/components/meta';
+import { Metadata } from '@/components/metadata';
 import { ResetPasswordForm } from '@/features/account/reset-password/reset-password-form';
 
 type ResetPasswordPageParams = { token: string };
@@ -9,7 +9,7 @@ export function ResetPasswordPage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <Meta title="Reset Password" />
+            <Metadata title="Reset Password" />
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Reset Password
