@@ -1,10 +1,11 @@
 import { Link } from 'react-router';
+import { Meta } from '@/components/meta';
 import { RegisterForm } from '@/features/account/register/register-form';
 
 export function RegisterPage() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <title>Register // Halcyon</title>
+            <Meta title="Register" />
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Register

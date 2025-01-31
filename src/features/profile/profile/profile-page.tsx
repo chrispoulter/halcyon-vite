@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { Button } from '@/components/ui/button';
+import { Meta } from '@/components/meta';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
 import { ProfileLoading } from '@/features/profile/profile/profile-loading';
@@ -14,7 +15,7 @@ export function ProfilePage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <title>My Account // Halcyon</title>
+            <Meta title="My Account" />
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 My Account

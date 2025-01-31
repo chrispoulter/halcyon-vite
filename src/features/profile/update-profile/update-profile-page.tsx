@@ -1,3 +1,4 @@
+import { Meta } from '@/components/meta';
 import { UpdateProfileForm } from '@/features/profile/update-profile/update-profile-form';
 import { UpdateProfileLoading } from '@/features/profile/update-profile/update-profile-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
@@ -11,7 +12,7 @@ export function UpdateProfilePage() {
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
-            <title>Update Profile // Halcyon</title>
+            <Meta title="Update Profile" />
 
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
                 Update Profile
