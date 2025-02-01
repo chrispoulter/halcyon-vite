@@ -1,11 +1,13 @@
 import { useParams } from 'react-router';
 import { Metadata } from '@/components/metadata';
+import { SignoutRoute } from '@/components/signout-route';
 import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
 import { UpdateUserLoading } from '@/features/user/update-user/update-user-loading';
 import { useGetUser } from '@/features/user/hooks/use-get-user';
 import { ApiClientError } from '@/lib/api-client';
 import { ErrorPage } from '@/error-page';
 import { NotFoundPage } from '@/not-found-page';
+import { ForbiddenPage } from '@/forbidden-page';
 
 type UpdateUserPageParams = { id: string };
 
@@ -21,6 +23,12 @@ export function UpdateUserPage() {
     if (!isSuccess) {
         if (error instanceof ApiClientError) {
             switch (error.status) {
+                case 401:
+                    return <SignoutRoute />;
+
+                case 403:
+                    return <ForbiddenPage />;
+
                 case 404:
                     return <NotFoundPage />;
             }

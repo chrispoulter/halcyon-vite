@@ -1,10 +1,12 @@
 import { Metadata } from '@/components/metadata';
+import { SignoutRoute } from '@/components/signout-route';
 import { UpdateProfileForm } from '@/features/profile/update-profile/update-profile-form';
 import { UpdateProfileLoading } from '@/features/profile/update-profile/update-profile-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { ApiClientError } from '@/lib/api-client';
 import { ErrorPage } from '@/error-page';
 import { NotFoundPage } from '@/not-found-page';
+import { ForbiddenPage } from '@/forbidden-page';
 
 export function UpdateProfilePage() {
     const { data: profile, isLoading, isSuccess, error } = useGetProfile();
@@ -16,6 +18,12 @@ export function UpdateProfilePage() {
     if (!isSuccess) {
         if (error instanceof ApiClientError) {
             switch (error.status) {
+                case 401:
+                    return <SignoutRoute />;
+
+                case 403:
+                    return <ForbiddenPage />;
+
                 case 404:
                     return <NotFoundPage />;
             }

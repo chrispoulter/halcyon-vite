@@ -5,13 +5,16 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { Pager } from '@/components/pager';
+import { SignoutRoute } from '@/components/signout-route';
 import { useSearchUsers } from '@/features/user/hooks/use-search-users';
 import { SearchUsersLoading } from '@/features/user/search-users/search-users-loading';
 import { SearchUsersForm } from '@/features/user/search-users/search-users-form';
 import { SortUsersDropdown } from '@/features/user/search-users/sort-users-dropdown';
 import { UserCard } from '@/features/user/search-users/user-card';
 import { UserSort } from '@/features/user/user-types';
+import { ApiClientError } from '@/lib/api-client';
 import { ErrorPage } from '@/error-page';
+import { ForbiddenPage } from '@/forbidden-page';
 
 const searchParamsSchema = z.object({
     search: z.string({ message: 'Search must be a valid string' }).catch(''),
@@ -34,7 +37,7 @@ export function SearchUsersPage() {
 
     const request = searchParamsSchema.parse(Object.fromEntries(searchParams));
 
-    const { data, isLoading, isSuccess } = useSearchUsers({
+    const { data, isLoading, isSuccess, error } = useSearchUsers({
         ...request,
         size: PAGE_SIZE,
     });
@@ -44,6 +47,16 @@ export function SearchUsersPage() {
     }
 
     if (!isSuccess) {
+        if (error instanceof ApiClientError) {
+            switch (error.status) {
+                case 401:
+                    return <SignoutRoute />;
+
+                case 403:
+                    return <ForbiddenPage />;
+            }
+        }
+
         return <ErrorPage />;
     }
 
