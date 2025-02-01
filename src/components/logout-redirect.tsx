@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Navigate } from 'react-router';
 import { useAuth } from '@/components/auth-provider';
 
-export function SignoutRoute() {
+export function LogoutRedirect() {
     const { clearAuth } = useAuth();
 
     useEffect(() => {
