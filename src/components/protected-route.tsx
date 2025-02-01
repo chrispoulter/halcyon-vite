@@ -14,7 +14,7 @@ export function ProtectedRoute({ roles }: ProtectedRouteProps) {
         return <Navigate to="/account/login" />;
     }
 
-    if (roles && !roles.some((value) => user?.roles?.includes(value))) {
+    if (roles && !roles.some((value) => user.roles?.includes(value))) {
         return <ForbiddenPage />;
     }
 
