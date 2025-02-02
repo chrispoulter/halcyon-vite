@@ -14,6 +14,8 @@ type AuthProviderState = {
     clearAuth: () => void;
 };
 
+const STORAGE_KEY = 'accessToken';
+
 const initialState: AuthProviderState = {
     accessToken: null,
     user: undefined,
@@ -25,18 +27,18 @@ const AuthProviderContext = createContext<AuthProviderState>(initialState);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
     const [accessToken, setAccessToken] = useState<string | null>(
-        localStorage.getItem('accessToken')
+        localStorage.getItem(STORAGE_KEY)
     );
 
     const queryClient = useQueryClient();
 
     function setAuth(accessToken: string) {
-        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem(STORAGE_KEY, accessToken);
         setAccessToken(accessToken);
     }
 
     function clearAuth() {
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem(STORAGE_KEY);
         setAccessToken(null);
         queryClient.clear();
     }
