@@ -41,23 +41,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         queryClient.clear();
     }
 
-    const user = accessToken
+    const payload = accessToken
         ? decodeJwt<SessionPayload>(accessToken)
+        : undefined;
+
+    const user = payload
+        ? {
+              ...payload,
+              roles:
+                  typeof payload.roles === 'string'
+                      ? [payload.roles]
+                      : payload.roles || [],
+          }
         : undefined;
 
     const value = {
         accessToken,
+        user,
         setAuth,
         clearAuth,
-        user: user
-            ? {
-                  ...user,
-                  roles:
-                      typeof user.roles === 'string'
-                          ? [user.roles]
-                          : user.roles || [],
-              }
-            : undefined,
     };
 
     return <AuthProviderContext value={value}>{children}</AuthProviderContext>;
