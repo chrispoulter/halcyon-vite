@@ -24,12 +24,12 @@ const router = createBrowserRouter(routes);
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-            <AuthProvider>
-                <QueryClientProvider client={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
                     <RouterProvider router={router} />
-                    <ReactQueryDevtools initialIsOpen={false} />
-                </QueryClientProvider>
-            </AuthProvider>
+                </AuthProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
             <Toaster />
         </ThemeProvider>
     </StrictMode>

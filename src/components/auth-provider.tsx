@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { decodeJwt } from 'jose';
 import { SessionPayload } from '@/lib/session-types';
 
@@ -27,6 +28,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.getItem('accessToken')
     );
 
+    const queryClient = useQueryClient();
+
     function setAuth(accessToken: string) {
         localStorage.setItem('accessToken', accessToken);
         setAccessToken(accessToken);
@@ -35,6 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     function clearAuth() {
         localStorage.removeItem('accessToken');
         setAccessToken(null);
+        queryClient.clear();
     }
 
     const user = accessToken
