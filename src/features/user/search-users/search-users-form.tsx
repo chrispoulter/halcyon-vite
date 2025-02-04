@@ -25,9 +25,10 @@ type SearchUsersFormValues = z.infer<typeof schema>;
 
 type SearchUsersFormProps = {
     search: string;
+    disabled?: boolean;
 };
 
-export function SearchUsersForm({ search }: SearchUsersFormProps) {
+export function SearchUsersForm({ search, disabled }: SearchUsersFormProps) {
     const [, setSearchParams] = useSearchParams();
 
     const form = useForm<SearchUsersFormValues>({
@@ -67,13 +68,19 @@ export function SearchUsersForm({ search }: SearchUsersFormProps) {
                                     {...field}
                                     type="search"
                                     placeholder="Search Users..."
+                                    disabled={disabled}
                                 />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <Button type="submit" variant="secondary" size="icon">
+                <Button
+                    type="submit"
+                    variant="secondary"
+                    size="icon"
+                    disabled={disabled}
+                >
                     <Search />
                     <span className="sr-only">Search users</span>
                 </Button>

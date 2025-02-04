@@ -30,15 +30,16 @@ const sortOptions = [
 
 type SortUsersDropdownProps = {
     sort?: UserSort;
+    disabled?: boolean;
 };
 
-export function SortUsersDropdown({ sort }: SortUsersDropdownProps) {
+export function SortUsersDropdown({ sort, disabled }: SortUsersDropdownProps) {
     const [, setSearchParams] = useSearchParams();
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="icon">
+                <Button variant="secondary" size="icon" disabled={disabled}>
                     <ArrowDownWideNarrow />
                     <span className="sr-only">Toggle sort</span>
                 </Button>

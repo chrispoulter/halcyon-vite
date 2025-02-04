@@ -34,7 +34,7 @@ export function SearchUsersPage() {
 
     const request = searchParamsSchema.parse(Object.fromEntries(searchParams));
 
-    const { data, isLoading, isSuccess, error } = useSearchUsers({
+    const { data, isLoading, isFetching, isSuccess, error } = useSearchUsers({
         ...request,
         size: PAGE_SIZE,
     });
@@ -56,8 +56,12 @@ export function SearchUsersPage() {
             </h1>
 
             <div className="flex gap-2">
-                <SearchUsersForm search={request.search} />
-                <SortUsersDropdown sort={request.sort} />
+                <SearchUsersForm
+                    search={request.search}
+                    disabled={isFetching}
+                />
+
+                <SortUsersDropdown sort={request.sort} disabled={isFetching} />
             </div>
 
             <Button asChild className="w-full sm:w-auto">
@@ -84,6 +88,7 @@ export function SearchUsersPage() {
                 hasPreviousPage={data.hasPreviousPage}
                 hasNextPage={data.hasNextPage}
                 page={request.page}
+                disabled={isFetching}
             />
         </main>
     );
