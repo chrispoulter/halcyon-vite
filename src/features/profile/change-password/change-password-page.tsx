@@ -6,7 +6,13 @@ import { ChangePasswordLoading } from '@/features/profile/change-password/change
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 
 export function ChangePasswordPage() {
-    const { data: profile, isLoading, isSuccess, error } = useGetProfile();
+    const {
+        data: profile,
+        isLoading,
+        isPending,
+        isSuccess,
+        error,
+    } = useGetProfile();
 
     if (isLoading) {
         return <ChangePasswordLoading />;
@@ -30,7 +36,7 @@ export function ChangePasswordPage() {
                 change your password on a regular basis.
             </p>
 
-            <ChangePasswordForm profile={profile} />
+            <ChangePasswordForm profile={profile} disabled={isPending} />
 
             <p className="text-sm text-muted-foreground">
                 Forgotten your password?{' '}

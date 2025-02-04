@@ -36,13 +36,19 @@ type UpdateProfileFormValues = z.infer<typeof schema>;
 
 type UpdateProfileFormProps = {
     profile: GetProfileResponse;
+    disabled?: boolean;
 };
-export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
+export function UpdateProfileForm({
+    profile,
+    disabled,
+}: UpdateProfileFormProps) {
+    const { version, ...values } = profile;
+
     const navigate = useNavigate();
 
     const form = useForm<UpdateProfileFormValues>({
         resolver: zodResolver(schema),
-        values: profile,
+        values,
     });
 
     const { mutate, isPending } = useUpdateProfile();
@@ -51,7 +57,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
         mutate(
             {
                 ...data,
-                version: profile.version,
+                version,
             },
             {
                 onSuccess: () => {
@@ -88,7 +94,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={isPending || disabled}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -99,7 +105,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                         maxLength={50}
                         autoComplete="given-name"
                         required
-                        disabled={isPending}
+                        disabled={isPending || disabled}
                         className="flex-1"
                     />
                     <TextFormField
@@ -109,7 +115,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                         maxLength={50}
                         autoComplete="family-name"
                         required
-                        disabled={isPending}
+                        disabled={isPending || disabled}
                         className="flex-1"
                     />
                 </div>
@@ -120,7 +126,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                     label="Date Of Birth"
                     autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
-                    disabled={isPending}
+                    disabled={isPending || disabled}
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
@@ -128,7 +134,11 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                         <Link to="/profile">Cancel</Link>
                     </Button>
 
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton
+                        type="submit"
+                        loading={isPending}
+                        disabled={disabled}
+                    >
                         Submit
                     </LoadingButton>
                 </div>

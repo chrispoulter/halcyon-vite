@@ -9,6 +9,9 @@ import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { SwitchFormField } from '@/components/switch-form-field';
 import { useUpdateUser } from '@/features/user/hooks/use-update-user';
+import { useLockUser } from '@/features/user/hooks/use-lock-user';
+import { useUnlockUser } from '@/features/user/hooks/use-unlock-user';
+import { useDeleteUser } from '@/features/user/hooks/use-delete-user';
 import { DeleteUserButton } from '@/features/user/update-user/delete-user-button';
 import { LockUserButton } from '@/features/user/update-user/lock-user-button';
 import { UnlockUserButton } from '@/features/user/update-user/unlock-user-button';
@@ -49,29 +52,110 @@ type UpdateUserFormValues = z.infer<typeof schema>;
 
 type UpdateUserFormProps = {
     user: GetUserResponse;
+    disabled?: boolean;
 };
 
-export function UpdateUserForm({ user }: UpdateUserFormProps) {
+export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
+    const { id, version, ...values } = user;
+
     const navigate = useNavigate();
 
     const form = useForm<UpdateUserFormValues>({
         resolver: zodResolver(schema),
-        values: user,
+        values,
     });
 
-    const { mutate, isPending } = useUpdateUser(user.id);
+    const { mutate: updateUser, isPending: isUpdatingUser } = useUpdateUser(id);
 
     function onSubmit(data: UpdateUserFormValues) {
-        mutate(
+        updateUser(
             {
                 ...data,
-                version: user.version,
+                version,
             },
             {
                 onSuccess: () => {
                     toast({
                         title: 'Success',
                         description: 'User successfully updated.',
+                    });
+
+                    return navigate('/user');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
+    }
+
+    const { mutate: lockUser, isPending: isLockingUser } = useLockUser(id);
+
+    function onLock() {
+        lockUser(
+            {
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully locked.',
+                    });
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
+    }
+
+    const { mutate: unlockUser, isPending: isUnlockingUser } =
+        useUnlockUser(id);
+
+    function onUnlock() {
+        unlockUser(
+            {
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully unlocked.',
+                    });
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
+    }
+
+    const { mutate: deleteUser, isPending: isDeletingUser } = useDeleteUser(id);
+
+    function onDelete() {
+        deleteUser(
+            {
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully deleted.',
                     });
 
                     return navigate('/user');
@@ -102,7 +186,13 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={
+                        isUpdatingUser ||
+                        isLockingUser ||
+                        isUnlockingUser ||
+                        isDeletingUser ||
+                        disabled
+                    }
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -113,7 +203,13 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                         maxLength={50}
                         autoComplete="given-name"
                         required
-                        disabled={isPending}
+                        disabled={
+                            isUpdatingUser ||
+                            isLockingUser ||
+                            isUnlockingUser ||
+                            isDeletingUser ||
+                            disabled
+                        }
                         className="flex-1"
                     />
                     <TextFormField
@@ -123,7 +219,13 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                         maxLength={50}
                         autoComplete="family-name"
                         required
-                        disabled={isPending}
+                        disabled={
+                            isUpdatingUser ||
+                            isLockingUser ||
+                            isUnlockingUser ||
+                            isDeletingUser ||
+                            disabled
+                        }
                         className="flex-1"
                     />
                 </div>
@@ -134,14 +236,26 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                     label="Date Of Birth"
                     autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
-                    disabled={isPending}
+                    disabled={
+                        isUpdatingUser ||
+                        isLockingUser ||
+                        isUnlockingUser ||
+                        isDeletingUser ||
+                        disabled
+                    }
                 />
 
                 <SwitchFormField
                     control={form.control}
                     name="roles"
                     options={roles}
-                    disabled={isPending}
+                    disabled={
+                        isUpdatingUser ||
+                        isLockingUser ||
+                        isUnlockingUser ||
+                        isDeletingUser ||
+                        disabled
+                    }
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
@@ -150,14 +264,50 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                     </Button>
 
                     {user.isLockedOut ? (
-                        <UnlockUserButton user={user} />
+                        <UnlockUserButton
+                            onClick={onUnlock}
+                            loading={isUnlockingUser}
+                            disabled={
+                                disabled ||
+                                isUpdatingUser ||
+                                isLockingUser ||
+                                isDeletingUser
+                            }
+                        />
                     ) : (
-                        <LockUserButton user={user} />
+                        <LockUserButton
+                            onClick={onLock}
+                            loading={isLockingUser}
+                            disabled={
+                                disabled ||
+                                isUpdatingUser ||
+                                isUnlockingUser ||
+                                isDeletingUser
+                            }
+                        />
                     )}
 
-                    <DeleteUserButton user={user} />
+                    <DeleteUserButton
+                        onClick={onDelete}
+                        loading={isDeletingUser}
+                        disabled={
+                            disabled ||
+                            isUpdatingUser ||
+                            isLockingUser ||
+                            isUnlockingUser
+                        }
+                    />
 
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton
+                        type="submit"
+                        loading={isUpdatingUser}
+                        disabled={
+                            disabled ||
+                            isLockingUser ||
+                            isUnlockingUser ||
+                            isDeletingUser
+                        }
+                    >
                         Submit
                     </LoadingButton>
                 </div>

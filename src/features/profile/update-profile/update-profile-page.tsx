@@ -5,7 +5,13 @@ import { UpdateProfileLoading } from '@/features/profile/update-profile/update-p
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 
 export function UpdateProfilePage() {
-    const { data: profile, isLoading, isSuccess, error } = useGetProfile();
+    const {
+        data: profile,
+        isLoading,
+        isFetching,
+        isSuccess,
+        error,
+    } = useGetProfile();
 
     if (isLoading) {
         return <UpdateProfileLoading />;
@@ -28,7 +34,7 @@ export function UpdateProfilePage() {
                 to login to your account.
             </p>
 
-            <UpdateProfileForm profile={profile} />
+            <UpdateProfileForm profile={profile} disabled={isFetching} />
         </main>
     );
 }

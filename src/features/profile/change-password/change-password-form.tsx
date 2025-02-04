@@ -32,8 +32,14 @@ type ChangePasswordFormValues = z.infer<typeof schema>;
 
 type ChangePasswordFormProps = {
     profile: GetProfileResponse;
+    disabled?: boolean;
 };
-export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
+export function ChangePasswordForm({
+    profile,
+    disabled,
+}: ChangePasswordFormProps) {
+    const { version } = profile;
+
     const navigate = useNavigate();
 
     const form = useForm<ChangePasswordFormValues>({
@@ -51,7 +57,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
         mutate(
             {
                 ...data,
-                version: profile.version,
+                version,
             },
             {
                 onSuccess: () => {
@@ -88,7 +94,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                     maxLength={50}
                     autoComplete="current-password"
                     required
-                    disabled={isPending}
+                    disabled={isPending || disabled}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -100,7 +106,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={isPending || disabled}
                         className="flex-1"
                     />
                     <TextFormField
@@ -111,7 +117,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={isPending || disabled}
                         className="flex-1"
                     />
                 </div>
@@ -121,7 +127,11 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                         <Link to="/profile">Cancel</Link>
                     </Button>
 
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton
+                        type="submit"
+                        loading={isPending}
+                        disabled={disabled}
+                    >
                         Submit
                     </LoadingButton>
                 </div>

@@ -10,7 +10,13 @@ type UpdateUserPageParams = { id: string };
 export function UpdateUserPage() {
     const { id } = useParams() as UpdateUserPageParams;
 
-    const { data: user, isLoading, isSuccess, error } = useGetUser(id);
+    const {
+        data: user,
+        isLoading,
+        isFetching,
+        isSuccess,
+        error,
+    } = useGetUser(id);
 
     if (isLoading) {
         return <UpdateUserLoading />;
@@ -36,7 +42,7 @@ export function UpdateUserPage() {
                 to login to the account.
             </p>
 
-            <UpdateUserForm user={user} />
+            <UpdateUserForm user={user} disabled={isFetching} />
         </main>
     );
 }
