@@ -23,8 +23,7 @@ export function ProfilePage() {
         error,
     } = useGetProfile();
 
-    const { mutate: deleteAccount, isPending: isDeletingAccount } =
-        useDeleteAccount();
+    const { mutate: deleteAccount, isPending: isDeleting } = useDeleteAccount();
 
     if (isLoading) {
         return <ProfileLoading />;
@@ -123,7 +122,7 @@ export function ProfilePage() {
 
             <DeleteAccountButton
                 onClick={onDelete}
-                loading={isDeletingAccount}
+                loading={isDeleting}
                 disabled={isFetching}
                 className="w-full sm:w-auto"
             />

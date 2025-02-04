@@ -65,7 +65,7 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
         values,
     });
 
-    const { mutate: updateUser, isPending: isUpdatingUser } = useUpdateUser(id);
+    const { mutate: updateUser, isPending: isUpdating } = useUpdateUser(id);
 
     function onSubmit(data: UpdateUserFormValues) {
         updateUser(
@@ -93,7 +93,7 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
         );
     }
 
-    const { mutate: lockUser, isPending: isLockingUser } = useLockUser(id);
+    const { mutate: lockUser, isPending: isLocking } = useLockUser(id);
 
     function onLock() {
         lockUser(
@@ -118,8 +118,7 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
         );
     }
 
-    const { mutate: unlockUser, isPending: isUnlockingUser } =
-        useUnlockUser(id);
+    const { mutate: unlockUser, isPending: isUnlocking } = useUnlockUser(id);
 
     function onUnlock() {
         unlockUser(
@@ -144,7 +143,7 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
         );
     }
 
-    const { mutate: deleteUser, isPending: isDeletingUser } = useDeleteUser(id);
+    const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser(id);
 
     function onDelete() {
         deleteUser(
@@ -187,10 +186,10 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
                     autoComplete="username"
                     required
                     disabled={
-                        isUpdatingUser ||
-                        isLockingUser ||
-                        isUnlockingUser ||
-                        isDeletingUser ||
+                        isUpdating ||
+                        isLocking ||
+                        isUnlocking ||
+                        isDeleting ||
                         disabled
                     }
                 />
@@ -204,10 +203,10 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
                         autoComplete="given-name"
                         required
                         disabled={
-                            isUpdatingUser ||
-                            isLockingUser ||
-                            isUnlockingUser ||
-                            isDeletingUser ||
+                            isUpdating ||
+                            isLocking ||
+                            isUnlocking ||
+                            isDeleting ||
                             disabled
                         }
                         className="flex-1"
@@ -220,10 +219,10 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
                         autoComplete="family-name"
                         required
                         disabled={
-                            isUpdatingUser ||
-                            isLockingUser ||
-                            isUnlockingUser ||
-                            isDeletingUser ||
+                            isUpdating ||
+                            isLocking ||
+                            isUnlocking ||
+                            isDeleting ||
                             disabled
                         }
                         className="flex-1"
@@ -237,10 +236,10 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
                     autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
                     disabled={
-                        isUpdatingUser ||
-                        isLockingUser ||
-                        isUnlockingUser ||
-                        isDeletingUser ||
+                        isUpdating ||
+                        isLocking ||
+                        isUnlocking ||
+                        isDeleting ||
                         disabled
                     }
                 />
@@ -250,10 +249,10 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
                     name="roles"
                     options={roles}
                     disabled={
-                        isUpdatingUser ||
-                        isLockingUser ||
-                        isUnlockingUser ||
-                        isDeletingUser ||
+                        isUpdating ||
+                        isLocking ||
+                        isUnlocking ||
+                        isDeleting ||
                         disabled
                     }
                 />
@@ -266,46 +265,40 @@ export function UpdateUserForm({ user, disabled }: UpdateUserFormProps) {
                     {user.isLockedOut ? (
                         <UnlockUserButton
                             onClick={onUnlock}
-                            loading={isUnlockingUser}
+                            loading={isUnlocking}
                             disabled={
                                 disabled ||
-                                isUpdatingUser ||
-                                isLockingUser ||
-                                isDeletingUser
+                                isUpdating ||
+                                isLocking ||
+                                isDeleting
                             }
                         />
                     ) : (
                         <LockUserButton
                             onClick={onLock}
-                            loading={isLockingUser}
+                            loading={isLocking}
                             disabled={
                                 disabled ||
-                                isUpdatingUser ||
-                                isUnlockingUser ||
-                                isDeletingUser
+                                isUpdating ||
+                                isUnlocking ||
+                                isDeleting
                             }
                         />
                     )}
 
                     <DeleteUserButton
                         onClick={onDelete}
-                        loading={isDeletingUser}
+                        loading={isDeleting}
                         disabled={
-                            disabled ||
-                            isUpdatingUser ||
-                            isLockingUser ||
-                            isUnlockingUser
+                            disabled || isUpdating || isLocking || isUnlocking
                         }
                     />
 
                     <LoadingButton
                         type="submit"
-                        loading={isUpdatingUser}
+                        loading={isUpdating}
                         disabled={
-                            disabled ||
-                            isLockingUser ||
-                            isUnlockingUser ||
-                            isDeletingUser
+                            disabled || isLocking || isUnlocking || isDeleting
                         }
                     >
                         Submit
