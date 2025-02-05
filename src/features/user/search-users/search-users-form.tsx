@@ -1,4 +1,3 @@
-import { useSearchParams } from 'react-router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -13,6 +12,12 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+type SearchUsersFormProps = {
+    search: string;
+    onSubmit: (data: SearchUsersFormValues) => void;
+    disabled?: boolean;
+};
+
 const schema = z.object({
     search: z
         .string({
@@ -21,35 +26,19 @@ const schema = z.object({
         .optional(),
 });
 
-type SearchUsersFormValues = z.infer<typeof schema>;
+export type SearchUsersFormValues = z.infer<typeof schema>;
 
-type SearchUsersFormProps = {
-    search: string;
-    disabled?: boolean;
-};
-
-export function SearchUsersForm({ search, disabled }: SearchUsersFormProps) {
-    const [, setSearchParams] = useSearchParams();
-
+export function SearchUsersForm({
+    search,
+    onSubmit,
+    disabled,
+}: SearchUsersFormProps) {
     const form = useForm<SearchUsersFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
             search,
         },
     });
-
-    function onSubmit(data: SearchUsersFormValues) {
-        setSearchParams((prev) => {
-            prev.delete('page');
-            prev.delete('search');
-
-            if (data.search) {
-                prev.set('search', data.search);
-            }
-
-            return prev;
-        });
-    }
 
     return (
         <Form {...form}>
