@@ -23,13 +23,13 @@ const schema = z.object({
 export type SearchUsersFormValues = z.infer<typeof schema>;
 
 type SearchUsersFormProps = {
-    search: string;
+    search?: string;
     onSubmit: (data: SearchUsersFormValues) => void;
     disabled?: boolean;
 };
 
 export function SearchUsersForm({
-    search,
+    search = '',
     onSubmit,
     disabled,
 }: SearchUsersFormProps) {
