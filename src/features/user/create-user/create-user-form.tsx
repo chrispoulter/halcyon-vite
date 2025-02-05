@@ -59,7 +59,11 @@ const schema = z
 
 export type CreateUserFormValues = z.infer<typeof schema>;
 
-export function CreateUserForm({ onSubmit, loading }: CreateUserFormProps) {
+export function CreateUserForm({
+    onSubmit,
+    loading,
+    children,
+}: CreateUserFormProps) {
     const form = useForm<CreateUserFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
