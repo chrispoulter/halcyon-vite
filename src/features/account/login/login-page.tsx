@@ -13,13 +13,13 @@ export function LoginPage() {
 
     const { setAuth } = useAuth();
 
-    const { mutate, isPending } = useLogin();
+    const { mutate: login, isPending: isSaving } = useLogin();
 
     function onSubmit(data: LoginFormValues) {
-        mutate(data, {
+        login(data, {
             onSuccess: (data) => {
                 setAuth(data.accessToken);
-                navigate('/');
+                return navigate('/');
             },
             onError: (error) => {
                 toast({
@@ -42,7 +42,7 @@ export function LoginPage() {
                 Enter your email address below to login to your account.
             </p>
 
-            <LoginForm loading={isPending} onSubmit={onSubmit} />
+            <LoginForm loading={isSaving} onSubmit={onSubmit} />
 
             <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">

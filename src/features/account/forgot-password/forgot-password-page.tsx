@@ -10,10 +10,10 @@ import { toast } from '@/hooks/use-toast';
 export function ForgotPasswordPage() {
     const navigate = useNavigate();
 
-    const { mutate, isPending } = useForgotPassword();
+    const { mutate: forgotPassword, isPending: isSaving } = useForgotPassword();
 
     function onSubmit(data: ForgotPasswordFormValues) {
-        mutate(data, {
+        forgotPassword(data, {
             onSuccess: () => {
                 toast({
                     title: 'Success',
@@ -21,7 +21,7 @@ export function ForgotPasswordPage() {
                         'Instructions as to how to reset your password have been sent to you via email.',
                 });
 
-                navigate('/account/login');
+                return navigate('/account/login');
             },
             onError: (error) => {
                 toast({
@@ -45,7 +45,7 @@ export function ForgotPasswordPage() {
                 Request a password reset link by providing your email address.
             </p>
 
-            <ForgotPasswordForm loading={isPending} onSubmit={onSubmit} />
+            <ForgotPasswordForm loading={isSaving} onSubmit={onSubmit} />
         </main>
     );
 }

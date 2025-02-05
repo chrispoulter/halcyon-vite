@@ -14,10 +14,10 @@ export function ResetPasswordPage() {
 
     const navigate = useNavigate();
 
-    const { mutate, isPending } = useResetPassword();
+    const { mutate: resetPassword, isPending: isSaving } = useResetPassword();
 
     function onSubmit(data: ResetPasswordFormValues) {
-        mutate(
+        resetPassword(
             {
                 token,
                 ...data,
@@ -56,7 +56,7 @@ export function ResetPasswordPage() {
                 change your password on a regular basis.
             </p>
 
-            <ResetPasswordForm loading={isPending} onSubmit={onSubmit} />
+            <ResetPasswordForm loading={isSaving} onSubmit={onSubmit} />
         </main>
     );
 }

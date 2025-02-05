@@ -21,8 +21,7 @@ export function ChangePasswordPage() {
         error,
     } = useGetProfile();
 
-    const { mutate: changePassword, isPending: isChanging } =
-        useChangePassword();
+    const { mutate: changePassword, isPending: isSaving } = useChangePassword();
 
     if (isLoading) {
         return <ChangePasswordLoading />;
@@ -76,8 +75,8 @@ export function ChangePasswordPage() {
 
             <ChangePasswordForm
                 onSubmit={onSubmit}
-                loading={isChanging}
-                disabled={isFetching || isChanging}
+                loading={isSaving}
+                disabled={isFetching || isSaving}
             />
 
             <p className="text-sm text-muted-foreground">

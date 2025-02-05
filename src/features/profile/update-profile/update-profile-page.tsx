@@ -2,7 +2,7 @@ import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
 import {
     UpdateProfileForm,
-    UpdateProfileFormValues,
+    type UpdateProfileFormValues,
 } from '@/features/profile/update-profile/update-profile-form';
 import { UpdateProfileLoading } from '@/features/profile/update-profile/update-profile-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
@@ -21,7 +21,7 @@ export function UpdateProfilePage() {
         error,
     } = useGetProfile();
 
-    const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile();
+    const { mutate: updateProfile, isPending: isSaving } = useUpdateProfile();
 
     if (isLoading) {
         return <UpdateProfileLoading />;
@@ -75,8 +75,8 @@ export function UpdateProfilePage() {
             <UpdateProfileForm
                 profile={profile}
                 onSubmit={onSubmit}
-                disabled={isFetching || isUpdating}
-                loading={isUpdating}
+                disabled={isFetching || isSaving}
+                loading={isSaving}
             />
         </main>
     );

@@ -10,17 +10,17 @@ import { toast } from '@/hooks/use-toast';
 export function RegisterPage() {
     const navigate = useNavigate();
 
-    const { mutate, isPending } = useRegister();
+    const { mutate: register, isPending: isSaving } = useRegister();
 
     function onSubmit(data: RegisterFormValues) {
-        mutate(data, {
+        register(data, {
             onSuccess: () => {
                 toast({
                     title: 'Success',
                     description: 'User successfully registered.',
                 });
 
-                navigate('/account/login');
+                return navigate('/account/login');
             },
             onError: (error) => {
                 toast({
@@ -45,7 +45,7 @@ export function RegisterPage() {
                 available on this site.
             </p>
 
-            <RegisterForm loading={isPending} onSubmit={onSubmit} />
+            <RegisterForm loading={isSaving} onSubmit={onSubmit} />
 
             <p className="text-sm text-muted-foreground">
                 Already have an account?{' '}
