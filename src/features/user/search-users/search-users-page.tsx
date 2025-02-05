@@ -70,9 +70,16 @@ export function SearchUsersPage() {
         });
     }
 
-    function onPage(page: number) {
+    function onPreviousPage() {
         setSearchParams((prev) => {
-            prev.set('page', page.toString());
+            prev.set('page', (request.page - 1).toString());
+            return prev;
+        });
+    }
+
+    function onNextPage() {
+        setSearchParams((prev) => {
+            prev.set('page', (request.page + 1).toString());
             return prev;
         });
     }
@@ -122,8 +129,8 @@ export function SearchUsersPage() {
             <Pager
                 hasPreviousPage={data.hasPreviousPage}
                 hasNextPage={data.hasNextPage}
-                page={request.page}
-                onChange={onPage}
+                onPreviousPage={onPreviousPage}
+                onNextPage={onNextPage}
                 disabled={isFetching}
             />
         </main>

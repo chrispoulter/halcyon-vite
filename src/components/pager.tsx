@@ -9,16 +9,16 @@ import {
 type PagerProps = {
     hasPreviousPage: boolean;
     hasNextPage: boolean;
-    page?: number;
-    onChange: (page: number) => void;
+    onPreviousPage: () => void;
+    onNextPage: () => void;
     disabled?: boolean;
 };
 
 export function Pager({
     hasPreviousPage,
     hasNextPage,
-    page = 1,
-    onChange,
+    onPreviousPage,
+    onNextPage,
     disabled,
 }: PagerProps) {
     if (!hasPreviousPage && !hasNextPage) {
@@ -32,7 +32,7 @@ export function Pager({
                     <PaginationItem>
                         <PaginationPrevious
                             disabled={disabled}
-                            onClick={() => onChange(page - 1)}
+                            onClick={() => onPreviousPage()}
                         />
                     </PaginationItem>
                 )}
@@ -40,7 +40,7 @@ export function Pager({
                     <PaginationItem>
                         <PaginationNext
                             disabled={disabled}
-                            onClick={() => onChange(page + 1)}
+                            onClick={() => onNextPage()}
                         />
                     </PaginationItem>
                 )}
