@@ -1,12 +1,14 @@
-import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
 import { TextFormField } from '@/components/text-form-field';
 import { LoadingButton } from '@/components/loading-button';
-import { useResetPassword } from '@/features/account/hooks/use-reset-password';
-import { toast } from '@/hooks/use-toast';
+
+type ResetPasswordFormProps = {
+    isPending: boolean;
+    onSubmit: (data: ResetPasswordFormValues) => void;
+};
 
 const schema = z
     .object({
@@ -26,15 +28,12 @@ const schema = z
         path: ['confirmNewPassword'],
     });
 
-type ResetPasswordFormValues = z.infer<typeof schema>;
+export type ResetPasswordFormValues = z.infer<typeof schema>;
 
-type ResetPasswordFormProps = {
-    token: string;
-};
-
-export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
-    const navigate = useNavigate();
-
+export function ResetPasswordForm({
+    isPending,
+    onSubmit,
+}: ResetPasswordFormProps) {
     const form = useForm<ResetPasswordFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -43,34 +42,6 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             confirmNewPassword: '',
         },
     });
-
-    const { mutate, isPending } = useResetPassword();
-
-    function onSubmit(data: ResetPasswordFormValues) {
-        mutate(
-            {
-                token,
-                ...data,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your password has been reset.',
-                    });
-
-                    return navigate('/account/login');
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
 
     return (
         <Form {...form}>

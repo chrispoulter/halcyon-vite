@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -6,9 +5,12 @@ import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
-import { useRegister } from '@/features/account/hooks/use-register';
-import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
+
+type RegisterFormProps = {
+    isPending: boolean;
+    onSubmit: (data: RegisterFormValues) => void;
+};
 
 const schema = z
     .object({
@@ -42,11 +44,9 @@ const schema = z
         path: ['confirmPassword'],
     });
 
-type RegisterFormValues = z.infer<typeof schema>;
+export type RegisterFormValues = z.infer<typeof schema>;
 
-export function RegisterForm() {
-    const navigate = useNavigate();
-
+export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -58,28 +58,6 @@ export function RegisterForm() {
             dateOfBirth: '',
         },
     });
-
-    const { mutate, isPending } = useRegister();
-
-    function onSubmit(data: RegisterFormValues) {
-        mutate(data, {
-            onSuccess: () => {
-                toast({
-                    title: 'Success',
-                    description: 'User successfully registered.',
-                });
-
-                return navigate('/account/login');
-            },
-            onError: (error) => {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: error.message,
-                });
-            },
-        });
-    }
 
     return (
         <Form {...form}>

@@ -1,8 +1,37 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Metadata } from '@/components/metadata';
-import { RegisterForm } from '@/features/account/register/register-form';
+import { useRegister } from '@/features/account/hooks/use-register';
+import {
+    RegisterForm,
+    type RegisterFormValues,
+} from '@/features/account/register/register-form';
+import { toast } from '@/hooks/use-toast';
 
 export function RegisterPage() {
+    const navigate = useNavigate();
+
+    const { mutate, isPending } = useRegister();
+
+    function onSubmit(data: RegisterFormValues) {
+        mutate(data, {
+            onSuccess: () => {
+                toast({
+                    title: 'Success',
+                    description: 'User successfully registered.',
+                });
+
+                navigate('/account/login');
+            },
+            onError: (error) => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: error.message,
+                });
+            },
+        });
+    }
+
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
             <Metadata title="Register" />
@@ -16,7 +45,7 @@ export function RegisterPage() {
                 available on this site.
             </p>
 
-            <RegisterForm />
+            <RegisterForm isPending={isPending} onSubmit={onSubmit} />
 
             <p className="text-sm text-muted-foreground">
                 Already have an account?{' '}

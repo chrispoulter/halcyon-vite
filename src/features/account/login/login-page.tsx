@@ -1,8 +1,35 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useAuth } from '@/components/auth-provider';
 import { Metadata } from '@/components/metadata';
-import { LoginForm } from '@/features/account/login/login-form';
+import { useLogin } from '@/features/account/hooks/use-login';
+import {
+    LoginForm,
+    LoginFormValues,
+} from '@/features/account/login/login-form';
+import { toast } from '@/hooks/use-toast';
 
 export function LoginPage() {
+    const navigate = useNavigate();
+
+    const { setAuth } = useAuth();
+
+    const { mutate, isPending } = useLogin();
+
+    function onSubmit(data: LoginFormValues) {
+        mutate(data, {
+            onSuccess: (data) => {
+                setAuth(data.accessToken);
+                navigate('/');
+            },
+            onError: (error) => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: error.message,
+                });
+            },
+        });
+    }
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
             <Metadata title="Login" />
@@ -15,7 +42,7 @@ export function LoginPage() {
                 Enter your email address below to login to your account.
             </p>
 
-            <LoginForm />
+            <LoginForm isPending={isPending} onSubmit={onSubmit} />
 
             <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
