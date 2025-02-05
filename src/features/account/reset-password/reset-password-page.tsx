@@ -56,7 +56,7 @@ export function ResetPasswordPage() {
                 change your password on a regular basis.
             </p>
 
-            <ResetPasswordForm isPending={isPending} onSubmit={onSubmit} />
+            <ResetPasswordForm loading={isPending} onSubmit={onSubmit} />
         </main>
     );
 }

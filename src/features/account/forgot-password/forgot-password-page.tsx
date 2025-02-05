@@ -45,7 +45,7 @@ export function ForgotPasswordPage() {
                 Request a password reset link by providing your email address.
             </p>
 
-            <ForgotPasswordForm isPending={isPending} onSubmit={onSubmit} />
+            <ForgotPasswordForm loading={isPending} onSubmit={onSubmit} />
         </main>
     );
 }

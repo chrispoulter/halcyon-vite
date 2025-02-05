@@ -1,18 +1,28 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
-import { ChangePasswordForm } from '@/features/profile/change-password/change-password-form';
+import {
+    ChangePasswordForm,
+    type ChangePasswordFormValues,
+} from '@/features/profile/change-password/change-password-form';
 import { ChangePasswordLoading } from '@/features/profile/change-password/change-password-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
+import { useChangePassword } from '@/features/profile/hooks/use-change-password';
+import { toast } from '@/hooks/use-toast';
 
 export function ChangePasswordPage() {
+    const navigate = useNavigate();
+
     const {
         data: profile,
         isLoading,
-        isPending,
+        isFetching,
         isSuccess,
         error,
     } = useGetProfile();
+
+    const { mutate: changePassword, isPending: isChanging } =
+        useChangePassword();
 
     if (isLoading) {
         return <ChangePasswordLoading />;
@@ -20,6 +30,34 @@ export function ChangePasswordPage() {
 
     if (!isSuccess) {
         return <QueryError error={error} />;
+    }
+
+    const { version } = profile;
+
+    function onSubmit(data: ChangePasswordFormValues) {
+        changePassword(
+            {
+                ...data,
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'Your password has been changed.',
+                    });
+
+                    return navigate('/profile');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
     }
 
     return (
@@ -36,7 +74,11 @@ export function ChangePasswordPage() {
                 change your password on a regular basis.
             </p>
 
-            <ChangePasswordForm profile={profile} disabled={isPending} />
+            <ChangePasswordForm
+                onSubmit={onSubmit}
+                loading={isChanging}
+                disabled={isFetching || isChanging}
+            />
 
             <p className="text-sm text-muted-foreground">
                 Forgotten your password?{' '}

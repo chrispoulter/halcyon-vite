@@ -13,8 +13,8 @@ import { LoadingButton } from '@/components/loading-button';
 
 type DeleteAccountButtonProps = {
     onClick: () => void;
-    disabled?: boolean;
-    loading?: boolean;
+    disabled: boolean;
+    loading: boolean;
     className?: string;
 };
 

@@ -6,7 +6,7 @@ import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 
 type LoginFormProps = {
-    isPending: boolean;
+    loading: boolean;
     onSubmit: (data: LoginFormValues) => void;
 };
 
@@ -21,7 +21,7 @@ const schema = z.object({
 
 export type LoginFormValues = z.infer<typeof schema>;
 
-export function LoginForm({ isPending, onSubmit }: LoginFormProps) {
+export function LoginForm({ loading, onSubmit }: LoginFormProps) {
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -45,7 +45,7 @@ export function LoginForm({ isPending, onSubmit }: LoginFormProps) {
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={loading}
                 />
 
                 <TextFormField
@@ -56,11 +56,11 @@ export function LoginForm({ isPending, onSubmit }: LoginFormProps) {
                     maxLength={50}
                     autoComplete="current-password"
                     required
-                    disabled={isPending}
+                    disabled={loading}
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton type="submit" loading={loading}>
                         Submit
                     </LoadingButton>
                 </div>

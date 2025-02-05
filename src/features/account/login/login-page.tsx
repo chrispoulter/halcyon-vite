@@ -42,7 +42,7 @@ export function LoginPage() {
                 Enter your email address below to login to your account.
             </p>
 
-            <LoginForm isPending={isPending} onSubmit={onSubmit} />
+            <LoginForm loading={isPending} onSubmit={onSubmit} />
 
             <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">

@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router';
+import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -7,10 +7,15 @@ import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
-import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile';
 import { GetProfileResponse } from '@/features/profile/profile-types';
-import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
+
+type UpdateProfileFormProps = {
+    profile: GetProfileResponse;
+    onSubmit: (data: UpdateProfileFormValues) => void;
+    loading: boolean;
+    disabled: boolean;
+};
 
 const schema = z.object({
     emailAddress: z
@@ -32,52 +37,18 @@ const schema = z.object({
         .refine(isInPast, { message: 'Date Of Birth must be in the past' }),
 });
 
-type UpdateProfileFormValues = z.infer<typeof schema>;
+export type UpdateProfileFormValues = z.infer<typeof schema>;
 
-type UpdateProfileFormProps = {
-    profile: GetProfileResponse;
-    disabled?: boolean;
-};
 export function UpdateProfileForm({
     profile,
+    onSubmit,
+    loading,
     disabled,
 }: UpdateProfileFormProps) {
-    const { version, ...values } = profile;
-
-    const navigate = useNavigate();
-
     const form = useForm<UpdateProfileFormValues>({
         resolver: zodResolver(schema),
-        values,
+        values: profile,
     });
-
-    const { mutate, isPending } = useUpdateProfile();
-
-    function onSubmit(data: UpdateProfileFormValues) {
-        mutate(
-            {
-                ...data,
-                version,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your profile has been updated.',
-                    });
-
-                    return navigate('/profile');
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
 
     return (
         <Form {...form}>
@@ -94,7 +65,7 @@ export function UpdateProfileForm({
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending || disabled}
+                    disabled={disabled}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -105,7 +76,7 @@ export function UpdateProfileForm({
                         maxLength={50}
                         autoComplete="given-name"
                         required
-                        disabled={isPending || disabled}
+                        disabled={disabled}
                         className="flex-1"
                     />
                     <TextFormField
@@ -115,7 +86,7 @@ export function UpdateProfileForm({
                         maxLength={50}
                         autoComplete="family-name"
                         required
-                        disabled={isPending || disabled}
+                        disabled={disabled}
                         className="flex-1"
                     />
                 </div>
@@ -126,7 +97,7 @@ export function UpdateProfileForm({
                     label="Date Of Birth"
                     autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
-                    disabled={isPending || disabled}
+                    disabled={disabled}
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
@@ -136,7 +107,7 @@ export function UpdateProfileForm({
 
                     <LoadingButton
                         type="submit"
-                        loading={isPending}
+                        loading={loading}
                         disabled={disabled}
                     >
                         Submit

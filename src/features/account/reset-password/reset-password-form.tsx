@@ -6,7 +6,7 @@ import { TextFormField } from '@/components/text-form-field';
 import { LoadingButton } from '@/components/loading-button';
 
 type ResetPasswordFormProps = {
-    isPending: boolean;
+    loading: boolean;
     onSubmit: (data: ResetPasswordFormValues) => void;
 };
 
@@ -31,7 +31,7 @@ const schema = z
 export type ResetPasswordFormValues = z.infer<typeof schema>;
 
 export function ResetPasswordForm({
-    isPending,
+    loading,
     onSubmit,
 }: ResetPasswordFormProps) {
     const form = useForm<ResetPasswordFormValues>({
@@ -58,7 +58,7 @@ export function ResetPasswordForm({
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={loading}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -70,7 +70,7 @@ export function ResetPasswordForm({
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={loading}
                         className="flex-1"
                     />
                     <TextFormField
@@ -81,13 +81,13 @@ export function ResetPasswordForm({
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={loading}
                         className="flex-1"
                     />
                 </div>
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton type="submit" loading={loading}>
                         Submit
                     </LoadingButton>
                 </div>

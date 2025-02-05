@@ -6,7 +6,7 @@ import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 
 type ForgotPasswordFormProps = {
-    isPending: boolean;
+    loading: boolean;
     onSubmit: (data: ForgotPasswordFormValues) => void;
 };
 
@@ -19,7 +19,7 @@ const schema = z.object({
 export type ForgotPasswordFormValues = z.infer<typeof schema>;
 
 export function ForgotPasswordForm({
-    isPending,
+    loading,
     onSubmit,
 }: ForgotPasswordFormProps) {
     const form = useForm<ForgotPasswordFormValues>({
@@ -44,11 +44,11 @@ export function ForgotPasswordForm({
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={loading}
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton type="submit" loading={loading}>
                         Submit
                     </LoadingButton>
                 </div>

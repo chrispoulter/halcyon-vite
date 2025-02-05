@@ -8,7 +8,7 @@ import { TextFormField } from '@/components/text-form-field';
 import { isInPast } from '@/lib/dates';
 
 type RegisterFormProps = {
-    isPending: boolean;
+    loading: boolean;
     onSubmit: (data: RegisterFormValues) => void;
 };
 
@@ -46,7 +46,7 @@ const schema = z
 
 export type RegisterFormValues = z.infer<typeof schema>;
 
-export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
+export function RegisterForm({ loading, onSubmit }: RegisterFormProps) {
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -74,7 +74,7 @@ export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={loading}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -86,7 +86,7 @@ export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={loading}
                         className="flex-1"
                     />
                     <TextFormField
@@ -96,7 +96,7 @@ export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={loading}
                         className="flex-1"
                     />
                 </div>
@@ -109,7 +109,7 @@ export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
                         maxLength={50}
                         autoComplete="given-name"
                         required
-                        disabled={isPending}
+                        disabled={loading}
                         className="flex-1"
                     />
                     <TextFormField
@@ -118,7 +118,7 @@ export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
                         maxLength={50}
                         autoComplete="family-name"
                         required
-                        disabled={isPending}
+                        disabled={loading}
                         className="flex-1"
                     />
                 </div>
@@ -129,11 +129,11 @@ export function RegisterForm({ isPending, onSubmit }: RegisterFormProps) {
                     label="Date Of Birth"
                     autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
-                    disabled={isPending}
+                    disabled={loading}
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton type="submit" loading={loading}>
                         Submit
                     </LoadingButton>
                 </div>
