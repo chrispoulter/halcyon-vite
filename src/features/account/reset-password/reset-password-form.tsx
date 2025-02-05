@@ -5,11 +5,6 @@ import { Form } from '@/components/ui/form';
 import { TextFormField } from '@/components/text-form-field';
 import { LoadingButton } from '@/components/loading-button';
 
-type ResetPasswordFormProps = {
-    loading?: boolean;
-    onSubmit: (data: ResetPasswordFormValues) => void;
-};
-
 const schema = z
     .object({
         emailAddress: z
@@ -29,6 +24,11 @@ const schema = z
     });
 
 export type ResetPasswordFormValues = z.infer<typeof schema>;
+
+type ResetPasswordFormProps = {
+    loading?: boolean;
+    onSubmit: (data: ResetPasswordFormValues) => void;
+};
 
 export function ResetPasswordForm({
     loading,

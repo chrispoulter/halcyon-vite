@@ -5,11 +5,6 @@ import { Form } from '@/components/ui/form';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 
-type ForgotPasswordFormProps = {
-    loading?: boolean;
-    onSubmit: (data: ForgotPasswordFormValues) => void;
-};
-
 const schema = z.object({
     emailAddress: z
         .string({ message: 'Email Address must be a valid string' })
@@ -17,6 +12,11 @@ const schema = z.object({
 });
 
 export type ForgotPasswordFormValues = z.infer<typeof schema>;
+
+type ForgotPasswordFormProps = {
+    loading?: boolean;
+    onSubmit: (data: ForgotPasswordFormValues) => void;
+};
 
 export function ForgotPasswordForm({
     loading,

@@ -7,11 +7,6 @@ import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { isInPast } from '@/lib/dates';
 
-type RegisterFormProps = {
-    loading?: boolean;
-    onSubmit: (data: RegisterFormValues) => void;
-};
-
 const schema = z
     .object({
         emailAddress: z
@@ -45,6 +40,11 @@ const schema = z
     });
 
 export type RegisterFormValues = z.infer<typeof schema>;
+
+type RegisterFormProps = {
+    loading?: boolean;
+    onSubmit: (data: RegisterFormValues) => void;
+};
 
 export function RegisterForm({ loading, onSubmit }: RegisterFormProps) {
     const form = useForm<RegisterFormValues>({

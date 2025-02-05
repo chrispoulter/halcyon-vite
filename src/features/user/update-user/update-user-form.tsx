@@ -10,14 +10,6 @@ import { GetUserResponse } from '@/features/user/user-types';
 import { isInPast } from '@/lib/dates';
 import { Role, roles } from '@/lib/session-types';
 
-type UpdateUserFormProps = {
-    user: GetUserResponse;
-    onSubmit: (data: UpdateUserFormValues) => void;
-    loading?: boolean;
-    disabled?: boolean;
-    children?: React.ReactNode;
-};
-
 const schema = z.object({
     emailAddress: z
         .string({ message: 'Email Address must be a valid string' })
@@ -47,6 +39,14 @@ const schema = z.object({
 });
 
 export type UpdateUserFormValues = z.infer<typeof schema>;
+
+type UpdateUserFormProps = {
+    user: GetUserResponse;
+    onSubmit: (data: UpdateUserFormValues) => void;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
+};
 
 export function UpdateUserForm({
     user,

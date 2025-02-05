@@ -12,12 +12,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-type SearchUsersFormProps = {
-    search: string;
-    onSubmit: (data: SearchUsersFormValues) => void;
-    disabled?: boolean;
-};
-
 const schema = z.object({
     search: z
         .string({
@@ -27,6 +21,12 @@ const schema = z.object({
 });
 
 export type SearchUsersFormValues = z.infer<typeof schema>;
+
+type SearchUsersFormProps = {
+    search: string;
+    onSubmit: (data: SearchUsersFormValues) => void;
+    disabled?: boolean;
+};
 
 export function SearchUsersForm({
     search,

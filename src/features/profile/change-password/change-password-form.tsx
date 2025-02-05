@@ -5,13 +5,6 @@ import { Form } from '@/components/ui/form';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 
-type ChangePasswordFormProps = {
-    onSubmit: (data: ChangePasswordFormValues) => void;
-    loading?: boolean;
-    disabled?: boolean;
-    children?: React.ReactNode;
-};
-
 const schema = z
     .object({
         currentPassword: z
@@ -31,6 +24,13 @@ const schema = z
     });
 
 export type ChangePasswordFormValues = z.infer<typeof schema>;
+
+type ChangePasswordFormProps = {
+    onSubmit: (data: ChangePasswordFormValues) => void;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
+};
 
 export function ChangePasswordForm({
     onSubmit,

@@ -5,11 +5,6 @@ import { Form } from '@/components/ui/form';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 
-type LoginFormProps = {
-    loading?: boolean;
-    onSubmit: (data: LoginFormValues) => void;
-};
-
 const schema = z.object({
     emailAddress: z
         .string({ message: 'Email Address must be a valid string' })
@@ -20,6 +15,11 @@ const schema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof schema>;
+
+type LoginFormProps = {
+    loading?: boolean;
+    onSubmit: (data: LoginFormValues) => void;
+};
 
 export function LoginForm({ loading, onSubmit }: LoginFormProps) {
     const form = useForm<LoginFormValues>({

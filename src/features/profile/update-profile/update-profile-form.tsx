@@ -8,14 +8,6 @@ import { TextFormField } from '@/components/text-form-field';
 import { GetProfileResponse } from '@/features/profile/profile-types';
 import { isInPast } from '@/lib/dates';
 
-type UpdateProfileFormProps = {
-    profile: GetProfileResponse;
-    onSubmit: (data: UpdateProfileFormValues) => void;
-    loading?: boolean;
-    disabled?: boolean;
-    children?: React.ReactNode;
-};
-
 const schema = z.object({
     emailAddress: z
         .string({ message: 'Email Address must be a valid string' })
@@ -37,6 +29,14 @@ const schema = z.object({
 });
 
 export type UpdateProfileFormValues = z.infer<typeof schema>;
+
+type UpdateProfileFormProps = {
+    profile: GetProfileResponse;
+    onSubmit: (data: UpdateProfileFormValues) => void;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
+};
 
 export function UpdateProfileForm({
     profile,

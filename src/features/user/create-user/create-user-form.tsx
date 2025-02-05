@@ -9,12 +9,6 @@ import { SwitchFormField } from '@/components/switch-form-field';
 import { isInPast } from '@/lib/dates';
 import { Role, roles } from '@/lib/session-types';
 
-type CreateUserFormProps = {
-    onSubmit: (data: CreateUserFormValues) => void;
-    loading?: boolean;
-    children?: React.ReactNode;
-};
-
 const schema = z
     .object({
         emailAddress: z
@@ -58,6 +52,12 @@ const schema = z
     });
 
 export type CreateUserFormValues = z.infer<typeof schema>;
+
+type CreateUserFormProps = {
+    onSubmit: (data: CreateUserFormValues) => void;
+    loading?: boolean;
+    children?: React.ReactNode;
+};
 
 export function CreateUserForm({
     onSubmit,
