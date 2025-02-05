@@ -16,7 +16,7 @@ import { SortUsersDropdown } from '@/features/user/search-users/sort-users-dropd
 import { UserCard } from '@/features/user/search-users/user-card';
 import { UserSort } from '@/features/user/user-types';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 const searchParamsSchema = z.object({
     search: z.string({ message: 'Search must be a valid string' }).catch(''),
