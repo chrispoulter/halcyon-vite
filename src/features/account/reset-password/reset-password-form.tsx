@@ -6,7 +6,7 @@ import { TextFormField } from '@/components/text-form-field';
 import { LoadingButton } from '@/components/loading-button';
 
 type ResetPasswordFormProps = {
-    loading: boolean;
+    loading?: boolean;
     onSubmit: (data: ResetPasswordFormValues) => void;
 };
 

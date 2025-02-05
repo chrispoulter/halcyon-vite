@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import {
     CreateUserForm,
@@ -48,7 +49,11 @@ export function CreateUserPage() {
                 features available on this site.
             </p>
 
-            <CreateUserForm onSubmit={onSubmit} loading={isSaving} />
+            <CreateUserForm onSubmit={onSubmit} loading={isSaving}>
+                <Button asChild variant="outline">
+                    <Link to="/user">Cancel</Link>
+                </Button>
+            </CreateUserForm>
         </main>
     );
 }

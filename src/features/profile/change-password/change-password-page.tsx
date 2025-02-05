@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
 import {
@@ -77,7 +78,11 @@ export function ChangePasswordPage() {
                 onSubmit={onSubmit}
                 loading={isSaving}
                 disabled={isFetching || isSaving}
-            />
+            >
+                <Button asChild variant="outline">
+                    <Link to="/profile">Cancel</Link>
+                </Button>
+            </ChangePasswordForm>
 
             <p className="text-sm text-muted-foreground">
                 Forgotten your password?{' '}

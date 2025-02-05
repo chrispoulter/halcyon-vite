@@ -8,7 +8,7 @@ import { TextFormField } from '@/components/text-form-field';
 import { isInPast } from '@/lib/dates';
 
 type RegisterFormProps = {
-    loading: boolean;
+    loading?: boolean;
     onSubmit: (data: RegisterFormValues) => void;
 };
 

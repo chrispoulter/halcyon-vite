@@ -1,8 +1,6 @@
-import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
 import { LoadingButton } from '@/components/loading-button';
@@ -13,8 +11,9 @@ import { isInPast } from '@/lib/dates';
 type UpdateProfileFormProps = {
     profile: GetProfileResponse;
     onSubmit: (data: UpdateProfileFormValues) => void;
-    loading: boolean;
-    disabled: boolean;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
 };
 
 const schema = z.object({
@@ -44,6 +43,7 @@ export function UpdateProfileForm({
     onSubmit,
     loading,
     disabled,
+    children,
 }: UpdateProfileFormProps) {
     const form = useForm<UpdateProfileFormValues>({
         resolver: zodResolver(schema),
@@ -101,9 +101,7 @@ export function UpdateProfileForm({
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <Button asChild variant="outline">
-                        <Link to="/profile">Cancel</Link>
-                    </Button>
+                    {children}
 
                     <LoadingButton
                         type="submit"

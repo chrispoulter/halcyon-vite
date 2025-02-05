@@ -1,16 +1,15 @@
-import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 
 type ChangePasswordFormProps = {
     onSubmit: (data: ChangePasswordFormValues) => void;
-    loading: boolean;
-    disabled: boolean;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
 };
 
 const schema = z
@@ -37,6 +36,7 @@ export function ChangePasswordForm({
     onSubmit,
     loading,
     disabled,
+    children,
 }: ChangePasswordFormProps) {
     const form = useForm<ChangePasswordFormValues>({
         resolver: zodResolver(schema),
@@ -91,9 +91,7 @@ export function ChangePasswordForm({
                 </div>
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <Button asChild variant="outline">
-                        <Link to="/profile">Cancel</Link>
-                    </Button>
+                    {children}
 
                     <LoadingButton
                         type="submit"

@@ -1,3 +1,5 @@
+import { Link, useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
 import {
@@ -7,7 +9,6 @@ import {
 import { UpdateProfileLoading } from '@/features/profile/update-profile/update-profile-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile';
-import { useNavigate } from 'react-router';
 import { toast } from '@/hooks/use-toast';
 
 export function UpdateProfilePage() {
@@ -77,7 +78,11 @@ export function UpdateProfilePage() {
                 onSubmit={onSubmit}
                 disabled={isFetching || isSaving}
                 loading={isSaving}
-            />
+            >
+                <Button asChild variant="outline">
+                    <Link to="/profile">Cancel</Link>
+                </Button>
+            </UpdateProfileForm>
         </main>
     );
 }

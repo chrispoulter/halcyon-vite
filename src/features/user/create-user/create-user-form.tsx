@@ -1,8 +1,6 @@
-import { Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
 import { LoadingButton } from '@/components/loading-button';
@@ -13,7 +11,8 @@ import { Role, roles } from '@/lib/session-types';
 
 type CreateUserFormProps = {
     onSubmit: (data: CreateUserFormValues) => void;
-    loading: boolean;
+    loading?: boolean;
+    children?: React.ReactNode;
 };
 
 const schema = z
@@ -157,9 +156,7 @@ export function CreateUserForm({ onSubmit, loading }: CreateUserFormProps) {
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <Button asChild variant="outline">
-                        <Link to="/user">Cancel</Link>
-                    </Button>
+                    {children}
 
                     <LoadingButton type="submit" loading={loading}>
                         Submit
