@@ -10,47 +10,27 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { LoadingButton } from '@/components/loading-button';
-import { useUnlockUser } from '@/features/user/hooks/use-unlock-user';
-import { GetUserResponse } from '@/features/user/user-types';
-import { toast } from '@/hooks/use-toast';
 
 type UnlockUserButtonProps = {
-    user: GetUserResponse;
+    onClick: () => void;
+    disabled?: boolean;
+    loading?: boolean;
     className?: string;
 };
 
-export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
-    const { mutate, isPending } = useUnlockUser(user.id);
-
-    function onUnlock() {
-        mutate(
-            {
-                version: user.version,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'User successfully unlocked.',
-                    });
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
-
+export function UnlockUserButton({
+    onClick,
+    disabled,
+    loading,
+    className,
+}: UnlockUserButtonProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <LoadingButton
                     variant="secondary"
-                    loading={isPending}
+                    loading={loading}
+                    disabled={disabled}
                     className={className}
                 >
                     Unlock
@@ -66,7 +46,10 @@ export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction disabled={isPending} onClick={onUnlock}>
+                    <AlertDialogAction
+                        disabled={disabled || loading}
+                        onClick={onClick}
+                    >
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>

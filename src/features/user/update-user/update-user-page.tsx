@@ -1,16 +1,44 @@
-import { useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
+import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
-import { UpdateUserForm } from '@/features/user/update-user/update-user-form';
-import { UpdateUserLoading } from '@/features/user/update-user/update-user-loading';
 import { useGetUser } from '@/features/user/hooks/use-get-user';
+import { useUpdateUser } from '@/features/user/hooks/use-update-user';
+import { useLockUser } from '@/features/user/hooks/use-lock-user';
+import { useUnlockUser } from '@/features/user/hooks/use-unlock-user';
+import { useDeleteUser } from '@/features/user/hooks/use-delete-user';
+import {
+    UpdateUserForm,
+    type UpdateUserFormValues,
+} from '@/features/user/update-user/update-user-form';
+import { DeleteUserButton } from '@/features/user/update-user/delete-user-button';
+import { LockUserButton } from '@/features/user/update-user/lock-user-button';
+import { UnlockUserButton } from '@/features/user/update-user/unlock-user-button';
+import { UpdateUserLoading } from '@/features/user/update-user/update-user-loading';
+import { toast } from '@/hooks/use-toast';
 
 type UpdateUserPageParams = { id: string };
 
 export function UpdateUserPage() {
     const { id } = useParams() as UpdateUserPageParams;
 
-    const { data: user, isLoading, isSuccess, error } = useGetUser(id);
+    const navigate = useNavigate();
+
+    const {
+        data: user,
+        isLoading,
+        isFetching,
+        isSuccess,
+        error,
+    } = useGetUser(id);
+
+    const { mutate: updateUser, isPending: isSaving } = useUpdateUser(id);
+
+    const { mutate: lockUser, isPending: isLocking } = useLockUser(id);
+
+    const { mutate: unlockUser, isPending: isUnlocking } = useUnlockUser(id);
+
+    const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser(id);
 
     if (isLoading) {
         return <UpdateUserLoading />;
@@ -18,6 +46,105 @@ export function UpdateUserPage() {
 
     if (!isSuccess) {
         return <QueryError error={error} />;
+    }
+
+    const { version } = user;
+
+    function onSubmit(data: UpdateUserFormValues) {
+        updateUser(
+            {
+                ...data,
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully updated.',
+                    });
+
+                    return navigate('/user');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
+    }
+
+    function onLock() {
+        lockUser(
+            {
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully locked.',
+                    });
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
+    }
+
+    function onUnlock() {
+        unlockUser(
+            {
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully unlocked.',
+                    });
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
+    }
+
+    function onDelete() {
+        deleteUser(
+            {
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'User successfully deleted.',
+                    });
+
+                    return navigate('/user');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
     }
 
     return (
@@ -36,7 +163,48 @@ export function UpdateUserPage() {
                 to login to the account.
             </p>
 
-            <UpdateUserForm user={user} />
+            <UpdateUserForm
+                user={user}
+                onSubmit={onSubmit}
+                disabled={
+                    isFetching ||
+                    isSaving ||
+                    isLocking ||
+                    isUnlocking ||
+                    isDeleting
+                }
+                loading={isSaving}
+            >
+                <Button asChild variant="outline">
+                    <Link to="/user">Cancel</Link>
+                </Button>
+
+                {user.isLockedOut ? (
+                    <UnlockUserButton
+                        onClick={onUnlock}
+                        loading={isUnlocking}
+                        disabled={
+                            isFetching || isSaving || isLocking || isDeleting
+                        }
+                    />
+                ) : (
+                    <LockUserButton
+                        onClick={onLock}
+                        loading={isLocking}
+                        disabled={
+                            isFetching || isSaving || isUnlocking || isDeleting
+                        }
+                    />
+                )}
+
+                <DeleteUserButton
+                    onClick={onDelete}
+                    loading={isDeleting}
+                    disabled={
+                        isFetching || isSaving || isLocking || isUnlocking
+                    }
+                />
+            </UpdateUserForm>
         </main>
     );
 }

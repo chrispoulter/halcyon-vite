@@ -1,14 +1,16 @@
-import { useNavigate, Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
-import { useChangePassword } from '@/features/profile/hooks/use-change-password';
-import { GetProfileResponse } from '@/features/profile/profile-types';
-import { toast } from '@/hooks/use-toast';
+
+type ChangePasswordFormProps = {
+    onSubmit: (data: ChangePasswordFormValues) => void;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
+};
 
 const schema = z
     .object({
@@ -28,14 +30,14 @@ const schema = z
         path: ['confirmNewPassword'],
     });
 
-type ChangePasswordFormValues = z.infer<typeof schema>;
+export type ChangePasswordFormValues = z.infer<typeof schema>;
 
-type ChangePasswordFormProps = {
-    profile: GetProfileResponse;
-};
-export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
-    const navigate = useNavigate();
-
+export function ChangePasswordForm({
+    onSubmit,
+    loading,
+    disabled,
+    children,
+}: ChangePasswordFormProps) {
     const form = useForm<ChangePasswordFormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
@@ -44,34 +46,6 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
             confirmNewPassword: '',
         },
     });
-
-    const { mutate, isPending } = useChangePassword();
-
-    function onSubmit(data: ChangePasswordFormValues) {
-        mutate(
-            {
-                ...data,
-                version: profile.version,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your password has been changed.',
-                    });
-
-                    return navigate('/profile');
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
 
     return (
         <Form {...form}>
@@ -88,7 +62,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                     maxLength={50}
                     autoComplete="current-password"
                     required
-                    disabled={isPending}
+                    disabled={disabled}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -100,7 +74,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={disabled}
                         className="flex-1"
                     />
                     <TextFormField
@@ -111,17 +85,19 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                         maxLength={50}
                         autoComplete="new-password"
                         required
-                        disabled={isPending}
+                        disabled={disabled}
                         className="flex-1"
                     />
                 </div>
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <Button asChild variant="outline">
-                        <Link to="/profile">Cancel</Link>
-                    </Button>
+                    {children}
 
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton
+                        type="submit"
+                        loading={loading}
+                        disabled={disabled}
+                    >
                         Submit
                     </LoadingButton>
                 </div>

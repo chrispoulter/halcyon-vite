@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,60 +9,28 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { useAuth } from '@/components/auth-provider';
 import { LoadingButton } from '@/components/loading-button';
-import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
-import { GetProfileResponse } from '@/features/profile/profile-types';
-import { toast } from '@/hooks/use-toast';
 
 type DeleteAccountButtonProps = {
-    profile: GetProfileResponse;
+    onClick: () => void;
+    disabled?: boolean;
+    loading?: boolean;
     className?: string;
 };
 
 export function DeleteAccountButton({
-    profile,
+    onClick,
+    disabled,
+    loading,
     className,
 }: DeleteAccountButtonProps) {
-    const navigate = useNavigate();
-
-    const { clearAuth } = useAuth();
-
-    const { mutate, isPending } = useDeleteAccount();
-
-    function onDelete() {
-        mutate(
-            {
-                version: profile.version,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your account has been deleted.',
-                    });
-
-                    clearAuth();
-
-                    return navigate('/');
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
-
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <LoadingButton
                     variant="destructive"
-                    loading={isPending}
+                    loading={loading}
+                    disabled={disabled}
                     className={className}
                 >
                     Delete Account
@@ -80,7 +47,10 @@ export function DeleteAccountButton({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction disabled={isPending} onClick={onDelete}>
+                    <AlertDialogAction
+                        disabled={disabled || loading}
+                        onClick={onClick}
+                    >
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>

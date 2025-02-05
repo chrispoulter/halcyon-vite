@@ -1,21 +1,22 @@
-import { useNavigate, Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { SwitchFormField } from '@/components/switch-form-field';
-import { useUpdateUser } from '@/features/user/hooks/use-update-user';
-import { DeleteUserButton } from '@/features/user/update-user/delete-user-button';
-import { LockUserButton } from '@/features/user/update-user/lock-user-button';
-import { UnlockUserButton } from '@/features/user/update-user/unlock-user-button';
 import { GetUserResponse } from '@/features/user/user-types';
-import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
 import { Role, roles } from '@/lib/session-types';
+
+type UpdateUserFormProps = {
+    user: GetUserResponse;
+    onSubmit: (data: UpdateUserFormValues) => void;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
+};
 
 const schema = z.object({
     emailAddress: z
@@ -45,47 +46,19 @@ const schema = z.object({
         .optional(),
 });
 
-type UpdateUserFormValues = z.infer<typeof schema>;
+export type UpdateUserFormValues = z.infer<typeof schema>;
 
-type UpdateUserFormProps = {
-    user: GetUserResponse;
-};
-
-export function UpdateUserForm({ user }: UpdateUserFormProps) {
-    const navigate = useNavigate();
-
+export function UpdateUserForm({
+    user,
+    onSubmit,
+    loading,
+    disabled,
+    children,
+}: UpdateUserFormProps) {
     const form = useForm<UpdateUserFormValues>({
         resolver: zodResolver(schema),
         values: user,
     });
-
-    const { mutate, isPending } = useUpdateUser(user.id);
-
-    function onSubmit(data: UpdateUserFormValues) {
-        mutate(
-            {
-                ...data,
-                version: user.version,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'User successfully updated.',
-                    });
-
-                    return navigate('/user');
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
 
     return (
         <Form {...form}>
@@ -102,7 +75,7 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={disabled}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -113,7 +86,7 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                         maxLength={50}
                         autoComplete="given-name"
                         required
-                        disabled={isPending}
+                        disabled={disabled}
                         className="flex-1"
                     />
                     <TextFormField
@@ -123,7 +96,7 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                         maxLength={50}
                         autoComplete="family-name"
                         required
-                        disabled={isPending}
+                        disabled={disabled}
                         className="flex-1"
                     />
                 </div>
@@ -134,30 +107,24 @@ export function UpdateUserForm({ user }: UpdateUserFormProps) {
                     label="Date Of Birth"
                     autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
-                    disabled={isPending}
+                    disabled={disabled}
                 />
 
                 <SwitchFormField
                     control={form.control}
                     name="roles"
                     options={roles}
-                    disabled={isPending}
+                    disabled={disabled}
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <Button asChild variant="outline">
-                        <Link to="/user">Cancel</Link>
-                    </Button>
+                    {children}
 
-                    {user.isLockedOut ? (
-                        <UnlockUserButton user={user} />
-                    ) : (
-                        <LockUserButton user={user} />
-                    )}
-
-                    <DeleteUserButton user={user} />
-
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton
+                        type="submit"
+                        loading={loading}
+                        disabled={disabled}
+                    >
                         Submit
                     </LoadingButton>
                 </div>

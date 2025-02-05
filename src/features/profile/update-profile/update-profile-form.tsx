@@ -1,16 +1,20 @@
-import { useNavigate, Link } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { DateFormField } from '@/components/date-form-field';
 import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
-import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile';
 import { GetProfileResponse } from '@/features/profile/profile-types';
-import { toast } from '@/hooks/use-toast';
 import { isInPast } from '@/lib/dates';
+
+type UpdateProfileFormProps = {
+    profile: GetProfileResponse;
+    onSubmit: (data: UpdateProfileFormValues) => void;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
+};
 
 const schema = z.object({
     emailAddress: z
@@ -32,46 +36,19 @@ const schema = z.object({
         .refine(isInPast, { message: 'Date Of Birth must be in the past' }),
 });
 
-type UpdateProfileFormValues = z.infer<typeof schema>;
+export type UpdateProfileFormValues = z.infer<typeof schema>;
 
-type UpdateProfileFormProps = {
-    profile: GetProfileResponse;
-};
-export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
-    const navigate = useNavigate();
-
+export function UpdateProfileForm({
+    profile,
+    onSubmit,
+    loading,
+    disabled,
+    children,
+}: UpdateProfileFormProps) {
     const form = useForm<UpdateProfileFormValues>({
         resolver: zodResolver(schema),
         values: profile,
     });
-
-    const { mutate, isPending } = useUpdateProfile();
-
-    function onSubmit(data: UpdateProfileFormValues) {
-        mutate(
-            {
-                ...data,
-                version: profile.version,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your profile has been updated.',
-                    });
-
-                    return navigate('/profile');
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
 
     return (
         <Form {...form}>
@@ -88,7 +65,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                     maxLength={254}
                     autoComplete="username"
                     required
-                    disabled={isPending}
+                    disabled={disabled}
                 />
 
                 <div className="flex flex-col gap-6 sm:flex-row">
@@ -99,7 +76,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                         maxLength={50}
                         autoComplete="given-name"
                         required
-                        disabled={isPending}
+                        disabled={disabled}
                         className="flex-1"
                     />
                     <TextFormField
@@ -109,7 +86,7 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                         maxLength={50}
                         autoComplete="family-name"
                         required
-                        disabled={isPending}
+                        disabled={disabled}
                         className="flex-1"
                     />
                 </div>
@@ -120,15 +97,17 @@ export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
                     label="Date Of Birth"
                     autoComplete={['bday-day', 'bday-month', 'bday-year']}
                     required
-                    disabled={isPending}
+                    disabled={disabled}
                 />
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
-                    <Button asChild variant="outline">
-                        <Link to="/profile">Cancel</Link>
-                    </Button>
+                    {children}
 
-                    <LoadingButton type="submit" loading={isPending}>
+                    <LoadingButton
+                        type="submit"
+                        loading={loading}
+                        disabled={disabled}
+                    >
                         Submit
                     </LoadingButton>
                 </div>

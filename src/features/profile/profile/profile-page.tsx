@@ -1,14 +1,29 @@
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/components/auth-provider';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
+import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
 import { ProfileLoading } from '@/features/profile/profile/profile-loading';
+import { toast } from '@/hooks/use-toast';
 import { toLocaleString } from '@/lib/dates';
 
 export function ProfilePage() {
-    const { data: profile, isLoading, isSuccess, error } = useGetProfile();
+    const navigate = useNavigate();
+
+    const { clearAuth } = useAuth();
+
+    const {
+        data: profile,
+        isLoading,
+        isFetching,
+        isSuccess,
+        error,
+    } = useGetProfile();
+
+    const { mutate: deleteAccount, isPending: isDeleting } = useDeleteAccount();
 
     if (isLoading) {
         return <ProfileLoading />;
@@ -16,6 +31,35 @@ export function ProfilePage() {
 
     if (!isSuccess) {
         return <QueryError error={error} />;
+    }
+
+    const { version } = profile;
+
+    function onDelete() {
+        deleteAccount(
+            {
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'Your account has been deleted.',
+                    });
+
+                    clearAuth();
+
+                    return navigate('/');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
     }
 
     return (
@@ -77,7 +121,9 @@ export function ProfilePage() {
             </p>
 
             <DeleteAccountButton
-                profile={profile}
+                onClick={onDelete}
+                loading={isDeleting}
+                disabled={isFetching}
                 className="w-full sm:w-auto"
             />
         </main>

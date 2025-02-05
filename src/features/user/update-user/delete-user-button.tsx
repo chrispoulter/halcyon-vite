@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -11,51 +10,27 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { LoadingButton } from '@/components/loading-button';
-import { useDeleteUser } from '@/features/user/hooks/use-delete-user';
-import { GetUserResponse } from '@/features/user/user-types';
-import { toast } from '@/hooks/use-toast';
 
 type DeleteUserButtonProps = {
-    user: GetUserResponse;
+    onClick: () => void;
+    disabled?: boolean;
+    loading?: boolean;
     className?: string;
 };
 
-export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
-    const navigate = useNavigate();
-
-    const { mutate, isPending } = useDeleteUser(user.id);
-
-    function onDelete() {
-        mutate(
-            {
-                version: user.version,
-            },
-            {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'User successfully deleted.',
-                    });
-
-                    return navigate('/user');
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
-            }
-        );
-    }
-
+export function DeleteUserButton({
+    onClick,
+    disabled,
+    loading,
+    className,
+}: DeleteUserButtonProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <LoadingButton
                     variant="destructive"
-                    loading={isPending}
+                    loading={loading}
+                    disabled={disabled}
                     className={className}
                 >
                     Delete
@@ -72,7 +47,10 @@ export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction disabled={isPending} onClick={onDelete}>
+                    <AlertDialogAction
+                        disabled={disabled || loading}
+                        onClick={onClick}
+                    >
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>

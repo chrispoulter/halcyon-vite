@@ -1,11 +1,28 @@
+import { Link, useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
-import { UpdateProfileForm } from '@/features/profile/update-profile/update-profile-form';
+import {
+    UpdateProfileForm,
+    type UpdateProfileFormValues,
+} from '@/features/profile/update-profile/update-profile-form';
 import { UpdateProfileLoading } from '@/features/profile/update-profile/update-profile-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
+import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile';
+import { toast } from '@/hooks/use-toast';
 
 export function UpdateProfilePage() {
-    const { data: profile, isLoading, isSuccess, error } = useGetProfile();
+    const navigate = useNavigate();
+
+    const {
+        data: profile,
+        isLoading,
+        isFetching,
+        isSuccess,
+        error,
+    } = useGetProfile();
+
+    const { mutate: updateProfile, isPending: isSaving } = useUpdateProfile();
 
     if (isLoading) {
         return <UpdateProfileLoading />;
@@ -13,6 +30,34 @@ export function UpdateProfilePage() {
 
     if (!isSuccess) {
         return <QueryError error={error} />;
+    }
+
+    const { version } = profile;
+
+    function onSubmit(data: UpdateProfileFormValues) {
+        updateProfile(
+            {
+                ...data,
+                version,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'Your profile has been updated.',
+                    });
+
+                    return navigate('/profile');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
     }
 
     return (
@@ -28,7 +73,16 @@ export function UpdateProfilePage() {
                 to login to your account.
             </p>
 
-            <UpdateProfileForm profile={profile} />
+            <UpdateProfileForm
+                profile={profile}
+                onSubmit={onSubmit}
+                disabled={isFetching || isSaving}
+                loading={isSaving}
+            >
+                <Button asChild variant="outline">
+                    <Link to="/profile">Cancel</Link>
+                </Button>
+            </UpdateProfileForm>
         </main>
     );
 }

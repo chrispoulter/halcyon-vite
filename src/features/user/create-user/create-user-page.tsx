@@ -1,7 +1,38 @@
+import { Link, useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
-import { CreateUserForm } from '@/features/user/create-user/create-user-form';
+import {
+    CreateUserForm,
+    type CreateUserFormValues,
+} from '@/features/user/create-user/create-user-form';
+import { useCreateUser } from '@/features/user/hooks/use-create-user';
+import { toast } from '@/hooks/use-toast';
 
 export function CreateUserPage() {
+    const navigate = useNavigate();
+
+    const { mutate: createUser, isPending: isSaving } = useCreateUser();
+
+    function onSubmit(data: CreateUserFormValues) {
+        createUser(data, {
+            onSuccess: () => {
+                toast({
+                    title: 'Success',
+                    description: 'User successfully created.',
+                });
+
+                return navigate('/user');
+            },
+            onError: (error) => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Error',
+                    description: error.message,
+                });
+            },
+        });
+    }
+
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
             <Metadata title="Create User" />
@@ -18,7 +49,11 @@ export function CreateUserPage() {
                 features available on this site.
             </p>
 
-            <CreateUserForm />
+            <CreateUserForm onSubmit={onSubmit} loading={isSaving}>
+                <Button asChild variant="outline">
+                    <Link to="/user">Cancel</Link>
+                </Button>
+            </CreateUserForm>
         </main>
     );
 }

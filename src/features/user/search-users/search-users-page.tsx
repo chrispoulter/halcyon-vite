@@ -8,7 +8,10 @@ import { Pager } from '@/components/pager';
 import { QueryError } from '@/components/query-error';
 import { useSearchUsers } from '@/features/user/hooks/use-search-users';
 import { SearchUsersLoading } from '@/features/user/search-users/search-users-loading';
-import { SearchUsersForm } from '@/features/user/search-users/search-users-form';
+import {
+    SearchUsersForm,
+    type SearchUsersFormValues,
+} from '@/features/user/search-users/search-users-form';
 import { SortUsersDropdown } from '@/features/user/search-users/sort-users-dropdown';
 import { UserCard } from '@/features/user/search-users/user-card';
 import { UserSort } from '@/features/user/user-types';
@@ -30,11 +33,11 @@ const searchParamsSchema = z.object({
 });
 
 export function SearchUsersPage() {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const request = searchParamsSchema.parse(Object.fromEntries(searchParams));
 
-    const { data, isLoading, isSuccess, error } = useSearchUsers({
+    const { data, isLoading, isFetching, isSuccess, error } = useSearchUsers({
         ...request,
         size: PAGE_SIZE,
     });
@@ -47,6 +50,33 @@ export function SearchUsersPage() {
         return <QueryError error={error} />;
     }
 
+    function onSearch(data: SearchUsersFormValues) {
+        setSearchParams((prev) => {
+            prev.delete('page');
+            prev.delete('search');
+
+            if (data.search) {
+                prev.set('search', data.search);
+            }
+
+            return prev;
+        });
+    }
+
+    function onSort(sort: UserSort) {
+        setSearchParams((prev) => {
+            prev.set('sort', sort);
+            return prev;
+        });
+    }
+
+    function onPage(page: number) {
+        setSearchParams((prev) => {
+            prev.set('page', page.toString());
+            return prev;
+        });
+    }
+
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
             <Metadata title="Users" />
@@ -56,8 +86,17 @@ export function SearchUsersPage() {
             </h1>
 
             <div className="flex gap-2">
-                <SearchUsersForm search={request.search} />
-                <SortUsersDropdown sort={request.sort} />
+                <SearchUsersForm
+                    search={request.search}
+                    onSubmit={onSearch}
+                    disabled={isFetching}
+                />
+
+                <SortUsersDropdown
+                    sort={request.sort}
+                    onChange={onSort}
+                    disabled={isFetching}
+                />
             </div>
 
             <Button asChild className="w-full sm:w-auto">
@@ -84,6 +123,8 @@ export function SearchUsersPage() {
                 hasPreviousPage={data.hasPreviousPage}
                 hasNextPage={data.hasNextPage}
                 page={request.page}
+                onChange={onPage}
+                disabled={isFetching}
             />
         </main>
     );

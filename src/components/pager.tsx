@@ -1,4 +1,3 @@
-import { useSearchParams } from 'react-router';
 import {
     Pagination,
     PaginationContent,
@@ -11,11 +10,17 @@ type PagerProps = {
     hasPreviousPage: boolean;
     hasNextPage: boolean;
     page?: number;
+    onChange: (page: number) => void;
+    disabled?: boolean;
 };
 
-export function Pager({ hasPreviousPage, hasNextPage, page = 1 }: PagerProps) {
-    const [, setSearchParams] = useSearchParams();
-
+export function Pager({
+    hasPreviousPage,
+    hasNextPage,
+    page = 1,
+    onChange,
+    disabled,
+}: PagerProps) {
     if (!hasPreviousPage && !hasNextPage) {
         return null;
     }
@@ -26,24 +31,16 @@ export function Pager({ hasPreviousPage, hasNextPage, page = 1 }: PagerProps) {
                 {hasPreviousPage && (
                     <PaginationItem>
                         <PaginationPrevious
-                            onClick={() =>
-                                setSearchParams((prev) => {
-                                    prev.set('page', (page - 1).toString());
-                                    return prev;
-                                })
-                            }
+                            disabled={disabled}
+                            onClick={() => onChange(page - 1)}
                         />
                     </PaginationItem>
                 )}
                 {hasNextPage && (
                     <PaginationItem>
                         <PaginationNext
-                            onClick={() =>
-                                setSearchParams((prev) => {
-                                    prev.set('page', (page + 1).toString());
-                                    return prev;
-                                })
-                            }
+                            disabled={disabled}
+                            onClick={() => onChange(page + 1)}
                         />
                     </PaginationItem>
                 )}

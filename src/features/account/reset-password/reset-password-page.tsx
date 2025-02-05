@@ -1,11 +1,46 @@
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Metadata } from '@/components/metadata';
-import { ResetPasswordForm } from '@/features/account/reset-password/reset-password-form';
+import { useResetPassword } from '@/features/account/hooks/use-reset-password';
+import {
+    ResetPasswordForm,
+    ResetPasswordFormValues,
+} from '@/features/account/reset-password/reset-password-form';
+import { toast } from '@/hooks/use-toast';
 
 type ResetPasswordPageParams = { token: string };
 
 export function ResetPasswordPage() {
     const { token } = useParams() as ResetPasswordPageParams;
+
+    const navigate = useNavigate();
+
+    const { mutate: resetPassword, isPending: isSaving } = useResetPassword();
+
+    function onSubmit(data: ResetPasswordFormValues) {
+        resetPassword(
+            {
+                token,
+                ...data,
+            },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Success',
+                        description: 'Your password has been reset.',
+                    });
+
+                    return navigate('/account/login');
+                },
+                onError: (error) => {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Error',
+                        description: error.message,
+                    });
+                },
+            }
+        );
+    }
 
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
@@ -21,7 +56,7 @@ export function ResetPasswordPage() {
                 change your password on a regular basis.
             </p>
 
-            <ResetPasswordForm token={token} />
+            <ResetPasswordForm loading={isSaving} onSubmit={onSubmit} />
         </main>
     );
 }
