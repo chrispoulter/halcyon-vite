@@ -49,7 +49,7 @@ export function ProfilePage() {
 
                     clearAuth();
 
-                    return navigate('/');
+                    navigate('/');
                 },
                 onError: (error) => {
                     toast({

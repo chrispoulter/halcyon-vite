@@ -21,7 +21,7 @@ export function ForgotPasswordPage() {
                         'Instructions as to how to reset your password have been sent to you via email.',
                 });
 
-                return navigate('/account/login');
+                navigate('/account/login');
             },
             onError: (error) => {
                 toast({

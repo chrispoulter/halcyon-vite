@@ -20,7 +20,7 @@ export function UserNav() {
 
     function onLogout() {
         clearAuth();
-        return navigate('/');
+        navigate('/');
     }
 
     if (!user) {

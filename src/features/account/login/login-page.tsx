@@ -19,7 +19,7 @@ export function LoginPage() {
         login(data, {
             onSuccess: (data) => {
                 setAuth(data.accessToken);
-                return navigate('/');
+                navigate('/');
             },
             onError: (error) => {
                 toast({

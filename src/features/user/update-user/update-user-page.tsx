@@ -63,7 +63,7 @@ export function UpdateUserPage() {
                         description: 'User successfully updated.',
                     });
 
-                    return navigate('/user');
+                    navigate('/user');
                 },
                 onError: (error) => {
                     toast({
@@ -134,7 +134,7 @@ export function UpdateUserPage() {
                         description: 'User successfully deleted.',
                     });
 
-                    return navigate('/user');
+                    navigate('/user');
                 },
                 onError: (error) => {
                     toast({

@@ -47,7 +47,7 @@ export function ChangePasswordPage() {
                         description: 'Your password has been changed.',
                     });
 
-                    return navigate('/profile');
+                    navigate('/profile');
                 },
                 onError: (error) => {
                     toast({

@@ -47,7 +47,7 @@ export function UpdateProfilePage() {
                         description: 'Your profile has been updated.',
                     });
 
-                    return navigate('/profile');
+                    navigate('/profile');
                 },
                 onError: (error) => {
                     toast({

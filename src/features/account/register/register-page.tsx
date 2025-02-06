@@ -20,7 +20,7 @@ export function RegisterPage() {
                     description: 'User successfully registered.',
                 });
 
-                return navigate('/account/login');
+                navigate('/account/login');
             },
             onError: (error) => {
                 toast({

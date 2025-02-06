@@ -21,7 +21,7 @@ export function CreateUserPage() {
                     description: 'User successfully created.',
                 });
 
-                return navigate('/user');
+                navigate('/user');
             },
             onError: (error) => {
                 toast({

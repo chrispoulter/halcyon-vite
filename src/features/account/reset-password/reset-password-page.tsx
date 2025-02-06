@@ -29,7 +29,7 @@ export function ResetPasswordPage() {
                         description: 'Your password has been reset.',
                     });
 
-                    return navigate('/account/login');
+                    navigate('/account/login');
                 },
                 onError: (error) => {
                     toast({
