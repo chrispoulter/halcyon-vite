@@ -37,10 +37,11 @@ export function SearchUsersPage() {
 
     const request = searchParamsSchema.parse(Object.fromEntries(searchParams));
 
-    const { data, isPending, isFetching, isSuccess, error } = useSearchUsers({
-        ...request,
-        size: PAGE_SIZE,
-    });
+    const { data, isPending, isPlaceholderData, isSuccess, error } =
+        useSearchUsers({
+            ...request,
+            size: PAGE_SIZE,
+        });
 
     if (isPending) {
         return <SearchUsersLoading />;
@@ -96,13 +97,13 @@ export function SearchUsersPage() {
                 <SearchUsersForm
                     search={request.search}
                     onSubmit={onSearch}
-                    disabled={isFetching}
+                    disabled={isPlaceholderData}
                 />
 
                 <SortUsersDropdown
                     sort={request.sort}
                     onChange={onSort}
-                    disabled={isFetching}
+                    disabled={isPlaceholderData}
                 />
             </div>
 
@@ -131,7 +132,7 @@ export function SearchUsersPage() {
                 hasNextPage={data.hasNextPage}
                 onPreviousPage={onPreviousPage}
                 onNextPage={onNextPage}
-                disabled={isFetching}
+                disabled={isPlaceholderData}
             />
         </main>
     );
