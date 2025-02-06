@@ -16,7 +16,7 @@ export function UpdateProfilePage() {
 
     const {
         data: profile,
-        isLoading,
+        isPending,
         isFetching,
         isSuccess,
         error,
@@ -24,7 +24,7 @@ export function UpdateProfilePage() {
 
     const { mutate: updateProfile, isPending: isSaving } = useUpdateProfile();
 
-    if (isLoading) {
+    if (isPending) {
         return <UpdateProfileLoading />;
     }
 

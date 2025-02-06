@@ -17,7 +17,7 @@ export function ProfilePage() {
 
     const {
         data: profile,
-        isLoading,
+        isPending,
         isFetching,
         isSuccess,
         error,
@@ -25,7 +25,7 @@ export function ProfilePage() {
 
     const { mutate: deleteAccount, isPending: isDeleting } = useDeleteAccount();
 
-    if (isLoading) {
+    if (isPending) {
         return <ProfileLoading />;
     }
 

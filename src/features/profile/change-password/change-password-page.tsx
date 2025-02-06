@@ -16,7 +16,7 @@ export function ChangePasswordPage() {
 
     const {
         data: profile,
-        isLoading,
+        isPending,
         isFetching,
         isSuccess,
         error,
@@ -24,7 +24,7 @@ export function ChangePasswordPage() {
 
     const { mutate: changePassword, isPending: isSaving } = useChangePassword();
 
-    if (isLoading) {
+    if (isPending) {
         return <ChangePasswordLoading />;
     }
 

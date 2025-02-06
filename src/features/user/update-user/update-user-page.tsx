@@ -26,7 +26,7 @@ export function UpdateUserPage() {
 
     const {
         data: user,
-        isLoading,
+        isPending,
         isFetching,
         isSuccess,
         error,
@@ -40,7 +40,7 @@ export function UpdateUserPage() {
 
     const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser(id);
 
-    if (isLoading) {
+    if (isPending) {
         return <UpdateUserLoading />;
     }
 
