@@ -48,7 +48,6 @@ export function ProfilePage() {
                     });
 
                     clearAuth();
-
                     navigate('/');
                 },
                 onError: (error) => {
